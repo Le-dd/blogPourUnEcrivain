@@ -6,5 +6,10 @@
             "email": "emeric.lebbrecht@gmail.com"
         }
     ],
+    "autoload":{
+      "psr-4":{
+        "Framework\\":"src/Framework"
+      }
+    },
     "require": {}
 }
