@@ -1,0 +1,10 @@
+{
+    "name": "emeric/projet3-blog-pour-un-ecrivain",
+    "authors": [
+        {
+            "name": "emeric",
+            "email": "emeric.lebbrecht@gmail.com"
+        }
+    ],
+    "require": {}
+}
