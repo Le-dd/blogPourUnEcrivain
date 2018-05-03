@@ -2,6 +2,7 @@
 namespace Framework;
 
 use Framework\Router\Route;
+use Framework\Router\MiddleWareApp;
 use Psr\Http\Message\ServerRequestInterface;
 use Zend\Expressive\Router\FastRouteRouter;
 use Zend\Expressive\Router\Route as ZendRoute;
@@ -25,7 +26,7 @@ class Router{
  */
 public function get(string $path, callable $callable, string $name)
 {
-  $this->router->addRouter(new ZendRoute($path, $callable, ['GET'], $name));
+  $this->router->addRoute(new ZendRoute($path, new MiddlewareApp($callable), ['GET'], $name));
 }
 /**
  * @param  serverRequestInterface $request
@@ -37,8 +38,8 @@ public function match(serverRequestInterface $request): ?Route
   if ($result->isSuccess()){
     return new Route(
       $result->getMatchedRouteName(),
-      $result->getMatchedMiddleware(),
-       $result->getMatchedParams()
+      $result->getMatchedRoute()->getMiddleware()->getCallable(),
+      $result->getMatchedParams()
       );
   }
   return null;

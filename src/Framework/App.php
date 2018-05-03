@@ -3,14 +3,29 @@ namespace Framework;
 use\GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Framework\Router;
 class App {
+  /**
+   * list of modules
+   * @var array
+   */
+  private $modules = [];
+
+  /**
+   * router
+   * @var Router
+   */
+   private $router;
+
   /**
    * App __construct
    * @param string[] $modules liste des module à charger
    */
-  public function __construct(array $modules){
+  public function __construct(array $modules)
+  {
+    $this->router = new Router;
     foreach($modules as $module){
-      new $module();
+      $this->modules[] = new $module($this->router);
     }
   }
 
@@ -23,10 +38,25 @@ class App {
       ->withStatus(301)
       ->withHeader('location',substr($uri,0,-1));
     }
-    if ($uri === '/blog'){
-      return new Response (200,[],'<h1>Bienvenue sur le blog</h1>');
+    $route =$this->router->match($request);
+    if (is_null($route)) {
+      return new Response(404,[],'<h1>Erreur 404</h1>');
     }
-    return new Response(404,[],'<h1>Erreur 404</h1>');
+    $params = $route->getParams();
+    $request = array_reduce(array_keys($params),function($request, $key) use ($params){
+      return $request->withAttribute($key,$params[$key]);
+    }, $request);
+    $response = call_user_func_array($route->getCallback(), [$request]);
+    if (is_string($response)) {
+      return new Response(200, [], $response);
+
+    }elseif($response instanceof ResponseInterface){
+      return $response;
+
+    }else{
+      throw new \Exception('the response is not a string or an instance of ResponseInterface ');
+    }
+
   }
 
 }
