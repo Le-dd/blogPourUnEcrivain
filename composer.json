@@ -8,11 +8,13 @@
     ],
     "autoload":{
       "psr-4":{
-        "Framework\\":"src/Framework"
+        "Framework\\":"src/Framework",
+        "App\\":"src"
       }
     },
     "require": {
         "guzzlehttp/psr7": "^1.4",
-        "http-interop/response-sender": "^1.0"
+        "http-interop/response-sender": "^1.0",
+        "zendframework/zend-expressive-fastroute": "^3.0"
     }
 }

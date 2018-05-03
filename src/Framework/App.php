@@ -4,6 +4,15 @@ use\GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 class App {
+  /**
+   * App __construct
+   * @param string[] $modules liste des module à charger
+   */
+  public function __construct(array $modules){
+    foreach($modules as $module){
+      new $module();
+    }
+  }
 
   public function run(ServerRequestInterface $request):ResponseInterface{
     $uri = $request->getUri()->getPath();
