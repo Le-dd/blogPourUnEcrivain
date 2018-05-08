@@ -1,13 +1,16 @@
 <?php
 require '../vendor/autoload.php';
-$renderer = new \Framework\Renderer\TwigRenderer(dirname(__DIR__).'/views');
+
+$builder = new\DI\ContainerBuilder();
+$builder->addDefinitions(dirname(__DIR__).'/config/config.php');
+$builder->addDefinitions(dirname(__DIR__).'/config.php');
+$container = $builder->build();
 
 
+$renderer = $container->get(\Framework\Renderer\RendererInterface::class);
 
-$app = new \Framework\App([
+$app = new \Framework\App($container,[
   \App\Blog\BlogModule::class
-],[
-  'renderer'=>$renderer
 ]);
 
 

@@ -16,6 +16,7 @@
         "guzzlehttp/psr7": "^1.4",
         "http-interop/response-sender": "^1.0",
         "zendframework/zend-expressive-fastroute": "^3.0",
-        "twig/twig": "^2.4"
+        "twig/twig": "^2.4",
+        "php-di/php-di": "^6.0"
     }
 }
