@@ -23,7 +23,7 @@ class App {
    * @param ContainerInterface $container
    * @param string[] $modules liste des module à charger
    */
-  public function __construct(ContainerInterface $container, array $modules=[])
+  public function __construct(ContainerInterface $container,array $modules=[])
   {
     $this->container = $container;
     foreach($modules as $module){
@@ -49,7 +49,12 @@ class App {
     $request = array_reduce(array_keys($params),function($request, $key) use ($params){
       return $request->withAttribute($key,$params[$key]);
     }, $request);
-    $response = call_user_func_array($route->getCallback(), [$request]);
+
+    $callback = $route->getCallback();
+    if (is_string($callback)){
+      $callback = $this->container->get($callback);
+    }
+    $response = call_user_func_array($callback, [$request]);
     if (is_string($response)) {
       return new Response(200, [], $response);
 
