@@ -13,7 +13,6 @@ class TwigRendererFactory {
       $twig = new \Twig_Environment($loader);
 
       if($container->has('twig.extensions')){
-        
         foreach($container->get('twig.extensions') as $extension){
           $twig->addExtension($extension);
         }
