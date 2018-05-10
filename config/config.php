@@ -1,7 +1,7 @@
 <?php
 use \Framework\Renderer\RendererInterface;
 use \Framework\Renderer\TwigRendererFactory;
-use \framework\Router\RouterTwigExtension;
+use \Framework\Router\RouterTwigExtension;
 
 return[
 
