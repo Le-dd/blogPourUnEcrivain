@@ -1,16 +1,14 @@
-{%extends 'layout.twig'%}
+{% extends 'layout.twig' %}
 {% block title "billet pour alaska : blog" %}
-{%block body%}
+{% block body %}
 <h1> Bienvenue sur le blog </h1>
 
 <ul>
-  <li><a href="{{path('blog.show', {slug: 'zezezrezer-zr63'}) }}">article 1</a></li>
-  <li>article 1</li>
-  <li>article 1</li>
-  <li>article 1</li>
-  <li>article 1</li>
-  <li>article 1</li>
+  {% for post in posts %}
+    <li><a href="{{ path('blog.show', { slug: post.slug, id: post.id }) }}">{{ post.title }}</a></li>
+  {% endfor %}
+  
 
 </ul>
 
-{%endblock%}
+{% endblock %}

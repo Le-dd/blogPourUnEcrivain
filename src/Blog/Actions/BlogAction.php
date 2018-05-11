@@ -7,12 +7,20 @@ use Framework\Renderer\TwigRendererFactory;
 
 class BlogAction{
 
+  /**
+  * @var RendererInterface
+  */
   private $renderer;
 
+  /**
+   * @var \PDO
+   */
+  private $pdo;
 
-  public function __construct(RendererInterface $renderer )
+  public function __construct(RendererInterface $renderer, \PDO $pdo )
   {
     $this->renderer = $renderer;
+    $this->pdo = $pdo;
   }
    public function __invoke(Request $request)
   {
@@ -28,8 +36,10 @@ class BlogAction{
 
   public function index()
   {
-
-    return $this->renderer->render('@blog/index');
+    $posts = $this->pdo
+      ->query('SELECT * FROM post ORDER BY date DESC LIMIT 10')
+      ->fetchAll();
+    return $this->renderer->render('@blog/index', compact('posts'));
   }
 
   public function show(string $slug): string
