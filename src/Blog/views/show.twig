@@ -1,10 +1,10 @@
 {% extends 'layout.twig' %}
-{% block title "billet pour alaska : " ~ slug %}
+{% block title post.title %}
 
 {% block body %}
 
-  <h1>Bienvenue sur l'article {{slug}}</h1>
+  <h1>{{post.title}}</h1>
 
-
+{{post.main | nl2br}}
 
 {% endblock %}
