@@ -1,5 +1,7 @@
 <?php
 namespace App\Blog\Table;
+use Framework\Database\PaginatedQuery;
+use Pagerfanta\Pagerfanta;
 
 class PostTable {
 /**
@@ -15,17 +17,21 @@ class PostTable {
   }
 
 /**
- * pagine les articles
- * @return \stdClass[]
- */
-  public function findPaginated():array
+  * pagine les articles
+  * @param  int $perPage
+  * @return Pagerfanta
+  */
+  public function findPaginated(int $perPage, int $currentPage):Pagerfanta
   {
-
-    return $this->pdo
-      ->query('SELECT * FROM post ORDER BY date DESC LIMIT 10')
-      ->fetchAll();
-
-  }
+    $query = new PaginatedQuery(
+        $this->pdo,
+        'SELECT * FROM post',
+        'SELECT COUNT(id) FROM post'
+    );
+    return (new Pagerfanta($query))
+        ->setMaxPerPage($perPage)
+        ->setCurrentPage($currentPage);
+    }
 
 /**
  * Recupère un article à partir de son ID

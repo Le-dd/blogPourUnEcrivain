@@ -42,13 +42,14 @@ class BlogAction{
 
     }
 
-    return $this->index();
+    return $this->index($request);
 
   }
 
-  public function index()
+  public function index(Request $request)
   {
-    $posts = $this->postTable->findPaginated();
+    $params = $request->getQueryParams();
+    $posts = $this->postTable->findPaginated(6, $params['p'] ?? 1);
     return $this->renderer->render('@blog/index', compact('posts'));
   }
 /**

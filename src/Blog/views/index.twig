@@ -1,14 +1,35 @@
 {% extends 'layout.twig' %}
 {% block title "billet pour alaska : blog" %}
+
+
 {% block body %}
+
 <h1> Bienvenue sur le blog </h1>
-
-<ul>
-  {% for post in posts %}
-    <li><a href="{{ path('blog.show', { slug: post.slug, id: post.id }) }}">{{ post.title }}</a></li>
+<div class="row">
+  {% for row in posts | batch(3) %}
+    <div class="card-deck">
+      {% for post in row %}
+      <div class="card">
+        <div class="card-header">
+          <h2><a href="{{ path('blog.show', { slug: post.slug, id: post.id }) }}">
+            {{ post.title }}
+          </a></h2>
+        </div>
+        <div class="card-body">
+          <p class="card-text">
+            {{ post.main | nl2br | excerpt }}
+          </p>
+        </div>
+        <div class="card-footer">
+          <a href="{{ path('blog.show', { slug: post.slug, id: post.id }) }}" class="btn btn-primary">
+            Voir l'article
+          </a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
   {% endfor %}
-  
-
-</ul>
+</div>
+{{ paginate(posts,'blog.index') }}
 
 {% endblock %}

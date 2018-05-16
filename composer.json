@@ -17,6 +17,7 @@
         "http-interop/response-sender": "^1.0",
         "zendframework/zend-expressive-fastroute": "^3.0",
         "twig/twig": "^2.4",
-        "php-di/php-di": "^6.0"
+        "php-di/php-di": "^6.0",
+        "pagerfanta/pagerfanta": "^2.0"
     }
 }
