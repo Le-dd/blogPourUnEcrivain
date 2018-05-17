@@ -5,6 +5,7 @@ use \Framework\Router\RouterTwigExtension;
 use \Psr\Container\ContainerInterface;
 use \Framework\Twig\PagerFantaExtension;
 use \Framework\Twig\TextExtension;
+use \Framework\Twig\TimeExtension;
 return[
   'database.host'=>'localhost',
   'database.username'=>'root',
@@ -14,7 +15,8 @@ return[
   'twig.extensions'=>[
     \DI\get(RouterTwigExtension::class),
     \DI\get(PagerFantaExtension::class),
-    \DI\get(TextExtension::class)
+    \DI\get(TextExtension::class),
+    \DI\get(TimeExtension::class)
   ],
   \Framework\Router::class => DI\autowire(),
   RendererInterface::class => DI\factory(TwigRendererFactory::class),

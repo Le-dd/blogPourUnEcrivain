@@ -16,8 +16,9 @@
           </a></h2>
         </div>
         <div class="card-body">
+          <p class="text-muted">{{ post.dateTime | ago }}</p>
           <p class="card-text">
-            {{ post.main | nl2br | excerpt }}
+            {{ post.main | excerpt | nl2br }}
           </p>
         </div>
         <div class="card-footer">

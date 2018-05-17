@@ -3,7 +3,9 @@
 
 {% block body %}
 
-  <h1>{{post.title}}</h1>
+<h1>{{post.title}}</h1>
+
+<p class="text-muted">{{ post.dateTime | ago }}</p>
 
 {{post.main | nl2br}}
 
