@@ -50,4 +50,21 @@ class PostTable {
     return $query->fetch();
   }
 
+  /**
+   * Met à jours un enregistrement au niveau de la base de donnée
+   * @param  int   id
+   * @param  array $fields
+   * @return bool
+   */
+  public function update(int $id, array $params): bool
+  {
+    $fieldQuery = join(', ', array_map(function($field){
+      return "$field = :$field";
+    }, array_keys($params)));
+    $params["id"] = $id;
+    $statement = $this->pdo->prepare("UPDATE post SET $fieldQuery Where id = :id");
+    return $statement->execute($params);
+
+  }
+
 }

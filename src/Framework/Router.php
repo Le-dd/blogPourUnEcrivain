@@ -24,10 +24,21 @@ class Router{
  * @param  string|callable $callable
  * @param  string   $name
  */
-public function get(string $path,$callable, string $name)
+public function get(string $path,$callable, ?string $name = null)
 {
   $this->router->addRoute(new ZendRoute($path, new MiddlewareApp($callable), ['GET'], $name));
 }
+
+/**
+ * @param  string   $path
+ * @param  string|callable $callable
+ * @param  string   $name
+ */
+public function post(string $path,$callable, ?string $name = null)
+{
+  $this->router->addRoute(new ZendRoute($path, new MiddlewareApp($callable), ['POST'], $name));
+}
+
 /**
  * @param  serverRequestInterface $request
  * @return Route|null
