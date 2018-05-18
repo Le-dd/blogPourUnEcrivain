@@ -58,13 +58,51 @@ class PostTable {
    */
   public function update(int $id, array $params): bool
   {
-    $fieldQuery = join(', ', array_map(function($field){
-      return "$field = :$field";
-    }, array_keys($params)));
+    $fieldQuery = $this->buildFieldQuery($params);
     $params["id"] = $id;
-    $statement = $this->pdo->prepare("UPDATE post SET $fieldQuery Where id = :id");
+    $statement = $this->pdo->prepare("UPDATE post SET $fieldQuery WHERE id = :id ");
     return $statement->execute($params);
 
+  }
+
+  /**
+   * Ajoute un enregistrement au niveau de la base de donnée
+   * @param  array $fields
+   * @return bool
+   */
+  public function insert(array $params){
+
+    $fields = array_keys($params);
+    $values = array_map(function ($field) {
+      return ':'.$field;
+    }, $fields);
+    $statement = $this->pdo->prepare(
+      "INSERT INTO post (" .
+        join(',',$fields) .
+        ") VALUES (".
+          join(',',$values) . 
+          ")"
+        );
+    return $statement->execute($params);
+  }
+
+  /**
+   * Supprime un enregistrement au niveau de la base de donnée
+   * @param  int   id
+   * @return bool
+   */
+  public function delete(int $id): bool
+  {
+    $statement = $this->pdo->prepare("DELETE FROM post  WHERE id = ? ");
+    return $statement->execute([$id]);
+
+  }
+
+
+  private function buildFieldQuery(array $params){
+    return join(', ', array_map(function($field){
+      return "$field = :$field";
+    }, array_keys($params)));
   }
 
 }

@@ -1,8 +1,14 @@
 {% extends '@admin/layout.twig' %}
-{% block title "billet pour alaska : blog" %}
+{% block title "billet pour alaska : Administration" %}
 
 
 {% block body %}
+
+<p class="text-rigth">
+  <a href="{{path('blog.admin.create') }}" class="btn btn-primary">
+    Ajouter un article
+  </a>
+</p>
 
 <table class="table table-striped">
   <thead>
@@ -15,7 +21,11 @@
       <tr>
         <td>{{ item.title }}</td>
         <td>
-           <a href="{{path('admin.blog.edit', {id: item.id}) }}" class="btn btn-primary">Editer</a>
+           <a href="{{path('blog.admin.edit', {id: item.id}) }}" class="btn btn-primary">Editer</a>
+           <form style ="display:inline" action="{{path('blog.admin.delete', {id: item.id}) }}" method="POST" onsubmit="return confirm('êtes vous sûr ?')">
+             <input type="hidden" name="_method" value="DELETE">
+             <button class="btn btn-danger"> Supprimer</button>
+           </form>
         </td>
       </tr>
       {% endfor %}
@@ -23,6 +33,6 @@
   </thead>
 </table>
 
-{{ paginate(items,'admin.blog.index') }}
+{{ paginate(items,'blog.admin.index') }}
 
 {% endblock %}

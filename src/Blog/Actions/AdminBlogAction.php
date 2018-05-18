@@ -37,7 +37,13 @@ class AdminBlogAction{
   }
    public function __invoke(Request $request)
   {
+    if($request->getMethod() === 'DELETE'){
+      return $this->delete($request);
 
+    }
+    if(substr((string)$request->getUri(),-3) === 'new'){
+      return $this->create($request);
+    }
     if($request->getAttribute('id')){
       return $this->edit($request);
 
@@ -67,12 +73,56 @@ class AdminBlogAction{
 
     if ($request->getMethod() === 'POST') {
 
-      $params = array_filter($request->getParsedBody(), function ($key) {
-        return in_array($key, ['title','slug','main']);
-      }, ARRAY_FILTER_USE_KEY);
+      $params = $this->getParams($request);
       $this->postTable->update($item->id, $params);
-      return $this->redirect('admin.blog.index');
+      return $this->redirect('blog.admin.index');
     }
     return $this->renderer->render('@blog/admin/edit', compact('item'));
   }
+
+
+  /**
+   * Crée un nouvel article
+   * @param  Request $request
+   * @return ResponseInterface|string
+   */
+  public function create(Request $request){
+
+    if ($request->getMethod() === 'POST') {
+
+      $params = $this->getParams($request);
+      $params = array_merge($params,[
+        'date'=> '2022-07-03',
+        'time'=>	'08:30:00',
+        'latitude'=> '61.218968',
+        'longitude' => '-149.479427',
+        'visible'=> '1',
+        'location_id'=> '1',
+        'name_place'=> 'gyhgygy'
+      ]);
+      $this->postTable->insert($params);
+      return $this->redirect('blog.admin.index');
+    }
+    return $this->renderer->render('@blog/admin/create', compact('item'));
+
   }
+
+  /**
+   * Supprime un article
+   * @param  Request $request
+   * @return ResponseInterface|string
+   */
+    public function delete(Request $request){
+
+      $this->postTable->delete($request->getAttribute('id'));
+      return $this->redirect('blog.admin.index');
+    }
+
+
+  private function getParams (Request $request){
+    return array_filter($request->getParsedBody(), function ($key) {
+      return in_array($key, ['title','slug','main']);
+    }, ARRAY_FILTER_USE_KEY);
+  }
+
+}
