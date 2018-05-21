@@ -34,7 +34,7 @@ class FlashService{
   }
 
 
-    public function error(string $message){
+  public function error(string $message){
 
 
       $flash = $this->session->get($this->sessionKey,[]);

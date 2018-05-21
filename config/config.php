@@ -21,7 +21,6 @@ return[
     \DI\get(TextExtension::class),
     \DI\get(TimeExtension::class),
     \DI\get(FlashExtension::class)
-
   ],
   SessionInterface::class => DI\autowire(PHPSession::class),
   \Framework\Router::class => DI\autowire(),
