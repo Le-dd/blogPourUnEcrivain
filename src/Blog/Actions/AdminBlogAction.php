@@ -9,6 +9,7 @@ use Framework\Router;
 use GuzzleHttp\Psr7\Response;
 use Framework\Actions\RouterAwareAction;
 use App\Blog\Table\PostTable;
+use \Framework\Session\FlashService;
 
 
 class AdminBlogAction{
@@ -27,13 +28,27 @@ class AdminBlogAction{
    */
   private $router;
 
+  /**
+   * @var FlashService
+   */
+  private $flash;
+
+
+
   use RouterAwareAction;
 
-  public function __construct(RendererInterface $renderer, Router $router, PostTable $postTable )
-  {
+  public function __construct(
+    RendererInterface $renderer,
+    Router $router,
+    PostTable $postTable,
+    FlashService $flash
+
+     ){
     $this->renderer = $renderer;
     $this->postTable = $postTable;
     $this->router = $router;
+    $this->flash = $flash;
+
   }
    public function __invoke(Request $request)
   {
@@ -57,7 +72,7 @@ class AdminBlogAction{
   {
     $params = $request->getQueryParams();
     $items = $this->postTable->findPaginated(6, $params['p'] ?? 1);
-    return $this->renderer->render('@blog/admin/index', compact('items'));
+    return $this->renderer->render('@blog/admin/index', compact('items', 'session'));
   }
 
 
@@ -75,6 +90,7 @@ class AdminBlogAction{
 
       $params = $this->getParams($request);
       $this->postTable->update($item->id, $params);
+      $this->flash->success('L\'article a bien été modifié');
       return $this->redirect('blog.admin.index');
     }
     return $this->renderer->render('@blog/admin/edit', compact('item'));
@@ -101,6 +117,7 @@ class AdminBlogAction{
         'name_place'=> 'gyhgygy'
       ]);
       $this->postTable->insert($params);
+      $this->flash->success('L\'article a bien été modifié');
       return $this->redirect('blog.admin.index');
     }
     return $this->renderer->render('@blog/admin/create', compact('item'));
