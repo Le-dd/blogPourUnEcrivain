@@ -32,6 +32,7 @@ class ValidationError {
 
   public function __toString()
   {
+    
     $params = array_merge([$this->messages[$this->rule],$this->key],$this->attributes);
 
     return (string)call_user_func_array('sprintf', $params);

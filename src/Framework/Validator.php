@@ -13,6 +13,8 @@ private $params;
 
 private $errors = [];
 
+private $countTimeDate = 0;
+
 public function __construct(array $params)
 {
   $this->params = $params;
@@ -109,12 +111,19 @@ public function slug(string $key):self
  * @param  string $key
  * @return self
  */
-public function date(string $key):self
+public function date(string $key, string $format = "Y-m-d"):self
 {
   $value = $this->getValue($key);
   $pattern = '/^[0-9]{4}(-[0-9]{2}){2}$/';
-  if(!isnull($value) && !preg_match($pattern, $value)){
+  if(!is_null($value) && !preg_match($pattern, $value)){
     $this->addError($key,'date');
+    return $this;
+  }
+
+  $date = \DateTime::createFromFormat($format, $value);
+  $errors = \DateTime::getLastErrors();
+  if($errors['error_count'] > 0 || $errors['warning_count'] > 0 || $date === false){
+    $this->addError($key,'dateTime');
   }
   return $this;
 }
@@ -123,27 +132,23 @@ public function date(string $key):self
  * @param  string $key
  * @return self
  */
-public function time(string $key):self
+public function time(string $key, string $format = "H:i:s"):self
 {
   $value = $this->getValue($key);
   $pattern = '/^[0-9]{2}(:[0-9]{2}){2}$/';
-  if(!isnull($value) && !preg_match($pattern, $value)){
+  if(!is_null($value) && !preg_match($pattern, $value)){
     $this->addError($key,'time');
+    return $this;
+  }
+  $date = \DateTime::createFromFormat($format, $value);
+  $errors = \DateTime::getLastErrors();
+  if($errors['error_count'] > 0 || $errors['warning_count'] > 0 || $date === false){
+    $this->addError($key,'dateTime');
   }
   return $this;
 }
 
-public function dateTime(string $keyDate,string $keyTime, string $format = "Y-m-d H:i:s"):self
-{
-  $value = $this->getValue($keyDate) ." ". $this->getValue($keyTime);
-  $date = \DateTime::createFromFormat($format, $value);
-  $errors = \DateTime::getLastErrors();
-  $keys = "$keyDate et/ou du champ $keyTime";
-  if($errors['error-count'] > 0 || $errors['warning-count'] > 0 || $date ===_false){
-    $this->addError($keys,'dateTime');
-  }
-  return $this;
-}
+
 
 public function isValid():bool
 {

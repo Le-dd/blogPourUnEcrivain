@@ -165,10 +165,12 @@ class AdminBlogAction{
   private function getValidators(Request $request){
 
     return (new Validator($request->getParsedBody()))
-      ->required('title','slug','main')
+      ->required('title','slug','main','date','time')
       ->length('main',10)
       ->length('title',2,250)
       ->length('slug',2,50)
+      ->date('date')
+      ->time('time')
       ->slug('slug');
   }
 
