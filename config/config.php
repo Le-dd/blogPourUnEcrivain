@@ -7,6 +7,7 @@ use \Framework\Twig\PagerFantaExtension;
 use \Framework\Twig\TextExtension;
 use \Framework\Twig\TimeExtension;
 use \Framework\Twig\FlashExtension;
+use \Framework\Twig\FormExtension;
 use \Framework\Session\PHPSession;
 use \Framework\Session\SessionInterface;
 return[
@@ -20,7 +21,8 @@ return[
     \DI\get(PagerFantaExtension::class),
     \DI\get(TextExtension::class),
     \DI\get(TimeExtension::class),
-    \DI\get(FlashExtension::class)
+    \DI\get(FlashExtension::class),
+    \DI\get(FormExtension::class)
   ],
   SessionInterface::class => DI\autowire(PHPSession::class),
   \Framework\Router::class => DI\autowire(),
