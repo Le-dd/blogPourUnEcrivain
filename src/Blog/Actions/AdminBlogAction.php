@@ -122,8 +122,6 @@ class AdminBlogAction{
 
       $params = $this->getParams($request);
       $params = array_merge($params,[
-        'date'=> '2022-07-03',
-        'time'=>	'08:30:00',
         'latitude'=> '61.218968',
         'longitude' => '-149.479427',
         'visible'=> '1',
@@ -160,7 +158,7 @@ class AdminBlogAction{
 
   private function getParams (Request $request){
     return array_filter($request->getParsedBody(), function ($key) {
-      return in_array($key, ['title','slug','main']);
+      return in_array($key, ['title','slug','main','date','time',]);
     }, ARRAY_FILTER_USE_KEY);
   }
 

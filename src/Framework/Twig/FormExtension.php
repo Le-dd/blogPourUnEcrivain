@@ -25,8 +25,9 @@ class FormExtension extends \Twig_Extension {
     $type = $option['type'] ?? 'text';
     $error = $this->getErrorHtml($context, $key);
     $class = 'form-group';
+
     $attributes = [
-      'class' => 'form-control',
+      'class' => trim('form-control ' . ($option['class'] ?? '')),
       'name' => $key,
       'id' => $key
     ];

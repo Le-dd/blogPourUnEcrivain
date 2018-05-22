@@ -98,7 +98,7 @@ public function length(string $key, ?int $min, ?int $max = null):self
 public function slug(string $key):self
 {
   $value = $this->getValue($key);
-  $pattern = '/^([a-z0-9]+-?)+$/';
+  $pattern = '/^[a-z0-9]+(-[a-z0-9]+)*$/';
   if(!is_null($value) && !preg_match($pattern, $value)){
     $this->addError($key,'slug');
   }
@@ -112,7 +112,7 @@ public function slug(string $key):self
 public function date(string $key):self
 {
   $value = $this->getValue($key);
-  $pattern = '/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/';
+  $pattern = '/^[0-9]{4}(-[0-9]{2}){2}$/';
   if(!isnull($value) && !preg_match($pattern, $value)){
     $this->addError($key,'date');
   }
@@ -126,7 +126,7 @@ public function date(string $key):self
 public function time(string $key):self
 {
   $value = $this->getValue($key);
-  $pattern = '/^[0-9]{2}:[0-9]{2}:[0-9]{2}$/';
+  $pattern = '/^[0-9]{2}(:[0-9]{2}){2}$/';
   if(!isnull($value) && !preg_match($pattern, $value)){
     $this->addError($key,'time');
   }
