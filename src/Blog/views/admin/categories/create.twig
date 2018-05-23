@@ -1,0 +1,13 @@
+{% extends '@admin/layout.twig' %}
+{% block title "Editer l'catégorie" %}
+
+
+{% block body %}
+
+<h1> Ajouter une catégorie</h1>
+<form class="" action="{{path( routePrefix ~ '.create') }}" method="post">
+  {% include viewPath ~ '/form.twig'%}
+  <button class="btn btn-primary" type="submit"> Ajouter</button>
+</form>
+
+{% endblock %}

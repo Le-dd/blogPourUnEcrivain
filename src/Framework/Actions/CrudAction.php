@@ -1,5 +1,5 @@
 <?php
-namespace App\Blog\Actions;
+namespace Framework\Actions;
 
 
 use Framework\Renderer\RendererInterface;
@@ -8,22 +8,21 @@ use Framework\Renderer\TwigRendererFactory;
 use Framework\Router;
 use Framework\Validator;
 use GuzzleHttp\Psr7\Response;
-use Framework\Actions\RouterAwareAction;
-use App\Blog\Table\PostTable;
+use GuzzleHttp\Psr7\ResponseInterface;
 use \Framework\Session\FlashService;
 
 
 
-class AdminBlogAction{
+class CrudAction{
   /**
   * @var RendererInterface
   */
   private $renderer;
 
   /**
-   * @var PostTable
+   * @var mixed
    */
-  private $postTable;
+  private $table;
 
   /**
    * @var Router
@@ -35,6 +34,24 @@ class AdminBlogAction{
    */
   private $flash;
 
+  /**
+   * @var string
+   */
+  protected $viewPath;
+
+  /**
+   * @var string
+   */
+  protected $routePrefix;
+
+  /**
+   * @var array
+   */
+  protected $messages = [
+    'create' => "L'élément a bien été créé",
+    'edit' => "L'élément a bien été modifié"
+  ];
+
 
 
   use RouterAwareAction;
@@ -42,18 +59,20 @@ class AdminBlogAction{
   public function __construct(
     RendererInterface $renderer,
     Router $router,
-    PostTable $postTable,
+    $table,
     FlashService $flash
 
      ){
     $this->renderer = $renderer;
-    $this->postTable = $postTable;
+    $this->table = $table;
     $this->router = $router;
     $this->flash = $flash;
 
   }
    public function __invoke(Request $request)
   {
+    $this->renderer->addGlobal('viewPath',$this->viewPath);
+    $this->renderer->addGlobal('routePrefix',$this->routePrefix);
     if($request->getMethod() === 'DELETE'){
       return $this->delete($request);
 
@@ -70,25 +89,30 @@ class AdminBlogAction{
 
   }
 
+/**
+ * Affiche la liste des éléments
+ * @param  Request $request
+ * @return string
+ */
   public function index(Request $request)
   {
     $params = $request->getQueryParams();
-    $items = $this->postTable->findPaginated(6, $params['p'] ?? 1);
+    $items = $this->table->findPaginated(6, $params['p'] ?? 1);
 
 
-    return $this->renderer->render('@blog/admin/index', compact('items', 'session'));
+    return $this->renderer->render($this->viewPath .'/index', compact('items', 'session'));
   }
 
 
 
 /**
- * Edite un article
+ * Edite un  élément
  * @param  Request $request
  * @return ResponseInterface|string
  */
   public function edit(Request $request)
   {
-    $item = $this->postTable->find($request->getAttribute('id'));
+    $item = $this->table->find($request->getAttribute('id'));
 
     if ($request->getMethod() === 'POST') {
 
@@ -96,9 +120,9 @@ class AdminBlogAction{
       $validator =$this->getValidators($request);
       if($validator->isValid()){
 
-        $this->postTable->update($item->id, $params);
-        $this->flash->success('L\'article a bien été modifié');
-        return $this->redirect('blog.admin.index');
+        $this->table->update($item->id, $params);
+        $this->flash->success($this->messages['edit']);
+        return $this->redirect($this->routePrefix .'.index');
 
       }
       $errors =$validator->getErrors();
@@ -107,71 +131,69 @@ class AdminBlogAction{
 
 
     }
-    return $this->renderer->render('@blog/admin/edit', compact('item','errors'));
+    return $this->renderer->render($this->viewPath .'/edit', compact('item','errors'));
   }
 
 
   /**
-   * Crée un nouvel article
+   * Crée un nouvel élément
    * @param  Request $request
    * @return ResponseInterface|string
    */
   public function create(Request $request){
 
+    $item = $this->getNewEntity();
     if ($request->getMethod() === 'POST') {
 
       $params = $this->getParams($request);
-      $params = array_merge($params,[
-        'latitude'=> '61.218968',
-        'longitude' => '-149.479427',
-        'visible'=> '1',
-        'location_id'=> '1',
-        'name_place'=> 'gyhgygy'
-      ]);
+      $params = $this->getNewParams($params);
       $validator =$this->getValidators($request);
       if($validator->isValid()){
 
-        $this->postTable->insert($params);
-        $this->flash->success('L\'article a bien été modifié');
-        return $this->redirect('blog.admin.index');
+        $this->table->insert($params);
+        $this->flash->success($this->messages['create']);
+        return $this->redirect($this->routePrefix .'.index');
       }
       $item = $params;
       $errors = $validator->getErrors();
 
-
     }
-    return $this->renderer->render('@blog/admin/create', compact('item','errors'));
+    return $this->renderer->render($this->viewPath .'/create', compact('item','errors'));
 
   }
 
   /**
-   * Supprime un article
+   * Supprime un élément
    * @param  Request $request
    * @return ResponseInterface|string
    */
     public function delete(Request $request){
 
-      $this->postTable->delete($request->getAttribute('id'));
-      return $this->redirect('blog.admin.index');
+      $this->table->delete($request->getAttribute('id'));
+      return $this->redirect($this->routePrefix .'.index');
     }
 
 
-  private function getParams (Request $request){
+  protected function getParams (Request $request){
     return array_filter($request->getParsedBody(), function ($key) {
-      return in_array($key, ['title','slug','main','date','time',]);
+      return in_array($key, []);
     }, ARRAY_FILTER_USE_KEY);
   }
 
-  private function getValidators(Request $request){
+  protected function getValidators(Request $request){
 
-    return (new Validator($request->getParsedBody()))
-      ->required('title','slug','main','date','time')
-      ->length('main',10)
-      ->length('title',2,250)
-      ->length('slug',2,50)
-      ->date('date')
-      ->time('time')
-      ->slug('slug');
+    return (new Validator($request->getParsedBody()));
+
+  }
+  protected function getNewEntity(){
+
+    return [];
+
+  }
+  protected function getNewParams($params){
+
+    return $params;
+
   }
 
 }
