@@ -12,7 +12,10 @@ protected $entity = Post::class;
 protected $table = 'post';
 
 protected function paginationQuery() {
-  return parent::paginationQuery() . " ORDER BY date DESC, time DESC";
+  return "SELECT p.id, p.title, p.slug, p.time, p.date, p.main, c.name_locality
+  FROM {$this->table} as p
+  LEFT JOIN location as c ON p.location_id = c.id
+  ORDER BY date DESC, time DESC";
 }
 
 

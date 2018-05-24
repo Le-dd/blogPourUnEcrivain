@@ -100,7 +100,10 @@ class CrudAction{
     $items = $this->table->findPaginated(6, $params['p'] ?? 1);
 
 
-    return $this->renderer->render($this->viewPath .'/index', compact('items', 'session'));
+    return $this->renderer->render(
+      $this->viewPath .'/index',
+      compact('items','errors')
+   );
   }
 
 
@@ -128,10 +131,11 @@ class CrudAction{
       $errors =$validator->getErrors();
       $params['id'] = $item->id;
       $item = $params;
-
-
     }
-    return $this->renderer->render($this->viewPath .'/edit', compact('item','errors'));
+    return $this->renderer->render(
+      $this->viewPath .'/edit',
+      $this->formParams(compact('item','errors'))
+    );
   }
 
 
@@ -158,7 +162,11 @@ class CrudAction{
       $errors = $validator->getErrors();
 
     }
-    return $this->renderer->render($this->viewPath .'/create', compact('item','errors'));
+
+    return $this->renderer->render(
+      $this->viewPath .'/create',
+      $this->formParams(compact('item','errors'))
+     );
 
   }
 
@@ -191,6 +199,13 @@ class CrudAction{
 
   }
   protected function getNewParams($params){
+
+    return $params;
+
+  }
+
+  protected function formParams(array $params): array
+  {
 
     return $params;
 

@@ -52,6 +52,26 @@ protected function paginationQuery() {
   return "SELECT * FROM {$this->table}";
 }
 
+
+/**
+ * Recupère une liste clef valeur de nos enregistrement
+ */
+
+public function findList():array
+{
+  $results = $this->pdo
+    ->query("SELECT id, name_locality FROM {$this->table} ")
+    ->fetchAll(\PDO::FETCH_NUM);
+$list = [];
+foreach ($results as $result){
+
+  $list[$result[0]]= $result[1];
+}
+
+  return $list;
+}
+
+
 /**
  * Recupère un élement à partir de son ID
  * @param  int $id
@@ -136,5 +156,16 @@ protected function paginationQuery() {
     {
       return $this->table;
     }
+
+  
+
+    /**
+     * renvoie l'intance de PDO
+     * @return \PDO
+     */
+      public function getPdo(): \PDO
+      {
+        return $this->pdo;
+      }
 
 }

@@ -19,7 +19,8 @@ class ValidationError {
     'betweenLength'=>'le champ %s doit contenir entre %d et %d caractères',
     'date'=>'le champ %s doit contenir une date au format YYYY-MM-DD',
     'time'=>'le champ %s doit contenir une date au format hh-mm-ss',
-    'dateTime'=>'le contenu du champs %s doit contenir une erreur'
+    'dateTime'=>'le contenu du champs %s doit contenir une erreur',
+    'exists'=>'le contenu du champs %s n\'existe pas dans le table %s'
   ];
 
   public function __construct(string $key, string $rule, array $attributes = [])
@@ -32,7 +33,7 @@ class ValidationError {
 
   public function __toString()
   {
-    
+
     $params = array_merge([$this->messages[$this->rule],$this->key],$this->attributes);
 
     return (string)call_user_func_array('sprintf', $params);

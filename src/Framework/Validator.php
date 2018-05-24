@@ -3,6 +3,7 @@
 namespace Framework;
 
 use Framework\Validator\ValidationError;
+use Framework\Database\Table;
 
 class Validator {
 
@@ -134,7 +135,7 @@ public function date(string $key, string $format = "Y-m-d"):self
  */
 public function time(string $key, string $format = "H:i:s"):self
 {
-  $value = $this->getValue($key);
+$value = $this->getValue($key);
   $pattern = '/^[0-9]{2}(:[0-9]{2}){2}$/';
   if(!is_null($value) && !preg_match($pattern, $value)){
     $this->addError($key,'time');
@@ -148,7 +149,18 @@ public function time(string $key, string $format = "H:i:s"):self
   return $this;
 }
 
+public function exists(string $key, string $table, \PDO $pdo)
+{
+  $value = $this->getValue($key);
+  $statement = $pdo->prepare("SELECT id FROM $table  WHERE id = ? ");
+  $statement->execute([$value]);
 
+    if ($statement->fetchColumn() === false) {
+      $this->addError($key,'exists',[$table]);
+
+    };
+    return $this;
+}
 
 public function isValid():bool
 {
@@ -182,4 +194,6 @@ private function getValue(string $key)
   }
   return null;
 }
+
+
 }
