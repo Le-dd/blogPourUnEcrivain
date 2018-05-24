@@ -3,5 +3,8 @@
 use  \App\Blog\BlogModule;
 use  function DI\{autowire,get};
 return [
-  'blog.prefix'=>'/blog',
+  'index.prefix'=>'/index',
+  'posts.prefix'=>'/posts',
+  'category.prefix'=>'/location',
+
 ];

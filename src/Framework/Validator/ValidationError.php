@@ -20,7 +20,8 @@ class ValidationError {
     'date'=>'le champ %s doit contenir une date au format YYYY-MM-DD',
     'time'=>'le champ %s doit contenir une date au format hh-mm-ss',
     'dateTime'=>'le contenu du champs %s doit contenir une erreur',
-    'exists'=>'le contenu du champs %s n\'existe pas dans le table %s'
+    'exists'=>'le contenu du champs %s n\'existe pas dans le table %s',
+    'unique'=>'le contenu du champs %s existe déja dans le table [%s]'
   ];
 
   public function __construct(string $key, string $rule, array $attributes = [])

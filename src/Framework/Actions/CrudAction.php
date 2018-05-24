@@ -22,7 +22,7 @@ class CrudAction{
   /**
    * @var mixed
    */
-  private $table;
+  protected $table;
 
   /**
    * @var Router

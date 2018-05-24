@@ -5,6 +5,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Container\ContainerInterface;
 use Framework\Router;
+use Framework\Actions\RouterAwareAction;
 class App {
   /**
    * list of modules
@@ -18,6 +19,8 @@ class App {
   private $container;
 
 
+
+ use RouterAwareAction;
   /**
    * App __construct
    * @param ContainerInterface $container
@@ -34,15 +37,26 @@ class App {
   public function run(ServerRequestInterface $request):ResponseInterface{
     $uri = $request->getUri()->getPath();
     $parsedBody = $request->getParsedBody();
+
     if(array_key_exists('_method', $parsedBody ) &&
     in_array( $parsedBody['_method'] , ['DELETE','PUT'])){
       $request = $request->withMethod($parsedBody['_method']);
     }
+
    if (!empty($uri) && $uri[-1] === "/"){
+     if($uri === "/"){
+       return (new Response())
+       ->withStatus(301)
+       ->withHeader('location','/index');
+     }else{
       return (new Response())
       ->withStatus(301)
       ->withHeader('location',substr($uri,0,-1));
     }
+    }
+    
+
+
     $router =$this ->container->get(Router::class);
     $route = $router->match($request);
     if (is_null($route)) {

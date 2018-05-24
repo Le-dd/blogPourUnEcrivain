@@ -8,7 +8,7 @@ class Table {
   /**
    * @var \PDO
    */
-  private $pdo;
+  protected $pdo;
 
   /**
    * Nom de la table en BDD
@@ -53,6 +53,7 @@ protected function paginationQuery() {
 }
 
 
+
 /**
  * Recupère une liste clef valeur de nos enregistrement
  */
@@ -71,6 +72,31 @@ foreach ($results as $result){
   return $list;
 }
 
+/**
+ * Recupère une liste clef valeur de nos enregistrement
+ */
+
+public function findAll():array
+{
+  $query = $this->pdo->query("SELECT * FROM {$this->table} ");
+  if($this->entity){
+    $query->setFetchMode(\PDO::FETCH_CLASS, $this->entity);
+  }else {
+    $query->setFetchMode(\PDO::FETCH_OBJ);
+  }
+
+  return $query->fetchAll();
+}
+
+/**
+ * Recupère une ligne par rapport à un champs
+ */
+
+public function findBY(string $field, string $value)
+{
+  return $this->fetchOrFail("SELECT * FROM {$this->table} Where $field = ?",[$value]);
+
+}
 
 /**
  * Recupère un élement à partir de son ID
@@ -80,13 +106,9 @@ foreach ($results as $result){
 
   public function find(int $id )
   {
-    $query = $this->pdo
-      ->prepare("SELECT * FROM {$this->table} WHERE id = ?");
-    $query->execute([$id]);
-    if($this->entity){
-      $query->setFetchMode(\PDO::FETCH_CLASS, $this->entity);
-    }
-    return $query->fetch();
+    return $this->fetchOrFail("SELECT * FROM {$this->table} WHERE id = ?", [$id]);
+
+
   }
 
   /**
@@ -99,8 +121,8 @@ foreach ($results as $result){
   {
     $fieldQuery = $this->buildFieldQuery($params);
     $params["id"] = $id;
-    $statement = $this->pdo->prepare("UPDATE {$this->table} SET $fieldQuery WHERE id = :id ");
-    return $statement->execute($params);
+    $query = $this->pdo->prepare("UPDATE {$this->table} SET $fieldQuery WHERE id = :id ");
+    return $query->execute($params);
 
   }
 
@@ -116,8 +138,8 @@ foreach ($results as $result){
       return ':'.$field;
     }, $fields));
     $fields = join(',',$fields);
-    $statement = $this->pdo->prepare("INSERT INTO {$this->table} ($fields)  VALUES ($values)");
-    return $statement->execute($params);
+    $query = $this->pdo->prepare("INSERT INTO {$this->table} ($fields)  VALUES ($values)");
+    return $query->execute($params);
   }
 
   /**
@@ -127,8 +149,8 @@ foreach ($results as $result){
    */
   public function delete(int $id): bool
   {
-    $statement = $this->pdo->prepare("DELETE FROM {$this->table}  WHERE id = ? ");
-    return $statement->execute([$id]);
+    $query = $this->pdo->prepare("DELETE FROM {$this->table}  WHERE id = ? ");
+    return $query->execute([$id]);
 
   }
 
@@ -157,7 +179,7 @@ foreach ($results as $result){
       return $this->table;
     }
 
-  
+
 
     /**
      * renvoie l'intance de PDO
@@ -168,4 +190,26 @@ foreach ($results as $result){
         return $this->pdo;
       }
 
+    /**
+     * Permet d'executer une requete et de récupérer le premier résultat
+     * @param  string $query
+     * @param  array  $params
+     * @return mixed
+     * @throws NoRecordException
+     */
+    protected function fetchOrFail(string $query, array $params = [])
+      {
+          $query = $this->pdo->prepare($query);
+          $query->execute($params);
+          if($this->entity){
+            $query->setFetchMode(\PDO::FETCH_CLASS, $this->entity);
+          }else {
+            $query->setFetchMode(\PDO::FETCH_OBJ);
+          }
+          $record = $query->fetch();
+          if ($record == false) {
+            throw new NoRecordException();
+          }
+          return $record ;
+      }
 }

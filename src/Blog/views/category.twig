@@ -32,6 +32,10 @@
     </div>
   {% endfor %}
 </div>
+{% for category in categories %}
+<div>{{ category.name_locality }}</div>
+{% endfor %}
+
 {{ paginate(posts,'blog.posts.index') }}
 
 {% endblock %}

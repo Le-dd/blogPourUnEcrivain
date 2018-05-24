@@ -3,6 +3,5 @@
 use  \App\Admin\AdminModule;
 
 return [
-  'admin.prefix'=>'/admin',
-
+    'admin.prefix'=>'/admin',
 ];
