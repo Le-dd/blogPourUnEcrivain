@@ -6,5 +6,8 @@ return [
   'index.prefix'=>'/index',
   'posts.prefix'=>'/posts',
   'category.prefix'=>'/location',
+  'admin.widgets' => \DI\add([
+    get( \App\Blog\BlogWidget::class )
+  ])
 
 ];

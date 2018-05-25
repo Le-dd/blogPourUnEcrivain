@@ -111,6 +111,18 @@ public function findBY(string $field, string $value)
 
   }
 
+/**
+ * Récupère le nombre d'enregistrement
+ * @return int
+ */
+  public function count(): int
+  {
+    return $this->fetchColumn("SELECT COUNT(id) FROM {$this->table}");
+  }
+
+
+
+
   /**
    * Met à jours un enregistrement au niveau de la base de donnée
    * @param  int   id
@@ -211,5 +223,22 @@ public function findBY(string $field, string $value)
             throw new NoRecordException();
           }
           return $record ;
+      }
+
+    /**
+     * Récupère la première colonne
+     * @param  string $query
+     * @param  array  $params
+     * @return mixed
+     */
+    private function fetchColumn(string $query, array $params= []){
+
+      $query = $this->pdo->prepare($query);
+      $query->execute($params);
+      if($this->entity){
+        $query->setFetchMode(\PDO::FETCH_CLASS, $this->entity);
+      }
+      return $query->fetchColumn();
+
       }
 }
