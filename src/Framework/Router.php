@@ -2,7 +2,7 @@
 namespace Framework;
 
 use Framework\Router\Route;
-use Framework\Router\MiddleWareApp;
+use Framework\Middleware\CallableMiddleware;
 use Psr\Http\Message\ServerRequestInterface;
 use Zend\Expressive\Router\FastRouteRouter;
 use Zend\Expressive\Router\Route as ZendRoute;
@@ -26,7 +26,7 @@ class Router{
  */
 public function get(string $path,$callable, ?string $name = null)
 {
-  $this->router->addRoute(new ZendRoute($path, new MiddlewareApp($callable), ['GET'], $name));
+  $this->router->addRoute(new ZendRoute($path, new CallableMiddleware($callable), ['GET'], $name));
 }
 
 /**
@@ -36,7 +36,7 @@ public function get(string $path,$callable, ?string $name = null)
  */
 public function post(string $path,$callable, ?string $name = null)
 {
-  $this->router->addRoute(new ZendRoute($path, new MiddlewareApp($callable), ['POST'], $name));
+  $this->router->addRoute(new ZendRoute($path, new CallableMiddleware($callable), ['POST'], $name));
 }
 
 /**
@@ -46,7 +46,7 @@ public function post(string $path,$callable, ?string $name = null)
  */
 public function delete(string $path,$callable, ?string $name = null)
 {
-  $this->router->addRoute(new ZendRoute($path, new MiddlewareApp($callable), ['DELETE'], $name));
+  $this->router->addRoute(new ZendRoute($path, new CallableMiddleware($callable), ['DELETE'], $name));
 }
 
 /**

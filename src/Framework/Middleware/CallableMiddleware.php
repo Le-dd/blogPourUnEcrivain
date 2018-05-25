@@ -1,12 +1,12 @@
 <?php
-namespace Framework\Router;
+namespace Framework\Middleware;
 
-use Psr\Http\server\MiddlewareInterface;
-use Psr\Http\server\RequestHandlerInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
-class MiddlewareApp implements MiddlewareInterface {
+class CallableMiddleware implements MiddlewareInterface {
 
     public $callable;
 
