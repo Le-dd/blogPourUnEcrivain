@@ -2,6 +2,7 @@
 
 use\App\Admin\AdminModule;
 use\App\Blog\BlogModule;
+use\Middlewares\Whoops;
 use Framework\Middleware\{
   TrailingSlashMiddleware,
   MethodMiddleware,
@@ -13,8 +14,10 @@ use Framework\Middleware\{
 require dirname(__DIR__).'/vendor/autoload.php';
 
 $app = (new \Framework\App( dirname(__DIR__).'/config/config.php' ))
+
       ->addModule(AdminModule::class)
       ->addModule(BlogModule::class)
+      ->pipe(Whoops::class)
       ->pipe(TrailingSlashMiddleware::class)
       ->pipe(MethodMiddleware::class)
       ->pipe(RouterMiddleware::class)
