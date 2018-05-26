@@ -8,7 +8,8 @@ use Framework\Middleware\{
   MethodMiddleware,
   RouterMiddleware,
   DispatcherMiddleware,
-  NotFoundMiddleware
+  NotFoundMiddleware,
+  CsrfMiddleware
 };
 
 require dirname(__DIR__).'/vendor/autoload.php';
@@ -20,6 +21,7 @@ $app = (new \Framework\App( dirname(__DIR__).'/config/config.php' ))
       ->pipe(Whoops::class)
       ->pipe(TrailingSlashMiddleware::class)
       ->pipe(MethodMiddleware::class)
+      ->pipe(CsrfMiddleware::class)
       ->pipe(RouterMiddleware::class)
       ->pipe(DispatcherMiddleware::class)
       ->pipe(NotFoundMiddleware::class);

@@ -67,14 +67,14 @@ public function pipe(string $middleware): self
 
 }
 
-public function process(ServerRequestInterface $request): ResponseInterface
+public function handle(ServerRequestInterface $request): ResponseInterface
 {
   $middleware = $this->getMiddleware();
   if(is_null($middleware)){
     throw new \Exception('Aucun middleware n\'a intercepté cette requête');
   }
   elseif (is_callable($middleware)) {
-      return call_user_func_array($middleware, [$request,[$this,'process']]);
+      return call_user_func_array($middleware, [$request,[$this,'handle']]);
         }
   elseif ($middleware instanceof MiddlewareInterface) {
       return $middleware->process($request, $this);
@@ -88,7 +88,7 @@ public function run(ServerRequestInterface $request):ResponseInterface{
     foreach($this->modules as $module){
       $this->getContainer()->get($module);
     }
-    return $this->process($request);
+    return $this->handle($request);
 
 
   }
@@ -124,17 +124,6 @@ public function run(ServerRequestInterface $request):ResponseInterface{
   }
 
 
-  public function handle(ServerRequestInterface $request): ResponseInterface
-  {
-    $middleware = $this->getMiddleware();
-    if(is_null($middleware)){
-      throw new \Exception('Aucun middleware n\'a intercepté cette requête');
-    }
-    elseif (is_callable($middleware)) {
-        return call_user_func_array($middleware, [$request,[$this,'process']]);
-          }
-    elseif ($middleware instanceof MiddlewareInterface) {
-        return $middleware->process($request, $this);
-    }
-  }
+
+
 }

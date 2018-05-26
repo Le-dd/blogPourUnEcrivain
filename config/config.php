@@ -8,8 +8,10 @@ use \Framework\Twig\TextExtension;
 use \Framework\Twig\TimeExtension;
 use \Framework\Twig\FlashExtension;
 use \Framework\Twig\FormExtension;
+use \Framework\Twig\CsrfExtension;
 use \Framework\Session\PHPSession;
 use \Framework\Session\SessionInterface;
+use \Framework\Middleware\CsrfMiddleware;
 return[
   'database.host'=>'localhost',
   'database.username'=>'root',
@@ -22,9 +24,12 @@ return[
     \DI\get(TextExtension::class),
     \DI\get(TimeExtension::class),
     \DI\get(FlashExtension::class),
-    \DI\get(FormExtension::class)
+    \DI\get(FormExtension::class),
+    \DI\get(CsrfExtension::class)
+
   ],
   SessionInterface::class => DI\autowire(PHPSession::class),
+  CsrfMiddleware::class=>\DI\autowire()->constructor(\DI\get(SessionInterface::class)),
   \Framework\Router::class => DI\autowire(),
   RendererInterface::class => DI\factory(TwigRendererFactory::class),
   \PDO::class => function(ContainerInterface $c){
