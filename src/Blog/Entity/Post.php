@@ -23,25 +23,31 @@ class Post
 
   public  $visible;
 
-  public  $location_id;
+  public  $locationId;
 
-  public  $name_place;
+  public  $namePlace;
 
   public $dateTime;
 
   public function __construct()
-  {
-
-    if ($this->date) {
-
-      if ($this->time) {
-
-        $datePlusTime = $this->date ." ". $this->time;
-        $this->dateTime = new \DateTime($datePlusTime);
-
-      }else{
-        $this->dateTime = new \DateTime($this->date);
+    {
+      if ($this->date) {
+        if ($this->time) {
+          $datePlusTime = $this->date ." ". $this->time;
+          $this->dateTime = new \DateTime($datePlusTime);
+        }else{
+          $this->dateTime = new \DateTime($this->date);
+        }
       }
+    }
+
+    public function setDateTime(){
+
+      if (is_null($this->datetime) && $this->date && $this->time ) {
+
+          $datePlusTime = $this->date ." ". $this->time;
+          $this->dateTime = new \DateTime($datePlusTime);
+
     }
 
   }

@@ -3,13 +3,15 @@ namespace Framework\Database;
 
 
 
-class Query {
+class Query  {
 
     private $select;
 
     private $from ;
 
     private $where = [];
+
+    private $entity;
 
     private $group;
 
@@ -23,6 +25,8 @@ class Query {
      * @var \PDO
      */
     private $pdo;
+
+
 
 
 
@@ -63,6 +67,24 @@ class Query {
     $this->$params = $params;
     return $this;
   }
+  public function into(){
+
+    $this->entity = $entity;
+    return $this;
+
+  }
+
+  public function all(): QueryResult
+  {
+
+    return new QueryResult(
+       $this->records = $this->execute()->fetAll(\PDO::FETCH_ASSOC),
+       $this->entity
+     );
+
+
+  }
+
 
 
   public function __toString() {
@@ -113,8 +135,6 @@ class Query {
     }
 
       return $this->pdo->query($query);
-
-
 
   }
 

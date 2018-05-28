@@ -39,6 +39,10 @@ class FormExtension extends \Twig_Extension {
     }
     if($type === 'textarea') {
       $input = $this->textarea( $value, $attributes);
+    }elseif($type === 'file'){
+
+      $input = $this->file( $attributes);
+
     }elseif (array_key_exists('options', $option)){
 
         $input = $this->select( $value, $option['options'], $attributes);
@@ -70,11 +74,22 @@ class FormExtension extends \Twig_Extension {
 
   }
 
+  private Function file(array $attributes): string{
+
+    return "<input type=\"file\" ". $this->getHtmlFromArray($attributes) .">";
+
+  }
+
   private Function textarea( ?string $value, array $attributes): string{
 
     return "<textarea ". $this->getHtmlFromArray($attributes) .">{$value}</textarea>";
 
   }
+
+
+
+
+
 
   private Function select(?string $value, array $options ,array $attributes){
 

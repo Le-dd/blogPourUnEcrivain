@@ -37,6 +37,8 @@ class Table {
   */
   public function findPaginated(int $perPage, int $currentPage):Pagerfanta
   {
+
+
     $query = new PaginatedQuery(
         $this->pdo,
         $this->paginationQuery(),

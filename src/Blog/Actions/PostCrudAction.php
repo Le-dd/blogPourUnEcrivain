@@ -12,6 +12,7 @@ use \Framework\Actions\CrudAction;
 use App\Blog\Table\PostTable;
 use App\Blog\Table\CategoryTable;
 use \Framework\Session\FlashService;
+use App\Blog\PostUpload;
 
 
 
@@ -32,6 +33,10 @@ class PostCrudAction extends CrudAction {
    * @var array
    */
   private $categoryTable;
+  /**
+   * @var PostUpload
+   */
+  private $postUpload;
 
 
   public function __construct(
@@ -39,13 +44,17 @@ class PostCrudAction extends CrudAction {
     Router $router,
     PostTable $table,
     FlashService $flash,
-    CategoryTable $categoryTable
+    CategoryTable $categoryTable,
+    PostUpload $postUpload
 
      ){
        parent::__construct( $renderer,$router,$table,$flash);
        $this->categoryTable = $categoryTable;
+       $this->postUpload = $postUpload;
 
   }
+
+  
 
   protected function formParams(array $params): array
   {
@@ -56,7 +65,8 @@ class PostCrudAction extends CrudAction {
 
 
   protected function getParams (Request $request){
-    return array_filter($request->getParsedBody(), function ($key) {
+    $params = array_merge($request->getParsedBody(),$request->getUploadedFiles());
+    return array_filter($params, function ($key) {
       return in_array($key, ['title','slug','main','date','time','location_id']);
     }, ARRAY_FILTER_USE_KEY);
   }
@@ -68,8 +78,8 @@ class PostCrudAction extends CrudAction {
       ->length('main',10)
       ->length('title',2,250)
       ->length('slug',2,50)
-      ->date('date')
       ->exists('location_id', $this->categoryTable->getTable(),$this->categoryTable->getPdo())
+      ->date('date')
       ->time('time')
       ->slug('slug');
   }

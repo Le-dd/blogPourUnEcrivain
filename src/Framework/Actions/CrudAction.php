@@ -119,16 +119,17 @@ class CrudAction{
 
     if ($request->getMethod() === 'POST') {
 
-      $params = $this->getParams($request);
+
       $validator =$this->getValidators($request);
       if($validator->isValid()){
 
-        $this->table->update($item->id, $params);
+        $this->table->update($item->id, $this->getParams($request));
         $this->flash->success($this->messages['edit']);
         return $this->redirect($this->routePrefix .'.index');
 
       }
       $errors =$validator->getErrors();
+      $params = $request->getParsedBody();
       $params['id'] = $item->id;
       $item = $params;
     }
@@ -190,7 +191,7 @@ class CrudAction{
 
   protected function getValidators(Request $request){
 
-    return (new Validator($request->getParsedBody()));
+    return (new Validator(array_merge($request->getParsedBody(),$request->getUploadedFiles())));
 
   }
   protected function getNewEntity(){

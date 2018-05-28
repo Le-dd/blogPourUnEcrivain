@@ -21,7 +21,9 @@ class ValidationError {
     'time'=>'le champ %s doit contenir une date au format hh-mm-ss',
     'dateTime'=>'le contenu du champs %s doit contenir une erreur',
     'exists'=>'le contenu du champs %s n\'existe pas dans le table %s',
-    'unique'=>'le contenu du champs %s existe déja dans le table [%s]'
+    'unique'=>'le contenu du champs %s existe déja dans le table [%s]',
+    'filetype'=>'le champs %s n\'est pas au format valide(%s)',
+    'uploaded'=>'Vous devez uploader un fichier'
   ];
 
   public function __construct(string $key, string $rule, array $attributes = [])
