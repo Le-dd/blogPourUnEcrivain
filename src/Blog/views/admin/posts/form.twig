@@ -4,4 +4,5 @@
 {{ field('main', item.main, "Contenu de l'article", {type:'textarea'})}}
 {{ field('date', item.date, "Date de l'article", {class:'datepicker'}) }}
 {{ field('time', item.time, "Heure de l'article", {class:'timepicker'}) }}
-{{ field('location_id', item.location_id, "Catégorie de loclisation", {options: locations}) }}
+{{ field('location_id', item.locationId, "Catégorie de loclisation", {options: locations}) }}
+{{ field('visible', item.visible, "En ligne ?", {type:'checkbox'})}}

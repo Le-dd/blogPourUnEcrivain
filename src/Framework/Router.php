@@ -57,6 +57,7 @@ public function delete(string $path,$callable, ?string $name = null)
   */
 public function crud(string $prefixPath,$callable, string $prefixName )
 {
+
   $this->get("$prefixPath", $callable, "$prefixName.index");
   $this->get("$prefixPath/new", $callable, "$prefixName.create");
   $this->post("$prefixPath/new", $callable );

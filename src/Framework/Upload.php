@@ -5,7 +5,7 @@ class Upload {
 
   protected $path;
 
-  protected $formats;
+  protected $formats = [];
 
 
   public function __construct(?string $path = null)
@@ -15,8 +15,9 @@ class Upload {
     }
   }
 
-  public function uploaded(UploadedFileInterface $file, ?string $oldFiled = null ): string
+  public function uploaded(UploadedFileInterface $file, ?string $oldFiled = null ): ?string
   {
+    if($file->getError() === UPLOAD_ERR_OK){
     $this->delete($oldFile);
     $filename = $file->getClientFilename();
     $targetPath = $this->addSuffix($this->path . DIRECTORY_SEPARATOR . $filename);
@@ -27,6 +28,8 @@ class Upload {
     $file->moveTo($targetPath);
     $this->generateFormats($targetPath);
     return pathinfo($targetPath)['basename'];
+    }
+    return null;
   }
 
   private function addCopySuffix(string $targetPath):string

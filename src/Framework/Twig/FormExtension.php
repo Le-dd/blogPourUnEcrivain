@@ -42,6 +42,9 @@ class FormExtension extends \Twig_Extension {
     }elseif($type === 'file'){
 
       $input = $this->file( $attributes);
+    }elseif($type === 'checkbox'){
+
+      $input = $this->checkbox($value, $attributes);
 
     }elseif (array_key_exists('options', $option)){
 
@@ -71,6 +74,15 @@ class FormExtension extends \Twig_Extension {
   private Function input( ?string $value, array $attributes): string{
 
     return "<input type=\"text\" ". $this->getHtmlFromArray($attributes) ." value=\"{$value}\">";
+
+  }
+
+  private Function checkbox( ?string $value, array $attributes): string{
+    $html ="<input type=\"hidden\" name=\"" . $attributes['name'] . "\" value=\"0\"/>";
+    if ($value) {
+      $attributes['checked']= true;
+    }
+    return $html ."<input type=\"checkbox\" ". $this->getHtmlFromArray($attributes) ." value=\"1\">";
 
   }
 

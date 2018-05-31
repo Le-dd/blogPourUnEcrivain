@@ -27,23 +27,23 @@ class QueryResult implements \ArrayAccess, \Iterator {
     public function get(int $index)
     {
       if ($this->entity){
-        if(!isset($this->$hydratedRecords[$index])){
-        $this->$hydratedRecords[$index] = QueryHydrator::hydrate($this->records[$index],$this->entity);
+        if(!isset($this->hydratedRecords[$index])){
+        $this->hydratedRecords[$index] = QueryHydrator::hydrate($this->records[$index],$this->entity);
       }
-      return $this->$hydratedRecords[$index];
+      return $this->hydratedRecords[$index];
       }
 
       return $this->entity;
     }
 
-      private function current()
+      public function current()
       {
 
         return $this->get($this->index);
 
       }
 
-      private function next():void
+      public function next()
       {
 
         $this->index++;
@@ -76,7 +76,7 @@ class QueryResult implements \ArrayAccess, \Iterator {
       }
 
 
-      public function offsetSet($offset)
+      public function offsetSet($offset, $value)
       {
         throw new \Exception("Can't alter records");
       }

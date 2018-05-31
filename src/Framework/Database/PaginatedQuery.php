@@ -5,44 +5,21 @@ use Pagerfanta\Adapter\AdapterInterface;
 
 class PaginatedQuery implements AdapterInterface{
 
-/**
- * @var \PDO
- */
-private $pdo;
 
   /**
-   * @var string
+   * @var Query
    */
 private $query;
 
-  /**
-   * @var string
-   */
-private $countQuery;
+
 
 /**
- * @var string|null
+ * @param Query $query [description]
  */
-private $entity;
-
-/**
- * @var array
- */
-private $params;
-
-/**
- * @param PDO    $pdo
- * @param string $query requête permettant de recupéré x resultat
- * @param string $countQuery requête permettant de compter la nombre de résultat total
- * @param string|null $entity
- */
-public function __construct( \PDO $pdo,string $query,string $countQuery, ?string $entity, array $params = [])
+public function __construct(Query $query)
 {
-  $this->pdo = $pdo;
   $this->query = $query;
-  $this->countQuery = $countQuery;
-  $this->entity = $entity;
-  $this->params = $params;
+
 }
 
   /**
@@ -52,12 +29,7 @@ public function __construct( \PDO $pdo,string $query,string $countQuery, ?string
  */
 function getNbResults(): int
 {
-  if(!empty($this->params)){
-    $query = $this->pdo->prepare($this->countQuery);
-    $query->execute($this->params);
-    return $query->fetchColumn();
-  }
-  return $this->pdo->query($this->countQuery)->fetchColumn();
+return $this->query->count();
 
 }
 
@@ -69,20 +41,10 @@ function getNbResults(): int
  *
  * @return array|\Iterator|\IteratorAggregate The slice.
  */
-function getSlice($offset,$length): array
+function getSlice($offset,$length)
 {
-  $statement = $this->pdo->prepare($this->query .' LIMIT :offset, :length');
-
-  foreach ($this->params as $key => $param) {
-    $statement->bindParam($key, $param);
-  }
-  $statement->bindParam('offset', $offset, \PDO::PARAM_INT);
-  $statement->bindParam('length', $length, \PDO::PARAM_INT);
-  if($this->entity){
-    $statement->setFetchMode(\PDO::FETCH_CLASS, $this->entity);
-  }
-  $statement->execute();
-  return $statement->fetchAll();
+  $query = clone $this->query;
+  return $query->limit($length,$offset)->fetchAll();
 }
 
 

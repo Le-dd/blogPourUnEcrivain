@@ -40,7 +40,7 @@ class CategoryAction{
   {
 
     $params = $request->getQueryParams();
-    $posts = $this->postTable->findPaginatedPublic(6, $params['p'] ?? 1);
+    $posts = $this->postTable->findPublic()->paginate(6, $params['p'] ?? 1);
     $categories = $this->categoryTable->findALL();
 
     return $this->renderer->render('@blog/category', compact('posts','categories'));

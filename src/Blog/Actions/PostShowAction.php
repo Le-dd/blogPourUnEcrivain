@@ -40,6 +40,7 @@ class PostShowAction{
   }
    public function __invoke(Request $request)
   {
+
     $slug = $request->getAttribute('slug');
     $post = $this->postTable->find($request->getAttribute('id'));
 

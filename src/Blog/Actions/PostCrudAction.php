@@ -54,7 +54,7 @@ class PostCrudAction extends CrudAction {
 
   }
 
-  
+
 
   protected function formParams(array $params): array
   {
@@ -67,7 +67,7 @@ class PostCrudAction extends CrudAction {
   protected function getParams (Request $request){
     $params = array_merge($request->getParsedBody(),$request->getUploadedFiles());
     return array_filter($params, function ($key) {
-      return in_array($key, ['title','slug','main','date','time','location_id']);
+      return in_array($key, ['title','slug','main','date','time','location_id','visible']);
     }, ARRAY_FILTER_USE_KEY);
   }
 
@@ -89,7 +89,6 @@ class PostCrudAction extends CrudAction {
     return array_merge($params,[
       'latitude'=> '61.218968',
       'longitude' => '-149.479427',
-      'visible'=> '1',
       'name_place'=> 'gyhgygy'
     ]);
 }

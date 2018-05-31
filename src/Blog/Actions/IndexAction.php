@@ -40,7 +40,7 @@ class IndexAction{
   {
 
     $params = $request->getQueryParams();
-    $posts = $this->postTable->findPaginatedPublic(6, $params['p'] ?? 1);
+      $posts = $this->postTable->findPublic()->paginate(6, $params['p'] ?? 1);
     return $this->renderer->render('@blog/index', compact('posts'));
 
   }

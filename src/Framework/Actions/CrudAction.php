@@ -10,6 +10,7 @@ use Framework\Validator;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ResponseInterface;
 use \Framework\Session\FlashService;
+use Framework\Database\QueryHydrator;
 
 
 
@@ -97,8 +98,7 @@ class CrudAction{
   public function index(Request $request)
   {
     $params = $request->getQueryParams();
-    $items = $this->table->findPaginated(6, $params['p'] ?? 1);
-
+    $items = $this->table->findAll()->paginate(6, $params['p'] ?? 1);
 
     return $this->renderer->render(
       $this->viewPath .'/index',
@@ -129,7 +129,7 @@ class CrudAction{
 
       }
       $errors =$validator->getErrors();
-      $params = $request->getParsedBody();
+      QueryHydrator::hydrate ($request->getParsedBody(), $item);
       $params['id'] = $item->id;
       $item = $params;
     }
@@ -159,8 +159,9 @@ class CrudAction{
         $this->flash->success($this->messages['create']);
         return $this->redirect($this->routePrefix .'.index');
       }
-      $item = $params;
+      QueryHydrator::hydrate ($request->getParsedBody(), $item);
       $errors = $validator->getErrors();
+      
 
     }
 

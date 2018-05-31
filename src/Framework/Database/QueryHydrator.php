@@ -7,7 +7,12 @@ class QueryHydrator{
 
   public static function hydrate(array $array, $object)
   {
-    $instance = new $object();
+    if(is_string($object)){
+      $instance = new $object();
+    }else{
+        $instance = $object;
+    }
+
     foreach($array as $key => $value)
     {
       $method =self::getSetter($key);
@@ -20,7 +25,7 @@ class QueryHydrator{
 
       }
     }
-    return $intance;
+    return $instance;
   }
   private static function getSetter(string $fieldName):string
   {

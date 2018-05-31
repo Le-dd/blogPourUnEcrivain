@@ -4,9 +4,10 @@ use Framework\Database\PaginatedQuery;
 use Pagerfanta\Pagerfanta;
 use App\Blog\Entity\Post;
 
+
 class Table {
   /**
-   * @var \PDO
+   * @var null\PDO
    */
   protected $pdo;
 
@@ -20,7 +21,7 @@ class Table {
    * Entité a utiliser
    * @var string|null
    */
-  protected $entity;
+  protected $entity = \stdClass::class;
 
   public function __construct(\PDO $pdo)
   {
@@ -28,31 +29,6 @@ class Table {
     $this->pdo = $pdo;
 
   }
-
-/**
-  * Pagine des élements
-  *
-  * @param  int $perPage
-  * @return Pagerfanta
-  */
-  public function findPaginated(int $perPage, int $currentPage):Pagerfanta
-  {
-
-
-    $query = new PaginatedQuery(
-        $this->pdo,
-        $this->paginationQuery(),
-        "SELECT COUNT(id) FROM {$this->table}",
-        $this->entity
-    );
-    return (new Pagerfanta($query))
-        ->setMaxPerPage($perPage)
-        ->setCurrentPage($currentPage);
-    }
-
-protected function paginationQuery() {
-  return "SELECT * FROM {$this->table}";
-}
 
 
 
@@ -75,19 +51,23 @@ foreach ($results as $result){
 }
 
 /**
+ * @return query
+ */
+protected function makeQuery(): query{
+
+  return (new Query($this->pdo))
+    ->from($this->table, $this->table[0])
+    ->into($this->entity);
+
+}
+
+/**
  * Recupère une liste clef valeur de nos enregistrement
  */
 
-public function findAll():array
+public function findAll()
 {
-  $query = $this->pdo->query("SELECT * FROM {$this->table} ");
-  if($this->entity){
-    $query->setFetchMode(\PDO::FETCH_CLASS, $this->entity);
-  }else {
-    $query->setFetchMode(\PDO::FETCH_OBJ);
-  }
-
-  return $query->fetchAll();
+  return $this->makeQuery();
 }
 
 /**
@@ -96,7 +76,7 @@ public function findAll():array
 
 public function findBY(string $field, string $value)
 {
-  return $this->fetchOrFail("SELECT * FROM {$this->table} Where $field = ?",[$value]);
+  return $this->makeQuery()->where("$field = :field")->params(["field"=>$value])->fetchOrFail();
 
 }
 
@@ -108,7 +88,8 @@ public function findBY(string $field, string $value)
 
   public function find(int $id )
   {
-    return $this->fetchOrFail("SELECT * FROM {$this->table} WHERE id = ?", [$id]);
+    var_dump($id);
+    return $this->makeQuery()->where("id = $id")->fetchOrFail();
 
 
   }
@@ -119,7 +100,7 @@ public function findBY(string $field, string $value)
  */
   public function count(): int
   {
-    return $this->fetchColumn("SELECT COUNT(id) FROM {$this->table}");
+    return $this->makeQuery()->count();
   }
 
 

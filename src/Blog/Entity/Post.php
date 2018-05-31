@@ -29,28 +29,18 @@ class Post
 
   public $dateTime;
 
-  public function __construct()
-    {
-      if ($this->date) {
-        if ($this->time) {
-          $datePlusTime = $this->date ." ". $this->time;
-          $this->dateTime = new \DateTime($datePlusTime);
-        }else{
-          $this->dateTime = new \DateTime($this->date);
-        }
+
+    public function setDate($date){
+      $this->date = $date;
+      $this->dateTime = new \DateTime($date);
+    }
+    public function setTime($time){
+      $this->time = $time;
+      if($this->date){
+        $datePlusTime = $this->date ." ". $this->time;
+        $this->dateTime = new \DateTime($datePlusTime);
       }
+      
     }
-
-    public function setDateTime(){
-
-      if (is_null($this->datetime) && $this->date && $this->time ) {
-
-          $datePlusTime = $this->date ." ". $this->time;
-          $this->dateTime = new \DateTime($datePlusTime);
-
-    }
-
-  }
-
 
 }
