@@ -7,7 +7,7 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Container\ContainerInterface;
 use \DI\ContainerBuilder;
-
+use Framework\Middleware\RoutePrefixeMiddleware;
 use Framework\Router;
 
 class App implements RequestHandlerInterface {
@@ -59,10 +59,13 @@ public function addModule(string $module):self
  * @param  string $middleware
  * @return self
  */
-public function pipe(string $middleware): self
+public function pipe(string $routePrefix, ?string $middleware = null): self
 {
-
-  $this->middlewares[] = $middleware;
+  if ($middleware === null){
+    $this->middlewares[] = $routePrefix;
+  }else{
+  $this->middlewares[] = new RoutePrefixeMiddleware($this->getContainer(), $routePrefix,  $middleware);
+  }
   return $this;
 
 }
@@ -114,7 +117,11 @@ public function run(ServerRequestInterface $request):ResponseInterface{
   {
     if(array_key_exists($this->index, $this->middlewares))
     {
-      $middleware =  $this->container->get($this->middlewares[$this->index]);
+      if (is_string($this->middlewares[$this->index])){
+        $middleware = $this->container->get($this->middlewares[$this->index]);
+      }else{
+        $middleware = $this->middlewares[$this->index];
+      }
       $this->index++;
 
       return $middleware;
@@ -123,6 +130,13 @@ public function run(ServerRequestInterface $request):ResponseInterface{
 
   }
 
+  /**
+   * @return array
+   */
+  public function getModules():array
+  {
+    return $this->modules;
+  }
 
 
 

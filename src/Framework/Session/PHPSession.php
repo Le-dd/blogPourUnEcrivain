@@ -2,6 +2,7 @@
 
 namespace Framework\Session;
 
+use \Framework\Session\SessionInterface;
 
 class PHPSession implements SessionInterface, \ArrayAccess {
 

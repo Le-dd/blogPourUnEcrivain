@@ -54,6 +54,6 @@ class CategoryCrudAction extends CrudAction {
       ->length('name_locality',2,250);
   }
 
-  
+
 
 }

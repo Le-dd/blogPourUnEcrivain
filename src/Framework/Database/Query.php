@@ -72,7 +72,7 @@ class Query implements \IteratorAggregate {
 
 
   public function where(string ...$condition): self {
-    var_dump($condition);
+
       $this->where = array_merge($this->where,$condition);
       return $this;
   }
@@ -89,7 +89,8 @@ class Query implements \IteratorAggregate {
 
   public function params(array $params ): self
   {
-    $this->$params = array_merge($this->params,$params);
+    
+    $this->params = array_merge($this->params,$params);
     return $this;
   }
   public function into($entity){

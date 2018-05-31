@@ -88,7 +88,7 @@ public function findBY(string $field, string $value)
 
   public function find(int $id )
   {
-    var_dump($id);
+  
     return $this->makeQuery()->where("id = $id")->fetchOrFail();
 
 
