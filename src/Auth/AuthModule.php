@@ -5,10 +5,12 @@ namespace App\auth;
 use Framework\Module;
 use Psr\Container\ContainerInterface;
 use Framework\Router;
-use App\Auth\Action\LoginAction;
-use App\Auth\Action\LogoutAction;
+use App\Auth\Controller\{
+  LoginAction,
+  LoginAttemptAction,
+  LogoutAction};
 use Framework\Renderer\RendererInterface;
-use App\Auth\Action\LoginAttemptAction;
+
 
 class AuthModule extends Module {
 

@@ -18,8 +18,8 @@ use Framework\Middleware\{
 require dirname(__DIR__).'/vendor/autoload.php';
 
 $app = (new \Framework\App( dirname(__DIR__).'/config/config.php' ))
-    ->addModule(AdminModule::class)
     ->addModule(BlogModule::class)
+    ->addModule(AdminModule::class)
     ->addModule(AuthModule::class);
 
 $container = $app->getContainer();

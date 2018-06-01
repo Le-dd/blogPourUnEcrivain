@@ -1,10 +1,10 @@
 <?php
 
-use  App\Auth\AuthModule;
-use  App\Auth\DatabaseAuth;
+use App\Auth\AuthModule;
+use App\Auth\ModelAuth\DatabaseAuth;
 use Framework\Auth;
 use Framework\Auth\ForbiddenMiddleware;
-use App\auth\AuthTwigExtension;
+use App\Auth\TwigExtension\AuthTwigExtension;
 
 return [
   'auth.login' => '/login',

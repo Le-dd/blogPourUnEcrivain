@@ -17,7 +17,7 @@ return[
   'database.username'=>'root',
   'database.password'=>'root',
   'database.name'=>'billet_alaska',
-  'views.path' => dirname(__DIR__).'/views',
+  'views.path' => dirname(__DIR__).'/src/Layout',
   'twig.extensions'=>[
     \DI\get(RouterTwigExtension::class),
     \DI\get(PagerFantaExtension::class),
