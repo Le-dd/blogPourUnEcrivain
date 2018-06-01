@@ -20,10 +20,9 @@ class AdminModule extends Module
 
   const DEFINITIONS = __DIR__.'/config.php';
 
-  public function __construct(ContainerInterface $container,RendererInterface $renderer,Router $router, string $prefix, AdminTwigExtension $adminTwigExtension)
+  public function __construct(ContainerInterface $container,RendererInterface $renderer,Router $router,  AdminTwigExtension $adminTwigExtension)
   {
     $renderer->addPath('admin', __DIR__.'/views');
-
     $prefix= $container->get('admin.prefix');
     $router->get($prefix, DashboardAction::class, 'admin');
     $router->crud("$prefix/posts", PostCrudAction::class, 'blog.admin');

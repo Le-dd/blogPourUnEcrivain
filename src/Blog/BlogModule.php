@@ -11,6 +11,9 @@ use App\Blog\Controller\{
   PostShowAction
 };
 use Psr\Container\ContainerInterface;
+use  App\Blog\TwigExtension\BlogTwigExtension;
+use Framework\Renderer\TwigRenderer;
+
 
 class BlogModule extends Module {
 
@@ -18,13 +21,13 @@ class BlogModule extends Module {
 
 
 
-  public function __construct(ContainerInterface $container )
+  public function __construct(ContainerInterface $container, BlogTwigExtension $blogTwigExtension, RendererInterface $renderer )
   {
     $indexPrefix = $container->get('index.prefix');
     $categoryPrefix = $container->get('category.prefix');
     $postPrefix = $container->get('posts.prefix');
 
-    $container->get(RendererInterface::class)->addPath('blog',__DIR__.'/views');
+    $renderer->addPath('blog',__DIR__.'/views');
     $router =  $container->get(Router::class);
 
     $router->get($indexPrefix, IndexAction::class, 'blog.index');
@@ -33,6 +36,10 @@ class BlogModule extends Module {
     $router->get(
       "$postPrefix/{slug:[a-z\-0-9]+}-{id:[0-9]+}",
      PostShowAction::class, 'blog.posts.show');
+
+     if($renderer instanceof TwigRenderer){
+       $renderer->getTwig()->addExtension($blogTwigExtension);
+     }
 
 
 
