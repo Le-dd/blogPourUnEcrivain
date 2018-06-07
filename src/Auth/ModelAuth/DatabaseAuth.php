@@ -60,7 +60,7 @@ class DatabaseAuth implements Auth {
     if($this->user){
       return $this->user;
     }
-    $userId = $this ->session->get('auth.user');
+    $userId = $this->session->get('auth.user');
     if($userId){
       try{
         $this->user = $this->userTable->find($userId);

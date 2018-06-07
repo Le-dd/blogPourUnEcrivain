@@ -23,7 +23,12 @@ class ValidationError {
     'exists'=>'le contenu du champs %s n\'existe pas dans le table %s',
     'unique'=>'le contenu du champs %s existe déja dans le table [%s]',
     'filetype'=>'le champs %s n\'est pas au format valide(%s)',
-    'uploaded'=>'Vous devez uploader un fichier'
+    'uploaded'=>'Vous devez uploader un fichier',
+    'notEqual'=>'les champs ne sont pas egaux',
+    'notHash'=>'une erreur est survenu veuiller recommencer ',
+    'notMail'=>'le champ n\'est pas un mail valide'
+
+
   ];
 
   public function __construct(string $key, string $rule, array $attributes = [])

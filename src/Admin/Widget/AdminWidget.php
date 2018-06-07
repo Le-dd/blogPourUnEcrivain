@@ -34,4 +34,9 @@ class AdminWidget implements AdminWidgetInterface {
       return $this->renderer->render('@admin/widget/menu');
   }
 
+  public function renderMenuAdmin(): string
+  {
+      return $this->renderer->render('@admin/widget/menuAdmin');
+  }
+
 }

@@ -12,14 +12,14 @@ class User implements userInt{
 
   public $email;
 
-  public $permission_id;
+  public $permissionId;
 
   public function getUsername(): string{
     return $this->login;
   }
 
-  public function getRoles():array{
+  public function getRoles(){
 
-    return $this->permission_id;
+    return $this->permissionId;
   }
 }

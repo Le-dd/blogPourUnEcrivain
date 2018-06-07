@@ -1,0 +1,16 @@
+{% extends '/Blog/layout.twig' %}
+{% block title "Editer l'article" %}
+
+
+{% block body %}
+
+<h1> Editer l'article {{ item.title }}</h1>
+<form class="" action="{{path( routePrefix ~ '.edit', {id: item.id}) }}" method="post" enctype="multipart/form-data">
+      {{ csrf_input() }}
+      {{ field('login', null, 'Nom d\'utilisateur') }}
+      {{ field('password', null, 'Mot de passe') }}
+      {{ field('verif password', null, 'Retaper le Mot de passe') }}
+  <button class="btn btn-primary" type="submit"> S'inscrire au blog </button>
+</form>
+
+{% endblock %}

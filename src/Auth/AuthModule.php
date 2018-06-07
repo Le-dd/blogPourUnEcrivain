@@ -8,7 +8,10 @@ use Framework\Router;
 use App\Auth\Controller\{
   LoginAction,
   LoginAttemptAction,
-  LogoutAction};
+  LogoutAction,
+  LoginCrudAction,
+  LoginCreateAction
+};
 use Framework\Renderer\RendererInterface;
 
 
@@ -22,10 +25,26 @@ class AuthModule extends Module {
     $renderer->addPath('auth', __DIR__.'/views');
     $authPrefix = $container->get('auth.login');
     $logoutPrefix= $container->get('auth.logout');
+
     $router = $container->get(Router::class);
     $router->get($authPrefix, LoginAction::class, 'auth.login');
     $router->post($authPrefix, LoginAttemptAction::class);
     $router->post($logoutPrefix, LogoutAction::class, 'auth.logout');
+
+
+    $router->get("$authPrefix/blog/new", LoginCreateAction::class, "auth.crud.create");
+    $router->post("$authPrefix/blog/new", LoginCreateAction::class);
+    $router->get("$authPrefix/valide/valideCreate", LoginCreateAction::class, "auth.crud.validcre");
+
+    $router->get("$authPrefix/blog/edit", LoginEditePassAction::class, "auth.crud.editepass");
+    $router->post("$authPrefix/blog/edit", LoginEditePassAction::class);
+    $router->get("$authPrefix/valide/validEpass", LoginEditePassAction::class, "auth.crud.validEpass");
+    $router->post("$authPrefix/valide/validEpass", LoginEditePassAction::class);
+
+    $router->get("$authPrefix/{id:\d+}", LoginCrudAction::class, "auth.crud.edit");
+    $router->post("$authPrefix/{id:\d+}", LoginCrudAction::class);
+    $router->delete("$authPrefix/{id:\d+}", LoginCrudAction::class, "auth.crud.delete");
+
   }
 
 

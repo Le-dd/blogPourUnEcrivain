@@ -11,7 +11,6 @@ use Framework\Session\FlashService;
 use Framework\Response\RedirectResponse;
 use Framework\Session\SessionInterface;
 
-
 class LoginAttemptAction {
 
 
@@ -23,6 +22,7 @@ class LoginAttemptAction {
    * @var DatabaseAuth
    */
   private $auth;
+
   /**
    * @var SessionInterface
    */
@@ -34,7 +34,7 @@ class LoginAttemptAction {
 
   use RouterAwareAction;
 
-  public function __construct(RendererInterface $renderer, DatabaseAuth $auth, Router $router, SessionInterface $session)
+  public function __construct(RendererInterface $renderer, DatabaseAuth $auth, Router $router, SessionInterface $session )
   {
     $this->renderer = $renderer;
     $this->auth = $auth;
@@ -45,9 +45,22 @@ class LoginAttemptAction {
   {
     $params = $request->getParsedBody();
     $user = $this->auth->login($params['login'],$params['password']);
-    if($user) {
+    $permission = $this->session->get('auth.permit');
 
-      $path = $this->session->get('auth.redirect') ?: $this->router->generateUri('admin');
+    if($user) {
+      if($permission === '777') {
+        $path = $this->session->get('auth.redirect') ?: $this->router->generateUri('admin');
+        $this->session->delete('auth.redirect');
+        return new RedirectResponse($path);
+      }
+      if($permission === '117') {
+        $path = $this->router->generateUri('admin.login');
+        $this->session->delete('auth.redirect');
+        return new RedirectResponse($path);
+      }
+
+
+      $path = $this->router->generateUri('auth.login');
       $this->session->delete('auth.redirect');
       return new RedirectResponse($path);
 

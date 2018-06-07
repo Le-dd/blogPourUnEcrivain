@@ -12,6 +12,7 @@ use \Framework\Twig\CsrfExtension;
 use \Framework\Session\PHPSession;
 use \Framework\Session\SessionInterface;
 use \Framework\Middleware\CsrfMiddleware;
+
 return[
   'database.host'=>'localhost',
   'database.username'=>'root',

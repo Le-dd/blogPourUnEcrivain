@@ -5,6 +5,7 @@ use App\Auth\ModelAuth\DatabaseAuth;
 use Framework\Auth;
 use Framework\Auth\ForbiddenMiddleware;
 use App\Auth\TwigExtension\AuthTwigExtension;
+use App\Model\PermissionTable;
 
 return [
   'auth.login' => '/login',

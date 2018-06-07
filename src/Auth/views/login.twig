@@ -10,5 +10,6 @@
     {{ field('password', null, 'Mot de passe') }}
     <button class="btn btn-primary"> Se connecter </button>
   </form>
+   <a class="nav-link" href="{{ path('auth.crud.create') }}">S'inscrire au blog</a>
 
 {% endblock %}

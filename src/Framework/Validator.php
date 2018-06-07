@@ -176,6 +176,57 @@ public function exists(string $key, string $table, \PDO $pdo)
     return $this;
 }
 
+/**
+ * Vérifie si les deux string sont égale
+ * @param  string $key
+ * @param  string $keyCheck
+ * @return Validator
+ */
+
+public function isEqual(string $key, string $keyCheck)
+{
+  $value = $this->getValue($key);
+  if($value !== $keyCheck){
+    $this->addError($key,'notEqual');
+  }
+  return $this;
+}
+
+/**
+ * Vérifie si le hash est valide
+ * @param  string $key
+ * @param  string $keyCheck
+ * @return Validator
+ */
+
+public function ishash(string $key, string $hashCheck)
+{
+  $value = $this->getValue($key);
+
+  if(!password_verify($value, $hashCheck)){
+    $this->addError($key,'notHash');
+  }
+  return $this;
+}
+
+/**
+ * Vérifie si le mail est valide
+ * @param  string $key
+ * @param  string $keyCheck
+ * @return Validator
+ */
+
+public function mail(string $key)
+{
+  $value = $this->getValue($key);
+  if(!filter_var($value, FILTER_VALIDATE_EMAIL)){
+    $this->addError($key,'notMail');
+  }
+  return $this;
+}
+
+
+
 
 /**
  * Vérifie que la clef est unique dans la base de donnée
@@ -186,19 +237,19 @@ public function exists(string $key, string $table, \PDO $pdo)
  * @return Validator
  */
 
-public function unique(string $key, string $table, \PDO $pdo,int $exclude = null): self
+public function unique(string $key,string $champ='*', string $table, \PDO $pdo,int $exclude = null): self
 {
   $value = $this->getValue($key);
-  $query= "SELECT id FROM $table  WHERE $key = ? ";
+  $query= "SELECT $champ FROM $table  WHERE $key = ? ";
   $params = [$value];
 
   if($exclude !== null){
-    $query .="AND id != ?";
+    $query .="AND $key != ?";
     $params[] = $exclude;
   }
 
   $statement = $pdo->prepare($query);
-  $statement->execute([$params]);
+  $statement->execute($params);
 
     if ($statement->fetchColumn() !== false) {
       $this->addError($key,'unique',[$value]);
