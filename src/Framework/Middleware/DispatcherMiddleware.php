@@ -29,6 +29,7 @@ class DispatcherMiddleware {
         if (is_string($callback)){
           $callback = $this->container->get($callback);
         }
+      
         $response = call_user_func_array($callback, [$request]);
         if (is_string($response)) {
           return new Response(200, [], $response);
@@ -37,6 +38,7 @@ class DispatcherMiddleware {
           return $response;
 
         }else{
+
           throw new \Exception('the response is not a string or an instance of ResponseInterface ');
         }
     }

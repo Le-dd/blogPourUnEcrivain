@@ -59,12 +59,15 @@ class LoginEditePassAction{
    */
   private $verifHash ;
 
+
+
+
   /**
    * @var array
    */
   protected $messages = [
     'validMail' => "Un mail vous a été envoyer pour validé votre création de compte ",
-    'create' => "Votre compte utilisateur a bien été crée vous pouvez vous connecter maintenant",
+    'edit' => "Votre mot de passe a bien été modifier vous pouvez vous connecter maintenant",
     'errorCookie' => "le cookie a disparu merci de vous réenregistrer",
     'errorValid' => "Un élément est invalide merci de vous réenregistrer "
   ];
@@ -91,11 +94,11 @@ class LoginEditePassAction{
     $this->renderer->addGlobal('viewPath',$this->viewPath);
     $this->renderer->addGlobal('routePrefix',$this->routePrefix);
 
-    if(substr((string)$request->getUri(),-3) === 'new'){
-      return $this->create($request);
+    if(substr((string)$request->getUri(),-4) === 'edit'){
+      return $this->edit($request);
     }
-    if(substr((string)$request->getUri(),-12) === 'valideCreate'){
-      return $this->valideCreate($request);
+    if(substr((string)$request->getUri(),-10) === 'validEpass'){
+      return $this->validEpass($request);
     }
 
 
@@ -110,29 +113,26 @@ class LoginEditePassAction{
    * @param  Request $request
    * @return ResponseInterface|string
    */
-  public function create(Request $request){
+  public function edit(Request $request){
 
 
     if ($request->getMethod() === 'POST') {
 
-      $params = $this->getParams($request);
-      $params = $this->getNewParams($params);
-      $validator =$this->getValidators($request);
+      $params = $this->getParamsMail($request);
+      $validator =$this->getValidatorsMail($request);
       if($validator->isValid()){
-        $params['password'] = password_hash($params['password'], PASSWORD_DEFAULT);
-        $verifHash = password_hash($params['password'], PASSWORD_DEFAULT);
-        setcookie("verifHash", $verifHash, time() + (1*24*60*60), '/', null, false, true);
-        setcookie("params", json_encode($params), time() + (1*24*60*60), '/', null, false, true);
+        $params=$this->table->findBy('email', $params['email']);
+        setcookie("params", json_encode($params), time() + (24*60*60), '/', null, false, true);
 
         (new SendMail($this->renderer))
-          ->receiver($params['email'])
+          ->receiver($params->email)
           ->header('Billet-simple-pour-alaska','serveur@bspalaska.com')
-          ->subject('Validation d\'inscription au blog')
-          ->message($this->viewPath .'/mail/validCreateUser')
+          ->subject('Mot de passe oublie billet simple pour l\'alaska')
+          ->message($this->viewPath .'/mail/validEditePass')
           ->send();
 
         $this->flash->success($this->messages['validMail']);
-        return $this->renderer->render($this->viewPath .'/blog/create');
+        return $this->renderer->render($this->viewPath .'/blog/editPass');
       }
       $errors = $validator->getErrors();
 
@@ -140,7 +140,7 @@ class LoginEditePassAction{
     }
 
     return $this->renderer->render(
-      $this->viewPath .'/blog/create',
+      $this->viewPath .'/blog/editPass',
       $this->formParams(compact('errors'))
      );
 
@@ -151,103 +151,123 @@ class LoginEditePassAction{
    * @param  Request $request
    * @return ResponseInterface|string
    */
-  public function valideCreate(Request $request){
+  public function validEpass(Request $request){
 
 
-      if(isset($_COOKIE['verifHash'])){
-        $this->verifHash = $_COOKIE['verifHash'];
-      setcookie("verifHash", "", time() - ((1*24*60*60)+1), '/', null, false, true);
-      }
 
-      if(isset($_COOKIE['params'])){
-
-        $params = json_decode($_COOKIE['params'],true);
-        setcookie("params", "", time() - ((1*24*60*60)+1), '/', null, false, true);
-        $validator =$this->getCookieValidators($params);
+    if ($request->getMethod() === 'POST')
+    {
+      if(isset($_COOKIE['params'] ) || !empty($this->valCookie))
+      {
+        $params =$this->transformParams(json_decode($_COOKIE['params'],true));
+        $newpassword = $this->getParams($request);
+        $validpassword = $this->getPassValidators($newpassword);
+        if($validpassword ->isValid())
+        {
+          $params['password'] = password_hash($newpassword['password'], PASSWORD_DEFAULT);
+          $validator =$this->getCookieValidators($params);
           if($validator->isValid()){
-            $this->table->insert($params);
-            $this->flash->success($this->messages['create']);
+            setcookie("params", "", time() - ((24*60*60)+1), '/', null, false, true);
+            $this->table->update($params['id'], $params);
+            $this->flash->success($this->messages['edit']);
             return $this->renderer->render(
-              $this->viewPath .'/valide/valideCreate'
+              $this->viewPath .'/valide/validEpass'
              );
           }else{
             $errors = json_encode($validator->getErrors());
             $this->flash->error($this->messages['errorValid']. $errors );
             return $this->renderer->render(
-              $this->viewPath .'/valide/valideCreate'
+              $this->viewPath .'/valide/validEpass'
              );
           }
-        }else{
-          $this->flash->error($this->messages['errorCookie']);
         }
-
-
-
+        $errors = $validpassword ->getErrors();
+      }else{
+        $this->flash->error($this->messages['errorCookie']);
+      }
+    }
     return $this->renderer->render(
-      $this->viewPath .'/valide/valideCreate'
+      $this->viewPath .'/valide/validEpass',
+      $this->formParams(compact('errors'))
      );
-
   }
 
 
 
-    protected function getParams (Request $request){
+    private function getParams (Request $request){
       $params = array_merge($request->getParsedBody());
       if(!empty($params['verifpassword'])){
       $this->verifPassword = $params['verifpassword'];
     }
+
       return array_filter($params, function ($key) {
-        return in_array($key, ['login', 'password', 'email' ]);
+        return in_array($key, [ 'password' ]);
       }, ARRAY_FILTER_USE_KEY);
     }
 
+    private function getParamsMail (Request $request){
+      $params = array_merge($request->getParsedBody());
+      return array_filter($params, function ($key) {
+        return in_array($key, ['email' ]);
+      }, ARRAY_FILTER_USE_KEY);
+    }
+
+    private function transformParams(array $params){
+      $arrayParams=[];
+      foreach ($params as $key => $value) {
+        if($key === "permissionId"){
+          $key = 'permission_id';
+        }
+        if($key === "createDate"){
+          $key = 'create_date';
+        }
+        if($key === "lastAuth"){
+          $key = 'last_auth';
+        }
+        $arrayParams[$key]= $value;
+      }
+
+      return $arrayParams;
+    }
 
 
-  private function getNewParams($params){
-
-    return array_merge($params,[
-      'permission_id'=> '2',
-      'create_date' => date("Y-m-d"),
-      'last_auth'=> date("Y-m-d")
-    ]);
-}
-
-
-  protected function formParams(array $params): array
+  private function formParams(array $params): array
   {
 
     return $params;
 
   }
 
-  protected function getCookieValidators(array $params){
+  private function getCookieValidators(array $params){
 
     return (new Validator($params))
-      ->required('login', 'password', 'email','permission_id','create_date','last_auth' )
+      ->required('id','login', 'password', 'email','permission_id','create_date','last_auth' )
       ->length('login',4)
       ->length('email',2,50)
       ->length('permission_id',1,20)
-      ->ishash('password',$this->verifHash)
       ->mail('email')
       ->date('create_date')
       ->date('last_auth')
-      ->unique('email','email', $this->table->getTable(),$this->table->getPdo())
-      ->unique('login','login', $this->table->getTable(),$this->table->getPdo());
+      ->exists('email','email', $this->table->getTable(),$this->table->getPdo())
+      ->exists('login','login', $this->table->getTable(),$this->table->getPdo());
 
 
   }
 
-  protected function getValidators(Request $request){
+  private function getPassValidators(array $params){
+
+    return (new Validator($params))
+      ->required( 'password' )
+      ->isEqual('password',$this->verifPassword);
+
+  }
+
+  private function getValidatorsMail(Request $request){
 
     return (new Validator(array_merge($request->getParsedBody())))
-      ->required('login', 'password', 'email' )
-      ->length('login',4)
-      ->length('password',7)
-      ->length('email',2,50)
-      ->isEqual('password',$this->verifPassword)
+      ->required('email' )
       ->mail('email')
-      ->unique('email','email', $this->table->getTable(),$this->table->getPdo())
-      ->unique('login','login', $this->table->getTable(),$this->table->getPdo());
+      ->exists('email','email', $this->table->getTable(),$this->table->getPdo());
 
 
   }

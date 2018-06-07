@@ -10,7 +10,8 @@ use App\Auth\Controller\{
   LoginAttemptAction,
   LogoutAction,
   LoginCrudAction,
-  LoginCreateAction
+  LoginCreateAction,
+  LoginEditePassAction
 };
 use Framework\Renderer\RendererInterface;
 
@@ -38,12 +39,10 @@ class AuthModule extends Module {
 
     $router->get("$authPrefix/blog/edit", LoginEditePassAction::class, "auth.crud.editepass");
     $router->post("$authPrefix/blog/edit", LoginEditePassAction::class);
-    $router->get("$authPrefix/valide/validEpass", LoginEditePassAction::class, "auth.crud.validEpass");
+    $router->get("$authPrefix/valide/validEpass", LoginEditePassAction::class, "auth.crud.validpass");
     $router->post("$authPrefix/valide/validEpass", LoginEditePassAction::class);
 
-    $router->get("$authPrefix/{id:\d+}", LoginCrudAction::class, "auth.crud.edit");
-    $router->post("$authPrefix/{id:\d+}", LoginCrudAction::class);
-    $router->delete("$authPrefix/{id:\d+}", LoginCrudAction::class, "auth.crud.delete");
+
 
   }
 

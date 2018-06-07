@@ -1,16 +1,17 @@
 {% extends '/Blog/layout.twig' %}
-{% block title "Editer l'article" %}
+{% block title "Mots de passe oublié" %}
 
 
 {% block body %}
 
-<h1> Editer l'article {{ item.title }}</h1>
-<form class="" action="{{path( routePrefix ~ '.edit', {id: item.id}) }}" method="post" enctype="multipart/form-data">
-      {{ csrf_input() }}
-      {{ field('login', null, 'Nom d\'utilisateur') }}
-      {{ field('password', null, 'Mot de passe') }}
-      {{ field('verif password', null, 'Retaper le Mot de passe') }}
-  <button class="btn btn-primary" type="submit"> S'inscrire au blog </button>
+<h1> Nouveau mots de passe</h1>
+<form class="" action="{{path( routePrefix ~ '.validpass') }}" method="post" enctype="multipart/form-data">
+  {{ csrf_input() }}
+  {{ field('password', null, 'Mot de passe') }}
+  {{ field('verifpassword', null, 'Retaper le Mot de passe') }}
+
+<button class="btn btn-primary" type="submit"> Changer son mot de passe </button>
 </form>
+
 
 {% endblock %}

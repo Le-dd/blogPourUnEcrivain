@@ -1,14 +1,14 @@
 {% extends '/Blog/layout.twig' %}
-{% block title "Editer l'article" %}
+{% block title "Mots de passe oublié" %}
 
 
 {% block body %}
 
-<h1> Editer l'article {{ item.title }}</h1>
-<form class="" action="{{path( routePrefix ~ '.edit', {id: item.id}) }}" method="post" enctype="multipart/form-data">
+<h1> Mots de passe oublié</h1>
+<form class="" action="{{path(routePrefix ~ '.editepass') }}" method="post" enctype="multipart/form-data">
       {{ csrf_input() }}
       {{ field('email', null, 'Adresse email') }}
-  <button class="btn btn-primary" type="submit"> S'inscrire au blog </button>
+  <button class="btn btn-primary" type="submit"> Envoyer l'email</button>
 </form>
 
 {% endblock %}

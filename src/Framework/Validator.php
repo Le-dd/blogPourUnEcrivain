@@ -163,10 +163,10 @@ $value = $this->getValue($key);
  * @return Validator
  */
 
-public function exists(string $key, string $table, \PDO $pdo)
+public function exists(string $key,string $champ, string $table, \PDO $pdo)
 {
   $value = $this->getValue($key);
-  $statement = $pdo->prepare("SELECT id FROM $table  WHERE id = ? ");
+  $statement = $pdo->prepare("SELECT $champ FROM $table  WHERE $champ = ? ");
   $statement->execute([$value]);
 
     if ($statement->fetchColumn() === false) {

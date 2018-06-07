@@ -127,7 +127,7 @@ class LoginCreateAction{
         (new SendMail($this->renderer))
           ->receiver($params['email'])
           ->header('Billet-simple-pour-alaska','serveur@bspalaska.com')
-          ->subject('Validation d\'inscription au blog')
+          ->subject('Validation d\'inscription a billet simple pour l\'alaska')
           ->message($this->viewPath .'/mail/validCreateUser')
           ->send();
 
@@ -172,7 +172,7 @@ class LoginCreateAction{
              );
           }else{
             $errors = json_encode($validator->getErrors());
-            $this->flash->error($this->messages['errorValid']. $errors );
+            $this->flash->error($this->messages['errorValid']);
             return $this->renderer->render(
               $this->viewPath .'/valide/valideCreate'
              );

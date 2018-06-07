@@ -1,5 +1,5 @@
 {% extends '/Blog/layout.twig' %}
-{% block title "billet pour alaska : blog" %}
+{% block title "billet pour alaska : login" %}
 
 
 {% block body %}
@@ -11,5 +11,6 @@
     <button class="btn btn-primary"> Se connecter </button>
   </form>
    <a class="nav-link" href="{{ path('auth.crud.create') }}">S'inscrire au blog</a>
+   <a class="nav-link" href="{{ path('auth.crud.editepass') }}">Mot de passe oublié</a>
 
 {% endblock %}
