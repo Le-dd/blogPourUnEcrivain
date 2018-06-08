@@ -28,6 +28,12 @@ class AdminModule extends Module
     $prefix= $container->get('admin.prefix');
 
     $router->get("$prefix/loginAdmin", AdminLoginAction::class, 'admin.login');
+    $router->post("$prefix/loginAdmin/editMail", AdminLoginAction::class,'admin.login.editMail');
+    $router->get("$prefix/loginAdmin/validMail", AdminLoginAction::class, 'admin.login.validMail');
+    $router->post("$prefix/loginAdmin/editPass", AdminLoginAction::class,'admin.login.editPass');
+    $router->post("$prefix/loginAdmin/editLog", AdminLoginAction::class,'admin.login.editLog');
+
+  
     if($session->get('auth.permit') === '777' ){
     $router->get($prefix, DashboardAction::class, 'admin');
     $router->crud("$prefix/posts", PostCrudAction::class, 'blog.admin');

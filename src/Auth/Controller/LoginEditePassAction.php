@@ -157,7 +157,7 @@ class LoginEditePassAction{
 
     if ($request->getMethod() === 'POST')
     {
-      if(isset($_COOKIE['params'] ) || !empty($this->valCookie))
+      if(isset($_COOKIE['params'] ) )
       {
         $params =$this->transformParams(json_decode($_COOKIE['params'],true));
         $newpassword = $this->getParams($request);

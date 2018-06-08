@@ -19,15 +19,22 @@ class RouterTwigExtension extends \twig_Extension{
   {
     return[
       new \Twig_SimpleFunction('path', [$this,'pathFor']),
-      new \Twig_SimpleFunction('is_subpath', [$this,'isSubPath'])
+      new \Twig_SimpleFunction('is_subpath', [$this,'isSubPath']),
+      new \Twig_SimpleFunction('host_serveur', [$this,'hostServeur'])
     ];
   }
 
   public function pathFor(string $path, array $params = []): string
   {
-  
+
       return $this->router->generateUri($path,$params);
   }
+  public function hostServeur(): string
+  {
+
+      return "http://".$_SERVER['HTTP_HOST'];
+  }
+
 
   public function isSubPath(string $path): bool
   {

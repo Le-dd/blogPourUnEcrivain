@@ -183,7 +183,7 @@ public function exists(string $key,string $champ, string $table, \PDO $pdo)
  * @return Validator
  */
 
-public function isEqual(string $key, string $keyCheck)
+public function isEqual(string $key, ?string $keyCheck)
 {
   $value = $this->getValue($key);
   if($value !== $keyCheck){
@@ -199,7 +199,7 @@ public function isEqual(string $key, string $keyCheck)
  * @return Validator
  */
 
-public function ishash(string $key, string $hashCheck)
+public function ishash(string $key, ?string $hashCheck)
 {
   $value = $this->getValue($key);
 
