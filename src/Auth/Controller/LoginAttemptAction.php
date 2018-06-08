@@ -48,12 +48,20 @@ class LoginAttemptAction {
     $permission = $this->session->get('auth.permit');
 
     if($user) {
+
       if($permission === '777') {
-        $path = $this->session->get('auth.redirect') ?: $this->router->generateUri('admin');
+        $params = $this->transformParams((array)$user);
+        $params['last_auth' ] = date("Y-m-d");
+        $this->auth->getTable()->update($params['id'], $params);
+
+        $path = $this->session->get('auth.redirect') ?: '/admin';
         $this->session->delete('auth.redirect');
         return new RedirectResponse($path);
       }
       if($permission === '117') {
+        $params = $this->transformParams((array)$user);
+        $params['last_auth' ] = date("Y-m-d");
+        $this->auth->getTable()->update($params['id'], $params);
         $path = $this->router->generateUri('admin.login');
         $this->session->delete('auth.redirect');
         return new RedirectResponse($path);
@@ -70,6 +78,23 @@ class LoginAttemptAction {
       return $this->redirect('auth.login');
     }
 
+  }
+  private function transformParams(array $params){
+    $arrayParams=[];
+    foreach ($params as $key => $value) {
+      if($key === "permissionId"){
+        $key = 'permission_id';
+      }
+      if($key === "createDate"){
+        $key = 'create_date';
+      }
+      if($key === "lastAuth"){
+        $key = 'last_auth';
+      }
+      $arrayParams[$key]= $value;
+    }
+
+    return $arrayParams;
   }
 
 }

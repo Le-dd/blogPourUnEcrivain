@@ -33,7 +33,7 @@ class AdminModule extends Module
     $router->post("$prefix/loginAdmin/editPass", AdminLoginAction::class,'admin.login.editPass');
     $router->post("$prefix/loginAdmin/editLog", AdminLoginAction::class,'admin.login.editLog');
 
-  
+    
     if($session->get('auth.permit') === '777' ){
     $router->get($prefix, DashboardAction::class, 'admin');
     $router->crud("$prefix/posts", PostCrudAction::class, 'blog.admin');

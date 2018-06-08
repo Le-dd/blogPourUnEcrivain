@@ -8,8 +8,8 @@
 <form class="" action="{{path( routePrefix ~ '.create') }}" method="post" enctype="multipart/form-data">
   {{ csrf_input() }}
   {{ field('login', null, 'Nom d\'utilisateur') }}
-  {{ field('password', null, 'Mot de passe') }}
-  {{ field('verifpassword', null, 'Retaper le Mot de passe') }}
+  {{ field('password', null, 'Mot de passe', {type:'password'}) }}
+  {{ field('verifpassword', null, 'Retaper le Mot de passe', {type:'password'}) }}
   {{ field('email', null, 'Adresse email') }}
 <button class="btn btn-primary" type="submit"> S'inscrire au blog </button>
 </form>

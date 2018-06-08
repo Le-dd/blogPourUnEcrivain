@@ -5,6 +5,7 @@ use Framework\Auth;
 use Framework\Auth\User;
 use Framework\Session\SessionInterface;
 use App\Model\UserTable;
+use App\Model\PermissionTable;
 
 
 class DatabaseAuth implements Auth {
@@ -21,10 +22,11 @@ class DatabaseAuth implements Auth {
    */
   private $user;
 
-  public function __construct(UserTable $userTable, SessionInterface $session)
+  public function __construct(UserTable $userTable, SessionInterface $session,PermissionTable $permissionTable)
   {
     $this->session = $session;
     $this->userTable = $userTable;
+    $this->permissionTable = $permissionTable;
   }
 
 
@@ -39,7 +41,11 @@ class DatabaseAuth implements Auth {
 
     if ($user && password_verify($password, $user->password)) {
 
+
       $this->session->set('auth.user', $user->id);
+      $permission = $this->permissionTable->findBY('id',$user->getRoles());
+      $this->session->set('auth.permit', $permission->getPermit());
+
       return $user;
 
     }
@@ -51,6 +57,7 @@ class DatabaseAuth implements Auth {
   public function logout(): void
   {
       $this->session->delete('auth.user');
+      $this->session->delete('auth.permit');
 
   }
 
@@ -72,5 +79,14 @@ class DatabaseAuth implements Auth {
     }
 
     return null;
+  }
+
+
+
+  public function getTable(){
+
+
+      return $this->userTable;
+
   }
 }

@@ -7,8 +7,8 @@
 <h1> Nouveau mots de passe</h1>
 <form class="" action="{{path( routePrefix ~ '.validpass') }}" method="post" enctype="multipart/form-data">
   {{ csrf_input() }}
-  {{ field('password', null, 'Mot de passe') }}
-  {{ field('verifpassword', null, 'Retaper le Mot de passe') }}
+  {{ field('password', null, 'Mot de passe', {type:'password'}) }}
+  {{ field('verifpassword', null, 'Retaper le Mot de passe', {type:'password'}) }}
 
 <button class="btn btn-primary" type="submit"> Changer son mot de passe </button>
 </form>

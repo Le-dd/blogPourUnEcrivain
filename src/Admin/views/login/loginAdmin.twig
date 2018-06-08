@@ -18,11 +18,11 @@
 <form class="" action="{{path( routePrefix ~ '.editPass') }}" method="post" enctype="multipart/form-data">
   {{ csrf_input() }}
 
-  {{ field('password', null, 'Nouveau mot de passe') }}
-  {{ field('verifpassword', null, 'Retaper le Mot de passe') }}
+  {{ field('password', null, 'Nouveau mot de passe', {type:'password'}) }}
+  {{ field('verifpassword', null, 'Retaper le Mot de passe', {type:'password'}) }}
 
   {{ field('login', null, 'Nom d\'utilisateur') }}
-  {{ field('ancienPassword', null, 'Ancien mot de passe') }}
+  {{ field('ancienPassword', null, 'Ancien mot de passe', {type:'password'}) }}
 <button class="btn btn-primary" type="submit"> Changer son mot de passe </button>
 </form>
 
@@ -33,7 +33,7 @@
   {{ field('veriflogin', null, 'Retaper le nom d\'utilisateur') }}
 
   {{ field('ancienLogin', null, 'Ancien nom d\'utilisateur') }}
-  {{ field('passwordLog', null, 'Mot de passe') }}
+  {{ field('passwordLog', null, 'Mot de passe', {type:'password'}) }}
 <button class="btn btn-primary" type="submit"> Changer son nom d'utilisateur </button>
 </form>
 
