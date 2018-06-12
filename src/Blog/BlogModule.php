@@ -38,6 +38,7 @@ class BlogModule extends Module {
       "$postPrefix/{slug:[a-z\-0-9]+}-{id:[0-9]+}",
      PostShowAction::class, 'blog.posts.show');
     $router->post("$postPrefix/comPost", CommentsAction::class, 'blog.com.comPost');
+    $router->post("$postPrefix/signal", CommentsAction::class, 'blog.com.signale');
 
      if($renderer instanceof TwigRenderer){
        $renderer->getTwig()->addExtension($blogTwigExtension);

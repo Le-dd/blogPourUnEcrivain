@@ -8,12 +8,29 @@
   {% for comment in comments %}
   <div class="commentraw">
   <div class="alert alert-light">
-    <div class="alert alert-secondary">
-      <p class="text-muted">{{ comment.createdate | agos }}</p>
+    <div style ="overflow:hidden" class="alert alert-secondary">
+      <p style ="float:left" class="text-muted">{{ comment.createdate | agos }}</p>
+      <div style ="float:right ; overflow:hidden">
+        {% if idUser %}
+        {{ count_sign(comment.id)}}
 
-      
+          {% if user_sign(comment.id, idUser) %}
+            <form style ="float:left" action="{{ path('blog.com.signale') }}" method="post" enctype="multipart/form-data">
+              {{ csrf_input() }}
+              <input class="d-none" type="hidden " name="user_id" value="{{ idUser }}">
+              <input class="d-none" type="hidden " name="comment_id" value="{{ comment.id }}">
+              <input class="d-none" type="hidden " name="post_id" value="{{ idPost }}">
+              <input class="d-none" type="hidden " name="slugPost" value="{{ slugPost }}">
+            <button class="btn btn-danger btn-sm" type="submit"> Signaler</button>
+            </form>
+          {% endif %}
+        {% endif %}
+
+      </div>
+
+
     </div>
-    <div >
+    <div>
       <p class ="comment" >
         {{ comment.text | nl2br }}
       </p>

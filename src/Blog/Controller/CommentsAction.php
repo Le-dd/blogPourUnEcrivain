@@ -14,6 +14,7 @@ use \Framework\Session\FlashService;
 use Framework\Database\QueryHydrator;
 use Framework\Actions\RouterAwareAction;
 use \Framework\Email\SendMail;
+use App\Model\ReportTable;
 
 
 
@@ -65,12 +66,19 @@ class CommentsAction{
   private $slugPost;
 
 
+  /**
+   * @var ReportTable
+   */
+  private $reportTable;
+
+
 
   /**
    * @var array
    */
   protected $messages = [
     'create' => "Votre commentaire a bien été pris en compte",
+    'signal' => "Votre signalement a bien été pris en compte",
   ];
 
 
@@ -81,11 +89,13 @@ class CommentsAction{
     RendererInterface $renderer,
     Router $router,
     CommentaryTable $table,
-    FlashService $flash
+    FlashService $flash,
+    ReportTable $reportTable
 
      ){
     $this->renderer = $renderer;
     $this->table = $table;
+    $this->reportTable = $reportTable;
     $this->router = $router;
     $this->flash = $flash;
 
@@ -102,7 +112,9 @@ class CommentsAction{
     if(substr((string)$request->getUri(),-7) === 'comPost'){
       return $this->comPost($request);
     }
-
+    if(substr((string)$request->getUri(),-6) === 'signal'){
+      return $this->signCom($request);
+    }
 
     return $this->redirect('blog.posts.show',[
           'slug'=> $this->slugPost,
@@ -148,7 +160,46 @@ class CommentsAction{
 
       }
 
+      public function signCom(Request $request){
 
+            if ($request->getMethod() === 'POST') {
+
+              $params = $this->getParamsSign($request);
+              $validator = $this->getValidatorSign($params);
+
+              if($validator->isValid()){
+
+                $this->reportTable->insert($params);
+                $this->flash->success($this->messages['signal']);
+                return $this->redirect('blog.posts.show',[
+                    'slug'=> $this->slugPost,
+                    'id' => $this->idPost
+                  ]);
+              }
+
+              $errors = $validator->getErrors();
+
+            }
+            $paramsPath =[
+                'slug'=> $this->slugPost,
+                'id' => $this->idPost,
+              ];
+            $paramsPath = array_merge($paramsPath, compact('errors'));
+
+
+            return $this->redirect('blog.posts.show',$paramsPath);
+
+          }
+
+
+
+
+        private function getParamsSign (Request $request){
+          $params = array_merge($request->getParsedBody());
+            return array_filter($params, function ($key) {
+              return in_array($key, ['comment_id','user_id']);
+            }, ARRAY_FILTER_USE_KEY);
+          }
 
       private function getParams (Request $request){
         $params = array_merge($request->getParsedBody());
@@ -166,7 +217,12 @@ class CommentsAction{
         return (new Validator($params))
           ->required('text', 'createdate', 'post_id', 'user_id')
           ->length('text',5);
+        }
 
+      private function getValidatorSign(array $params){
+
+        return (new Validator($params))
+          ->required('comment_id','user_id');
 
       }
 

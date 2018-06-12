@@ -24,10 +24,10 @@
           <ul class="navbar-nav mr-auto">
             {{ blog_menu() }}
           </ul>
-         <div class="nav-item ">
+         <div style="overflow:hidden" class="nav-item ">
            {% if current_user() %}
-             <div class="navbar-test">Connecté en tant que {{ current_user().username }}  </div>
-             <form class="nav-item" method="post" action="{{ path('auth.logout') }}">
+             <div style="float:left; color:#fff; padding-right: 20px;" class="navbar-test">Connecté en tant que {{ current_user().username }}  </div>
+             <form style="float:left" class="nav-item" method="post" action="{{ path('auth.logout') }}">
                {{ csrf_input() }}
                <button class=" btn btn-primary">Se déconnecter</button></a>
              </form>
