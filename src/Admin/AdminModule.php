@@ -12,7 +12,8 @@ use App\Admin\Controller\{
   DashboardAction,
   PostCrudAction,
   CategoryCrudAction,
-  AdminLoginAction
+  AdminLoginAction,
+  CommentsCrudAction
 };
 
 

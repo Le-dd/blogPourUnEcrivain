@@ -4,10 +4,13 @@
 
 {% block body %}
 
-<h1> Editer l'article {{ item.title }}</h1>
-<form class="" action="{{path( routePrefix ~ '.edit', {id: item.id}) }}" method="post" enctype="multipart/form-data">
+<h1> Voire les signalements {{ item.title }}</h1>
+{{ csrf_input() }}
   {% include viewPath ~ '/form.twig'%}
-  <button class="btn btn-primary" type="submit"> Editer</button>
-</form>
+  <form style ="display:inline" action="{{path( routePrefix ~ '.delete', {id: item.id}) }}" method="POST" onsubmit="return confirm('êtes vous sûr ?')">
+    <input type="hidden" name="_method" value="DELETE">
+    <button class="btn btn-danger"> Supprimer</button>
+
+  </form>
 
 {% endblock %}

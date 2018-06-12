@@ -33,6 +33,10 @@ class CommentsCrudAction extends CrudAction {
    */
   private $reportTable;
 
+  /**
+   * @var RendererInterface
+   */
+  private $renderer;
 
   public function __construct(
     RendererInterface $renderer,
@@ -44,20 +48,53 @@ class CommentsCrudAction extends CrudAction {
      ){
        parent::__construct( $renderer,$router,$table,$flash);
        $this->reportTable = $reportTable;
+       $this->renderer = $renderer;
 
   }
+  /**
+   * Supprime un élément
+   * @param  Request $request
+   * @return ResponseInterface|string
+   */
+    public function delete(Request $request){
+
+      $this->table->delete($request->getAttribute('id'));
+      $this->table->deleteBy($request->getAttribute('id'),'commentary','comment_id');
+      $this->reportTable->deleteBy($request->getAttribute('id'),'report','comment_id');
+      return $this->redirect($this->routePrefix .'.index');
+    }
+
+
+    /**
+     * Edite un  élément
+     * @param  Request $request
+     * @return ResponseInterface|string
+     */
+      public function edit(Request $request)
+      {
+        $item = $this->table->find($request->getAttribute('id'));
+        $params['commentId'] = $item->id;
+        $users= $this->reportTable->findUserSign($params)->paginate(6, $params['p'] ?? 1);
+
+        return $this->renderer->render(
+          $this->viewPath .'/edit',
+          $this->formParams(compact('item','errors','users'))
+        );
+      }
+
+
 
 
   protected function formParams(array $params): array
   {
-    $params['locations'] = $this->categoryTable->findList();
+    //$params['locations'] = $this->categoryTable->findList();
     return $params;
 
   }
 
   protected function getParams (Request $request){
     return array_filter($request->getParsedBody(), function ($key) {
-      return in_array($key, ['latitude','longitude','name_locality']);
+      return in_array($key, ['id','comment_id','text', 'createdate', 'post_id', 'user_id']);
     }, ARRAY_FILTER_USE_KEY);
   }
 
@@ -65,9 +102,8 @@ class CommentsCrudAction extends CrudAction {
   protected function getValidators(Request $request){
 
     return parent::getValidators($request)
-      ->required('latitude','longitude','name_locality')
-      ->length('name_locality',2,250);
-  }
+      ->required('id','comment_id','text', 'createdate', 'post_id', 'user_id');
+        }
 
 
 

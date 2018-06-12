@@ -36,10 +36,12 @@
       </p>
     </div>
   </div>
+  {% if idUser %}
   {% if comment.commentId is null %}
 
     <button class="btnTog btn btn-secondary" data-id="{{ comment.id }}" type="submit"> Répondre</button>
 
+  {% endif %}
   {% endif %}
   </div>
   {% if comment.commentId is null %}

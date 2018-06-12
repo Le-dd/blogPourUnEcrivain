@@ -88,7 +88,7 @@ public function findBY(string $field, string $value)
 
   public function find(int $id )
   {
-  
+
     return $this->makeQuery()->where("id = $id")->fetchOrFail();
 
 
@@ -121,6 +121,7 @@ public function findBY(string $field, string $value)
 
   }
 
+
   /**
    * Ajoute un enregistrement au niveau de la base de donnée
    * @param  array $fields
@@ -145,6 +146,18 @@ public function findBY(string $field, string $value)
   public function delete(int $id): bool
   {
     $query = $this->pdo->prepare("DELETE FROM {$this->table}  WHERE id = ? ");
+    return $query->execute([$id]);
+
+  }
+
+  /**
+   * Supprime un enregistrement au niveau de la base de donnée
+   * @param  int   id
+   * @return bool
+   */
+  public function deleteBy (int $id, string $table, string $champ ): bool
+  {
+    $query = $this->pdo->prepare("DELETE FROM {$this->table}  WHERE $champ = ? ");
     return $query->execute([$id]);
 
   }

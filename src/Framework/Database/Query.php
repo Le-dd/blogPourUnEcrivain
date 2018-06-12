@@ -19,6 +19,8 @@ class Query implements \IteratorAggregate {
 
     private $joins = [];
 
+    private $joins2 = [];
+
     private $limit;
 
     private $params = [];
@@ -70,6 +72,12 @@ class Query implements \IteratorAggregate {
     return $this;
   }
 
+  public function join2(string $table, string $condition, string $type = "left" ): self
+  {
+    $this->joins2[$type][] = [$table, $condition];
+    return $this;
+  }
+
 
   public function where(string ...$condition): self {
 
@@ -89,7 +97,7 @@ class Query implements \IteratorAggregate {
 
   public function params(array $params ): self
   {
-    
+
     $this->params = array_merge($this->params,$params);
     return $this;
   }
@@ -147,6 +155,8 @@ public function paginate(int $perPage, int $currentPage = 1): Pagerfanta
 }
 
 
+
+
   public function __toString() {
 
     $parts = ['SELECT'];
@@ -163,6 +173,18 @@ public function paginate(int $perPage, int $currentPage = 1): Pagerfanta
 
     if (!empty($this->joins)){
         foreach($this->joins as $type => $join)
+        {
+          foreach($join as [$table, $condition])
+          {
+              $parts[] = strtoupper($type) . " JOIN $table ON $condition";
+
+          }
+
+        }
+    }
+
+    if (!empty($this->joins2)){
+        foreach($this->joins2 as $type => $join)
         {
           foreach($join as [$table, $condition])
           {

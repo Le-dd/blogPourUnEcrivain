@@ -1,8 +1,22 @@
-{{ csrf_input() }}
-{{ field('title', item.title, "Titre de l'article") }}
-{{ field('slug', item.slug, "Lien de l'article") }}
-{{ field('main', item.main, "Contenu de l'article", {type:'textarea'})}}
-{{ field('date', item.date, "Date de l'article", {class:'datepicker'}) }}
-{{ field('time', item.time, "Heure de l'article", {class:'timepicker'}) }}
-{{ field('location_id', item.locationId, "Catégorie de loclisation", {options: locations}) }}
-{{ field('visible', item.visible, "En ligne ?", {type:'checkbox'})}}
+<p>{{ item.text| nl2br}}</p>
+<p>{{ item.createdate| agos}}</p>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <td>Pseudo</td>
+      <td>Adresse</td>
+
+    </tr>
+    <tbody>
+
+      {% for user in users %}
+      <tr>
+        <td>{{ user.login }}</td>
+        <td>{{ user.email }}</td>
+
+      </tr>
+      {% endfor %}
+    </tbody>
+  </thead>
+</table>
+{{ paginate(users, routePrefix ~ '.edit') }}

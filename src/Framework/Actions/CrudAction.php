@@ -98,6 +98,7 @@ class CrudAction{
   public function index(Request $request)
   {
     $params = $request->getQueryParams();
+      
     $items = $this->table->findAll()->paginate(6, $params['p'] ?? 1);
 
     return $this->renderer->render(
@@ -161,7 +162,7 @@ class CrudAction{
       }
       QueryHydrator::hydrate ($request->getParsedBody(), $item);
       $errors = $validator->getErrors();
-      
+
 
     }
 

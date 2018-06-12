@@ -36,6 +36,15 @@ public function findAllReport(array $params){
     ->params($params);
 
 }
+public function findUserSign(array $params){
+
+  return $this->makeQuery()
+    ->select('u.email,u.login')
+    ->where('r.comment_id = :commentId')
+    ->join('user as u','u.id = r.user_id','right')
+    ->params($params);
+
+}
 
 
 }
