@@ -1,0 +1,35 @@
+
+
+<div class="container">
+<div class="{% if idCom is null %}toggedisplay tog{{idComSave}} {% endif %}" >
+    {{ create_com( idPost,slugPost,idComSave) }}
+</div>
+
+  {% for comment in comments %}
+  <div class="commentraw">
+  <div class="alert alert-light">
+    <div class="alert alert-secondary">
+      <p class="text-muted">{{ comment.createdate | agos }}</p>
+
+      
+    </div>
+    <div >
+      <p class ="comment" >
+        {{ comment.text | nl2br }}
+      </p>
+    </div>
+  </div>
+  {% if comment.commentId is null %}
+
+    <button class="btnTog btn btn-secondary" data-id="{{ comment.id }}" type="submit"> Répondre</button>
+
+  {% endif %}
+  </div>
+  {% if comment.commentId is null %}
+
+    {{ affiche_com(comment.postId,slugPost,comment.id) }}
+
+  {% endif %}
+
+  {% endfor %}
+</div>

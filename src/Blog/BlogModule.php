@@ -8,7 +8,8 @@ use App\Blog\Controller\{
   IndexAction,
   CategoryAction,
   PostIndexAction,
-  PostShowAction
+  PostShowAction,
+  CommentsAction
 };
 use Psr\Container\ContainerInterface;
 use  App\Blog\TwigExtension\BlogTwigExtension;
@@ -36,6 +37,7 @@ class BlogModule extends Module {
     $router->get(
       "$postPrefix/{slug:[a-z\-0-9]+}-{id:[0-9]+}",
      PostShowAction::class, 'blog.posts.show');
+    $router->post("$postPrefix/comPost", CommentsAction::class, 'blog.com.comPost');
 
      if($renderer instanceof TwigRenderer){
        $renderer->getTwig()->addExtension($blogTwigExtension);

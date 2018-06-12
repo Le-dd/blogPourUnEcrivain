@@ -81,6 +81,9 @@ class FormExtension extends \Twig_Extension {
 
   }
 
+  
+
+
   private Function password( ?string $value, array $attributes): string{
 
     return "<input type=\"password\" ". $this->getHtmlFromArray($attributes) ." value=\"{$value}\">";

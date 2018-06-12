@@ -1,0 +1,10 @@
+
+<form action="{{path('blog.com.comPost')}}" method="post" enctype="multipart/form-data">
+  {{ csrf_input() }}
+  <input class="d-none" type="hidden " name="user_id" value="{{ idUser }}">
+  <input class="d-none" type="hidden " name="comment_id" value="{{ idComSave }}">
+  <input class="d-none" type="hidden " name="post_id" value="{{ idPost }}">
+  <input class="d-none" type="hidden " name="slugPost" value="{{ slugPost }}">
+  {{ field('text', null, "Contenu du commentaire", {type:'textarea'})}}
+<button class="btn btn-dark" type="submit"> Commenter</button>
+</form>

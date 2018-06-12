@@ -9,4 +9,9 @@
 
 {{post.main | nl2br}}
 
+
+<h2> Commentaire </h2>
+{{ create_com(post.id,post.slug) }}
+{{ affiche_com(post.id,post.slug) }}
+
 {% endblock %}
