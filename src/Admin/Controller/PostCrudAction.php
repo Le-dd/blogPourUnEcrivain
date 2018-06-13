@@ -12,7 +12,7 @@ use Framework\Actions\CrudAction;
 use App\Model\PostTable;
 use App\Model\CategoryTable;
 use Framework\Session\FlashService;
-use App\Upload\PostUpload;
+use App\Admin\Upload\PostUpload;
 
 
 

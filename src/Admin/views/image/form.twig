@@ -1,0 +1,7 @@
+
+
+<img src="{{ item.image }}" alt="{{ item.alt }}" width="100%">
+{{ csrf_input() }}
+{{ field('url', item.url, "image", {type:'file'})}}
+{{ field('title', item.title, "Nom de l'image") }}
+{{ field('alt', item.alt, "description", {type:'textarea'})}}

@@ -1,6 +1,8 @@
 <?php
 namespace Framework;
 
+use Psr\Http\Message\UploadedFileInterface;
+
 class Upload {
 
   protected $path;
@@ -15,7 +17,7 @@ class Upload {
     }
   }
 
-  public function uploaded(UploadedFileInterface $file, ?string $oldFiled = null ): ?string
+  public function upload(UploadedFileInterface $file, ?string $oldFile = null ): ?string
   {
     if($file->getError() === UPLOAD_ERR_OK){
     $this->delete($oldFile);
@@ -32,7 +34,7 @@ class Upload {
     return null;
   }
 
-  private function addCopySuffix(string $targetPath):string
+  private function addSuffix(string $targetPath):string
   {
       if(file_exists($targetPath))
       {
@@ -78,6 +80,8 @@ class Upload {
 
     }
   }
+
+
 
 
 }

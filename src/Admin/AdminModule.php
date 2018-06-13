@@ -13,7 +13,8 @@ use App\Admin\Controller\{
   PostCrudAction,
   CategoryCrudAction,
   AdminLoginAction,
-  CommentsCrudAction
+  CommentsCrudAction,
+  ImageCrudAction
 };
 
 
@@ -40,6 +41,7 @@ class AdminModule extends Module
       $router->crud("$prefix/posts", PostCrudAction::class, 'blog.admin');
       $router->crud("$prefix/categories", CategoryCrudAction::class, 'blog.category.admin');
       $router->crud("$prefix/comments", CommentsCrudAction::class, 'blog.com.admin');
+      $router->crud("$prefix/images", ImageCrudAction::class, 'blog.img.admin');
     }
    if($renderer instanceof TwigRenderer){
       $renderer->getTwig()->addExtension($adminTwigExtension);

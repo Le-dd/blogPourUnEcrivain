@@ -33,7 +33,7 @@ class CrudAction{
   /**
    * @var FlashService
    */
-  private $flash;
+  protected $flash;
 
   /**
    * @var string
@@ -98,7 +98,7 @@ class CrudAction{
   public function index(Request $request)
   {
     $params = $request->getQueryParams();
-      
+
     $items = $this->table->findAll()->paginate(6, $params['p'] ?? 1);
 
     return $this->renderer->render(
@@ -124,7 +124,7 @@ class CrudAction{
       $validator =$this->getValidators($request);
       if($validator->isValid()){
 
-        $this->table->update($item->id, $this->getParams($request));
+        $this->table->update($item->id, $this->getParams($request,$item));
         $this->flash->success($this->messages['edit']);
         return $this->redirect($this->routePrefix .'.index');
 
@@ -160,6 +160,7 @@ class CrudAction{
         $this->flash->success($this->messages['create']);
         return $this->redirect($this->routePrefix .'.index');
       }
+      var_dump($request->getParsedBody(), $item);die;
       QueryHydrator::hydrate ($request->getParsedBody(), $item);
       $errors = $validator->getErrors();
 
@@ -185,7 +186,7 @@ class CrudAction{
     }
 
 
-  protected function getParams (Request $request){
+  protected function getParams (Request $request,$item){
     return array_filter($request->getParsedBody(), function ($key) {
       return in_array($key, []);
     }, ARRAY_FILTER_USE_KEY);

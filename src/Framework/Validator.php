@@ -267,7 +267,8 @@ public function unique(string $key,string $champ='*', string $table, \PDO $pdo,i
 public function uploaded(string $key): self
 {
   $file = $this->getValue($key);
-  if($file === null || $file->getError() !== UPLOADER_ERR_OK){
+  
+  if($file === null || $file->getError() !== UPLOAD_ERR_OK){
     $this->addError($key, 'uploaded');
   }
   return $this;
@@ -278,10 +279,10 @@ public function uploaded(string $key): self
   * @param  string $key
   * @param  array  $extension
  */
-public function extension(string $key,array $extension){
+public function extension(string $key,array $extensions){
 
   $file = $this->getValue($key);
-  if($file !== null && $file->getError() === UPLOADER_ERR_OK){
+  if($file !== null && $file->getError() === UPLOAD_ERR_OK){
     $type =$file->getClientMediaType();
     $extension = mb_strtolower(pathinfo($file->getClientFilename(), PATHINFO_EXTENSION));
     $expectedType = self::MIME_TYPES[$extension] ?? null;
@@ -298,6 +299,7 @@ public function extension(string $key,array $extension){
 
 public function isValid():bool
 {
+
   return empty($this->errors);
 }
 
