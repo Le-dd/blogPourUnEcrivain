@@ -22,7 +22,7 @@
       {% set token_input = csrf_input() %}
       {% for item in items %}
       <tr>
-        <td><img src="{{ item.image }}" alt="{{ item.alt }}" width="50px"></td> 
+        <td><img src="{{ imageType(item.url,"Vignette") }}" alt="{{ item.alt }}" width="50px"></td> 
         <td>{{ item.title }}</td>
         <td>{{ item.url }}</td>
         <td>

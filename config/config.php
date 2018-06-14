@@ -9,6 +9,7 @@ use \Framework\Twig\TimeExtension;
 use \Framework\Twig\FlashExtension;
 use \Framework\Twig\FormExtension;
 use \Framework\Twig\CsrfExtension;
+use \Framework\Twig\ImageExtension;
 use \Framework\Session\PHPSession;
 use \Framework\Session\SessionInterface;
 use \Framework\Middleware\CsrfMiddleware;
@@ -26,7 +27,9 @@ return[
     \DI\get(TimeExtension::class),
     \DI\get(FlashExtension::class),
     \DI\get(FormExtension::class),
-    \DI\get(CsrfExtension::class)
+    \DI\get(CsrfExtension::class),
+    \DI\get(ImageExtension::class)
+
 
   ],
   SessionInterface::class => DI\autowire(PHPSession::class),

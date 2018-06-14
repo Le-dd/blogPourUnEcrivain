@@ -13,7 +13,7 @@ class Image {
   public $url;
 
   public function getImage(){
-    return '/images/images/'. $this->url;
+    return '/images/'. $this->url;
   }
 
 

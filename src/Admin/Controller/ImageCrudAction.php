@@ -76,8 +76,8 @@ class ImageCrudAction extends CrudAction {
       $validator = $this->getValidators($request);
 
       if($validator->isValid()){
-
-        $this->table->insert($this->getParams($request),null);
+      
+        $this->table->insert($this->getParams($request));
         $this->flash->success($this->messages['create']);
         return $this->redirect($this->routePrefix .'.index');
       }
@@ -96,6 +96,19 @@ class ImageCrudAction extends CrudAction {
 
   }
 
+  /**
+   * Supprime un élément
+   * @param  Request $request
+   * @return ResponseInterface|string
+   */
+    public function delete(Request $request){
+
+      $image = $this->table->find($request->getAttribute('id'));
+      $this->postUpload->delete($image->url);
+      return parent::delete($request);
+    }
+
+
 
 
   protected function formParams(array $params): array
@@ -106,7 +119,7 @@ class ImageCrudAction extends CrudAction {
   }
 
 
-  protected function getParams (Request $request,$item){
+  protected function getParams (Request $request,$item = null){
     $params = array_merge($request->getParsedBody(),$request->getUploadedFiles());
     if(!is_null($item)){$item = $item->url;}
     $params['url'] = $this->postUpload->upload($params['url'],$item);

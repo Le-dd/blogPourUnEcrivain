@@ -5,10 +5,11 @@ use Framework\Upload;
 
 class PostUpload extends Upload {
 
-  protected $path = 'images/images';
+  protected $path = 'images';
 
-  protected $format = [
-    'thumb'=> [320, 180]
+  protected $formats = [
+    'Vignette'=> [50, 50],
+    'Miniature'=> [320, 180]
   ];
 
 

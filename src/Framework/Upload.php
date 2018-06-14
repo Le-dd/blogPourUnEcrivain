@@ -2,6 +2,7 @@
 namespace Framework;
 
 use Psr\Http\Message\UploadedFileInterface;
+use Intervention\Image\ImageManager;
 
 class Upload {
 
@@ -73,7 +74,7 @@ class Upload {
   {
     foreach($this->formats as $format => $size) {
 
-      $manager = new ImageManger(['driver' => 'gd']);
+      $manager = new ImageManager(['driver' => 'gd']);
       $destination = $this->getPathWithSuffix($targetPath, $format);
       [$width , $height] = $size;
       $manager->make($targetPath)->fit($width, $height)->save($destination);
