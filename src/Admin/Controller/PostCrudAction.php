@@ -139,8 +139,12 @@ class PostCrudAction extends CrudAction {
 
   protected function formParams(array $params): array
   {
-
-    $image = $this->takeImage($params['item']->id);
+    if(isset($params['item']->id)){
+      $idpost = $params['item']->id;
+    }else{
+      $idpost = null;
+    }
+    $image = $this->takeImage($idpost);
     $params['locations'] = $this->categoryTable->findList();
     $params['itemSave'] = json_encode($params);
     $params['image'] = $image;
@@ -180,6 +184,8 @@ class PostCrudAction extends CrudAction {
 }
 
 private function takeImage($id){
+
+  if(!is_null($id)){
   $params['postId']= $id;
   $existe = $this->imagePostTable->findAllBy($params)->count();
   if($existe !== 0){
@@ -187,7 +193,7 @@ private function takeImage($id){
     return $this->imageTable->find($idImage->imageId);
   }
 
-
+  }
   $result['url']='default.jpg';
   $result['alt']='image par default';
   return $result;
