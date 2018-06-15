@@ -1,6 +1,7 @@
 
-
-<img src="{{ item.image }}" alt="{{ item.alt }}" width="100%">
+{% if item.url %}
+<img src="{{ imageType(item.url) }}" alt="{{ item.alt }}" width="100%">
+{% endif %}
 {{ csrf_input() }}
 {{ field('url', item.url, "image", {type:'file'})}}
 {{ field('title', item.title, "Nom de l'image") }}

@@ -27,7 +27,11 @@ class TextExtension extends \Twig_Extension {
     if(is_null($content)) {
       return '';
     }
+
+    $content = strip_tags($content);
+
     if (mb_strlen($content) > $maxLength ){
+
       $excerpt = mb_substr($content, 0, $maxLength);
       $lastSpace = mb_strrpos($excerpt, ' ');
       return $excerpt = mb_substr($content, 0, $lastSpace) . '...';

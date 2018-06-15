@@ -12,9 +12,7 @@ class Image {
 
   public $url;
 
-  public function getImage(){
-    return '/images/'. $this->url;
-  }
+  
 
 
 

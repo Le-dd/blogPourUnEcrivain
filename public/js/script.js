@@ -18,7 +18,7 @@
   })
 
   var btnTog = document.querySelectorAll(".btnTog");
-  
+
 
   for (var i = 0; i < btnTog.length; i++) {
         btnTog[i].addEventListener('click', function(event) {
@@ -28,3 +28,4 @@
             event.preventDefault();
           });
   }
+tinymce.init({ selector:'textarea' });

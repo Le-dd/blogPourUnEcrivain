@@ -42,6 +42,8 @@ class AdminModule extends Module
       $router->crud("$prefix/categories", CategoryCrudAction::class, 'blog.category.admin');
       $router->crud("$prefix/comments", CommentsCrudAction::class, 'blog.com.admin');
       $router->crud("$prefix/images", ImageCrudAction::class, 'blog.img.admin');
+      $router->post("$prefix/postImages", ImageCrudAction::class, 'blog.img.admin.image');
+      $router->post("$prefix/posts/images", PostCrudAction::class, 'blog.admin.image');
     }
    if($renderer instanceof TwigRenderer){
       $renderer->getTwig()->addExtension($adminTwigExtension);

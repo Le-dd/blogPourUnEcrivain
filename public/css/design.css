@@ -22,3 +22,7 @@ body {
 .toggedisplay{
   display : none;
 }
+
+.mce-notification-warning {
+  display : none;
+}

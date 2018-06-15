@@ -7,7 +7,18 @@
 <h1> Editer l'article {{ item.title }}</h1>
 <form class="" action="{{path( routePrefix ~ '.edit', {id: item.id}) }}" method="post" enctype="multipart/form-data">
   {% include viewPath ~ '/form.twig'%}
+
   <button class="btn btn-primary" type="submit"> Editer</button>
 </form>
+
+<h1> Editer l'image {{ image.title }}</h1>
+<img src="{{ imageType(image.url,'Miniature') }}" alt="{{ image.alt }}" >
+<form class="" action="{{path( 'blog.img.admin.image') }}" method="post" enctype="multipart/form-data">
+  {{ csrf_input() }}
+  <input class="d-none" type="hidden " name="itemSave" value="{{ itemSave }}">
+  <input class="d-none" type="hidden " name="idPost" value="{{ item.id }}">
+  <button class="btn btn-dark" type="submit"> Editer</button>
+</form>
+
 
 {% endblock %}

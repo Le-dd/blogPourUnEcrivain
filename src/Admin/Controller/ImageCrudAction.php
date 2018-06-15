@@ -14,6 +14,7 @@ use App\Model\CategoryTable;
 use Framework\Session\FlashService;
 use App\Admin\Upload\PostUpload;
 use Framework\Database\QueryHydrator;
+use Framework\Session\SessionInterface;
 
 
 
@@ -44,6 +45,11 @@ class ImageCrudAction extends CrudAction {
    */
   private $renderer;
 
+  /**
+   * @var SessionInterface
+   */
+  private $session;
+
 
   public function __construct(
     RendererInterface $renderer,
@@ -51,16 +57,74 @@ class ImageCrudAction extends CrudAction {
     ImageTable $table,
     FlashService $flash,
     CategoryTable $categoryTable,
-    PostUpload $postUpload
+    PostUpload $postUpload,
+    SessionInterface $session
 
      ){
        parent::__construct( $renderer,$router,$table,$flash);
        $this->renderer = $renderer;
        $this->categoryTable = $categoryTable;
        $this->postUpload = $postUpload;
+       $this->session = $session;
 
   }
 
+  public function __invoke(Request $request)
+ {
+   $this->renderer->addGlobal('viewPath',$this->viewPath);
+   $this->renderer->addGlobal('routePrefix',$this->routePrefix);
+   if($request->getMethod() === 'DELETE'){
+     return $this->delete($request);
+
+   }
+   if(substr((string)$request->getUri(),-10) === 'postImages'){
+     return $this->indexImage($request);
+   }
+   if(substr((string)$request->getUri(),-3) === 'new'){
+     return $this->create($request);
+   }
+   if($request->getAttribute('id')){
+     return $this->edit($request);
+
+   }
+
+   return $this->index($request);
+
+ }
+ /**
+  * Affiche la liste des éléments
+  * @param  Request $request
+  * @return string
+  */
+   public function index(Request $request)
+   {
+     $params = $request->getQueryParams();
+
+     $items = $this->table->findAll()->paginate(6, $params['p'] ?? 1);
+
+     return $this->renderer->render(
+       $this->viewPath .'/index',
+       $this->formParams(compact('items','errors'))
+    );
+   }
+
+ /**
+ * Affiche la liste des éléments
+ * @param  Request $request
+ * @return string
+ */
+ public function indexImage(Request $request)
+ {
+   $params = $request->getQueryParams();
+   $post= $request->getParsedBody();
+   $this->session->set('postInfo',$post);
+   $items = $this->table->findAll()->paginate(6, $params['p'] ?? 1);
+
+   return $this->renderer->render(
+     $this->viewPath .'/index',
+     compact('items','errors','post')
+  );
+ }
 
   /**
    * Crée un nouvel élément
@@ -76,7 +140,7 @@ class ImageCrudAction extends CrudAction {
       $validator = $this->getValidators($request);
 
       if($validator->isValid()){
-      
+
         $this->table->insert($this->getParams($request));
         $this->flash->success($this->messages['create']);
         return $this->redirect($this->routePrefix .'.index');
@@ -113,7 +177,10 @@ class ImageCrudAction extends CrudAction {
 
   protected function formParams(array $params): array
   {
-    //$params['locations'] = $this->categoryTable->findList();
+    $post = $this->session->get('postInfo');
+    if($post){
+      $params['post'] = $post;
+    }
     return $params;
 
   }
