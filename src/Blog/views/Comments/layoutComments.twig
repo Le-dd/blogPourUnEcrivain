@@ -32,7 +32,7 @@
     </div>
     <div>
       <p class ="comment" >
-        {{ comment.text | nl2br }}
+        {{ comment.text | raw | nl2br }}
       </p>
     </div>
   </div>

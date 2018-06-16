@@ -224,7 +224,7 @@ class PostCrudAction extends CrudAction {
   protected function getParams (Request $request,$item){
     $params = array_merge($request->getParsedBody(),$request->getUploadedFiles());
 
-    if($params['image_id']){ $this->createImage = $params['image_id'];}
+    if(!empty($params['image_id'])){ $this->createImage = $params['image_id'];}
     return array_filter($params, function ($key) {
       return in_array($key, ['title','slug','main','date','time','location_id','visible']);
     }, ARRAY_FILTER_USE_KEY);
