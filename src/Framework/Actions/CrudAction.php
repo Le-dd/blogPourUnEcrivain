@@ -134,6 +134,7 @@ class CrudAction{
       $params['id'] = $item->id;
       $item = $params;
     }
+
     return $this->renderer->render(
       $this->viewPath .'/edit',
       $this->formParams(compact('item','errors'))
@@ -151,7 +152,7 @@ class CrudAction{
     $item = $this->getNewEntity();
     if ($request->getMethod() === 'POST') {
 
-      $params = $this->getParams($request);
+      $params = $this->getParams($request,$item);
       $params = $this->getNewParams($params);
       $validator =$this->getValidators($request);
       if($validator->isValid()){
@@ -166,6 +167,7 @@ class CrudAction{
 
 
     }
+
 
     return $this->renderer->render(
       $this->viewPath .'/create',

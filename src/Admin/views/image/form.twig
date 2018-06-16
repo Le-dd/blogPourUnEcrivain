@@ -1,6 +1,6 @@
 
 {% if item.url %}
-<img src="{{ imageType(item.url) }}" alt="{{ item.alt }}" width="100%">
+<img src="{{ imageType(item.url) }}" alt="{{ item.alt | striptags }}" width="100%">
 {% endif %}
 {{ csrf_input() }}
 {{ field('url', item.url, "image", {type:'file'})}}

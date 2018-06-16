@@ -3,10 +3,25 @@
 
 
 {% block body %}
+<h1> choisir l'image {{ image.title }}</h1>
+<img src="{{ imageType(image.url,'Miniature') }}" alt="{{ image.alt }}" >
+<form class="" action="{{path( 'blog.img.admin.image') }}" method="post" enctype="multipart/form-data">
+  {{ csrf_input() }}
+  <input class="d-none itemSave" type="hidden " name="itemSave" value="gggg">
+  <button class="recupValue btn btn-dark" type="submit"> Ajouter</button>
+</form>
 
 <h1> Ajouter un article</h1>
 <form class="" action="{{path( routePrefix ~ '.create') }}" method="post" enctype="multipart/form-data">
-  {% include viewPath ~ '/form.twig'%}
+{{ csrf_input() }}
+{{ field('title', item.title, "Titre de l'article",{class:'champValue'}) }}
+{{ field('slug', item.slug, "Lien de l'article",{class:'champValue'}) }}
+{{ field('main', item.main, "Contenu de l'article", {type:'textarea', class:'champValue'})}}
+{{ field('date', item.date, "Date de l'article", {class:'datepicker champValue'}) }}
+{{ field('time', item.time, "Heure de l'article", {class:'timepicker champValue'}) }}
+{{ field('location_id', item.locationId, "Catégorie de loclisation", {options: locations, class:'champValue'}) }}
+{{ field('visible', item.visible, "En ligne ?", {type:'checkbox', class:'champValue'})}}
+<input class="d-none" type="hidden " name="image_id" value="{{ image.id }}">
   <button class="btn btn-primary" type="submit"> Ajouter</button>
 </form>
 

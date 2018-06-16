@@ -1,5 +1,5 @@
 
 {{ admin_menu_admin() }}
-<li class="nav-item active">
+<li class="nav-item {{ is_subpath('admin.login') ? 'active'}} ">
   <a class="nav-link" href="{{ path('admin.login') }}">Information personnel</a>
 </li>

@@ -119,7 +119,6 @@ class ImageCrudAction extends CrudAction {
    $post= $request->getParsedBody();
    $this->session->set('postInfo',$post);
    $items = $this->table->findAll()->paginate(6, $params['p'] ?? 1);
-
    return $this->renderer->render(
      $this->viewPath .'/index',
      compact('items','errors','post')
@@ -177,10 +176,12 @@ class ImageCrudAction extends CrudAction {
 
   protected function formParams(array $params): array
   {
+
     $post = $this->session->get('postInfo');
     if($post){
       $params['post'] = $post;
     }
+
     return $params;
 
   }
@@ -189,7 +190,14 @@ class ImageCrudAction extends CrudAction {
   protected function getParams (Request $request,$item = null){
     $params = array_merge($request->getParsedBody(),$request->getUploadedFiles());
     if(!is_null($item)){$item = $item->url;}
+    var_dump($item);
+    var_dump($params);
+
     $params['url'] = $this->postUpload->upload($params['url'],$item);
+  if(is_null($params['url'])){
+    $params['url'] = $item;
+  }
+
     return array_filter($params, function ($key) {
       return in_array($key, ['title','alt','url']);
     }, ARRAY_FILTER_USE_KEY);

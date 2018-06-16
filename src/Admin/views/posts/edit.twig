@@ -6,8 +6,14 @@
 
 <h1> Editer l'article {{ item.title }}</h1>
 <form class="" action="{{path( routePrefix ~ '.edit', {id: item.id}) }}" method="post" enctype="multipart/form-data">
-  {% include viewPath ~ '/form.twig'%}
-
+  {{ csrf_input() }}
+  {{ field('title', item.title, "Titre de l'article") }}
+  {{ field('slug', item.slug, "Lien de l'article") }}
+  {{ field('main', item.main, "Contenu de l'article", {type:'textarea'})}}
+  {{ field('date', item.date, "Date de l'article", {class:'datepicker'}) }}
+  {{ field('time', item.time, "Heure de l'article", {class:'timepicker'}) }}
+  {{ field('location_id', item.locationId, "Catégorie de loclisation", {options: locations}) }}
+  {{ field('visible', item.visible, "En ligne ?", {type:'checkbox'})}}
   <button class="btn btn-primary" type="submit"> Editer</button>
 </form>
 

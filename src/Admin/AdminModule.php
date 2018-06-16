@@ -39,11 +39,14 @@ class AdminModule extends Module
     if($session->get('auth.permit') === '777' ){
       $router->get($prefix, DashboardAction::class, 'admin');
       $router->crud("$prefix/posts", PostCrudAction::class, 'blog.admin');
+      $router->post("$prefix/posts/images", PostCrudAction::class, 'blog.admin.image');
+      $router->post("$prefix/posts/imagCreate", PostCrudAction::class, 'blog.admin.imagCreate');
       $router->crud("$prefix/categories", CategoryCrudAction::class, 'blog.category.admin');
       $router->crud("$prefix/comments", CommentsCrudAction::class, 'blog.com.admin');
       $router->crud("$prefix/images", ImageCrudAction::class, 'blog.img.admin');
       $router->post("$prefix/postImages", ImageCrudAction::class, 'blog.img.admin.image');
-      $router->post("$prefix/posts/images", PostCrudAction::class, 'blog.admin.image');
+    
+
     }
    if($renderer instanceof TwigRenderer){
       $renderer->getTwig()->addExtension($adminTwigExtension);

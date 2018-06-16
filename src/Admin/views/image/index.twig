@@ -22,7 +22,7 @@
       {% set token_input = csrf_input() %}
       {% for item in items %}
       <tr>
-        <td><img src="{{ imageType(item.url,"Vignette") }}" alt="{{ item.alt }}" width="50px"></td>
+        <td><img src="{{ imageType(item.url,"Vignette") }}" alt="{{ item.alt | striptags }}" width="50px"></td>
         <td>{{ item.title }}</td>
         <td>{{ item.url }}</td>
         <td>
@@ -33,9 +33,11 @@
              {{ token_input | raw }}
            </form>
            {% if post.itemSave %}
-             <form style ="display:inline" action="{{path('blog.admin.image') }}" method="POST" >
+             <form style ="display:inline" action="{% if post.idPost  %}{{path('blog.admin.image') }}{% else %}{{path('blog.admin.imagCreate') }}{% endif %}" method="POST" >
                <input class="d-none" type="hidden " name="itemSave" value="{{ post.itemSave }}">
+               {% if post.idPost  %}
                <input class="d-none" type="hidden " name="idPost" value="{{ post.idPost }}">
+                {% endif %}
                <input class="d-none" type="hidden " name="idImg" value="{{ item.id }}">
                <button class="btn btn-dark"> choisir cette image</button>
                {{ token_input | raw }}

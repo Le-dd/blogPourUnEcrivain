@@ -62,6 +62,11 @@ class PostCrudAction extends CrudAction {
    */
   private $renderer;
 
+  /**
+   * @var string
+   */
+  private $createImage;
+
   public function __construct(
     RendererInterface $renderer,
     Router $router,
@@ -94,6 +99,11 @@ class PostCrudAction extends CrudAction {
    if(substr((string)$request->getUri(),-6) === 'images'){
      return $this->postImage($request);
    }
+
+   if(substr((string)$request->getUri(),-10) === 'imagCreate'){
+     return $this->imagCreate($request);
+   }
+
    if(substr((string)$request->getUri(),-3) === 'new'){
      return $this->create($request);
    }
@@ -105,6 +115,7 @@ class PostCrudAction extends CrudAction {
    return $this->index($request);
 
  }
+
 
  public function postImage(Request $request)
  {
@@ -137,6 +148,62 @@ class PostCrudAction extends CrudAction {
    );
  }
 
+ public function imagCreate(Request $request)
+ {
+   $params = $request->getParsedBody();
+   $item = json_decode($params['itemSave'],true);
+  if($params['idImg']){
+    $image = $this->imageTable->find($params['idImg']);
+  }
+  $locations = $this->categoryTable->findList();
+   return $this->renderer->render(
+     $this->viewPath .'/create',
+     compact('item','errors','image','locations')
+   );
+ }
+
+ /**
+  * Crée un nouvel élément
+  * @param  Request $request
+  * @return ResponseInterface|string
+  */
+ public function create(Request $request){
+
+   $item = $this->getNewEntity();
+   if ($request->getMethod() === 'POST') {
+
+     $params = $this->getParams($request,$item);
+     $params = $this->getNewParams($params);
+     $validator =$this->getValidators($request);
+     if($validator->isValid()){
+
+       $this->table->insert($params);
+       if($this->createImage){
+         $parmsTable =$this->table->findBy('slug',$params['slug']);
+         $paramsImage["post_id"]= $parmsTable->id;
+         $paramsImage["image_id"]=$this->createImage;
+         $this->imagePostTable->insert( $paramsImage);
+         $this->session->delete('postInfo');
+        }
+       $this->flash->success($this->messages['create']);
+
+       return $this->redirect($this->routePrefix .'.index');
+     }
+     var_dump($request->getParsedBody(), $item);die;
+     QueryHydrator::hydrate ($request->getParsedBody(), $item);
+     $errors = $validator->getErrors();
+
+
+   }
+
+
+   return $this->renderer->render(
+     $this->viewPath .'/create',
+     $this->formParams(compact('item','errors'))
+    );
+
+ }
+
   protected function formParams(array $params): array
   {
     if(isset($params['item']->id)){
@@ -156,6 +223,8 @@ class PostCrudAction extends CrudAction {
 
   protected function getParams (Request $request,$item){
     $params = array_merge($request->getParsedBody(),$request->getUploadedFiles());
+
+    if($params['image_id']){ $this->createImage = $params['image_id'];}
     return array_filter($params, function ($key) {
       return in_array($key, ['title','slug','main','date','time','location_id','visible']);
     }, ARRAY_FILTER_USE_KEY);
