@@ -2,6 +2,9 @@
 <li class="nav-item {{ is_firstpath('admin') ? 'active'}}">
   <a class="nav-link" href="{{ path('admin') }}">Dashboard </a>
 </li>
+<li class="nav-item {{ is_subpath('blog.index.admin') ? 'active'}} ">
+  <a class="nav-link"  href = "{{ path ('blog.index.admin')}}"> Index </a>
+</li>
 <li class="nav-item {{ is_subpath('blog.admin.index') ? 'active'}} ">
   <a class="nav-link"  href = "{{ path ('blog.admin.index')}}"> Articles </a>
 </li>

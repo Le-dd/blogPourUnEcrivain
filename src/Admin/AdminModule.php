@@ -14,7 +14,8 @@ use App\Admin\Controller\{
   CategoryCrudAction,
   AdminLoginAction,
   CommentsCrudAction,
-  ImageCrudAction
+  ImageCrudAction,
+  IndexCrudAction
 };
 
 
@@ -45,7 +46,10 @@ class AdminModule extends Module
       $router->crud("$prefix/comments", CommentsCrudAction::class, 'blog.com.admin');
       $router->crud("$prefix/images", ImageCrudAction::class, 'blog.img.admin');
       $router->post("$prefix/postImages", ImageCrudAction::class, 'blog.img.admin.image');
-    
+      $router->get("$prefix/index", IndexCrudAction::class, 'blog.index.admin');
+      $router->post("$prefix/index/edit", IndexCrudAction::class, 'blog.index.admin.edit');
+      $router->post("$prefix/index/image", IndexCrudAction::class, 'blog.index.admin.image');
+
 
     }
    if($renderer instanceof TwigRenderer){

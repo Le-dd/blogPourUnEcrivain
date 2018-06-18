@@ -1,0 +1,42 @@
+{% extends '/Blog/layout.twig' %}
+{% block title "billet pour alaska : blog" %}
+
+
+{% block body %}
+
+<h1> Editer l'image de fond </h1>
+<img src="{{ imageType(image1.url,'Miniature') }}" alt="{{ image1.alt }}" >
+<form class="" action="{{path( 'blog.img.admin.image') }}" method="post" enctype="multipart/form-data">
+  {{ csrf_input() }}
+  <input class="d-none itemSave" type="hidden " name="itemSave" value="">
+  <input class="d-none" type="hidden " name="PositionImg" value="1">
+  <button class="btn btn-dark" type="submit"> Editer</button>
+</form>
+
+<form class="" action="" method="post" enctype="multipart/form-data">
+  {{ field('title', item.title, "Titre de l'index", {class:'indexFirstForm1'}) }}
+  {{ field('title', item.subtitle, "Sous-titre de l'index", {class:'indexFirstForm2'}) }}
+</form>
+
+<h1> Editer l'image de profils </h1>
+<img src="{{ imageType(image2.url,'Miniature') }}" alt="{{ image2.alt }}" >
+<form class="" action="{{path( 'blog.img.admin.image') }}" method="post" enctype="multipart/form-data">
+  {{ csrf_input() }}
+  <input class="d-none itemSave" type="hidden " name="itemSave" value="">
+  <input class="d-none" type="hidden " name="PositionImg" value="2">
+  <button class="btn btn-dark" type="submit"> Editer</button>
+</form>
+<form class="" action="{{path('blog.index.admin.edit')}}" method="post" enctype="multipart/form-data">
+  {{ csrf_input() }}
+  <input class="d-none champFormIndex" type="hidden " name="img_fond" value="{{ item.imgFond }}">
+  <input class="d-none champFormIndex resultFirstForm1" type="hidden " name="title" value="">
+  <input class="d-none champFormIndex resultFirstForm2" type="hidden " name="subtitle" value="">
+  <input class="d-none champFormIndex" type="hidden " name="img_profil" value="{{ item.imgProfil }}">
+  {{ field('presentation', item.presentation, "Presentaion de l'auteur", {type:'textarea', class:'champFormIndex'})}}
+  {{ field('main', item.main, "Présentation du projet", {type:'textarea', class:'champFormIndex'})}}
+
+  <button class="btn btn-primary" type="submit"> Editer</button>
+</form>
+
+
+{% endblock %}

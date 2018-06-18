@@ -33,11 +33,14 @@
              {{ token_input | raw }}
            </form>
            {% if post.itemSave %}
-             <form style ="display:inline" action="{% if post.idPost  %}{{path('blog.admin.image') }}{% else %}{{path('blog.admin.imagCreate') }}{% endif %}" method="POST" >
+             <form style ="display:inline" action="{% if post.idPost  %}{{path('blog.admin.image') }}{% elseif post.PositionImg %}{{path('blog.index.admin.image') }}{% else %}{{path('blog.admin.imagCreate') }}{% endif %}" method="POST" >
                <input class="d-none" type="hidden " name="itemSave" value="{{ post.itemSave }}">
                {% if post.idPost  %}
                <input class="d-none" type="hidden " name="idPost" value="{{ post.idPost }}">
                 {% endif %}
+                {% if post.PositionImg  %}
+                <input class="d-none" type="hidden " name="PositionImg" value="{{ post.PositionImg }}">
+                 {% endif %}
                <input class="d-none" type="hidden " name="idImg" value="{{ item.id }}">
                <button class="btn btn-dark"> choisir cette image</button>
                {{ token_input | raw }}
