@@ -9,7 +9,8 @@ use App\Blog\Controller\{
   CategoryAction,
   PostIndexAction,
   PostShowAction,
-  CommentsAction
+  CommentsAction,
+  ContactAction
 };
 use Psr\Container\ContainerInterface;
 use  App\Blog\TwigExtension\BlogTwigExtension;
@@ -27,6 +28,7 @@ class BlogModule extends Module {
     $indexPrefix = $container->get('index.prefix');
     $categoryPrefix = $container->get('category.prefix');
     $postPrefix = $container->get('posts.prefix');
+    $contactPrefix = $container->get('contact.prefix');
 
     $renderer->addPath('blog',__DIR__.'/views');
     $router =  $container->get(Router::class);
@@ -39,6 +41,8 @@ class BlogModule extends Module {
      PostShowAction::class, 'blog.posts.show');
     $router->post("$postPrefix/comPost", CommentsAction::class, 'blog.com.comPost');
     $router->post("$postPrefix/signal", CommentsAction::class, 'blog.com.signale');
+    $router->get($contactPrefix , ContactAction::class, 'blog.contact');
+    $router->post($contactPrefix , ContactAction::class);
 
      if($renderer instanceof TwigRenderer){
        $renderer->getTwig()->addExtension($blogTwigExtension);

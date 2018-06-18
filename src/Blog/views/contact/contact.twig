@@ -1,0 +1,19 @@
+{% extends '/Blog/layout.twig' %}
+{% block title "billet pour alaska : blog" %}
+
+
+{% block body %}
+
+<h1> Contactez-moi! </h1>
+
+<form class="" action="{{path('blog.contact') }}" method="post" enctype="multipart/form-data">
+  {{ csrf_input() }}
+  {{ field('name', null, "Votre nom") }}
+  {{ field('email', null, "Votre email") }}
+  {{ field('subjet', null, "L'objet du message") }}
+  {{ field('message', null, "Contenu du message", {type:'textarea'})}}
+
+  <button class="btn btn-primary" type="submit"> Envoyer</button>
+</form>
+
+{% endblock %}

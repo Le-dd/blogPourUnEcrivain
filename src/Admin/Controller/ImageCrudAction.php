@@ -190,8 +190,7 @@ class ImageCrudAction extends CrudAction {
   protected function getParams (Request $request,$item = null){
     $params = array_merge($request->getParsedBody(),$request->getUploadedFiles());
     if(!is_null($item)){$item = $item->url;}
-    var_dump($item);
-    var_dump($params);
+  
 
     $params['url'] = $this->postUpload->upload($params['url'],$item);
   if(is_null($params['url'])){
