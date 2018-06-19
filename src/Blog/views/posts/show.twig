@@ -3,15 +3,19 @@
 
 {% block body %}
 
-<h1>{{post.title}}</h1>
+<section class="container">
+  <h1>{{post.title}}</h1>
 
-<p class="text-muted">{{ post.dateTime | ago }}</p>
+  <p class="text-muted">{{ post.dateTime | ago }}</p>
 
-{{post.main | raw | nl2br }}
+  {{post.main | raw | nl2br }}
 
 
-<h2> Commentaire </h2>
-{{ create_com(post.id,post.slug) }}
-{{ affiche_com(post.id,post.slug) }}
+  <h2> Commentaire </h2>
+  {{ create_com(post.id,post.slug) }}
+  {{ affiche_com(post.id,post.slug) }}
+
+</section>
+
 
 {% endblock %}

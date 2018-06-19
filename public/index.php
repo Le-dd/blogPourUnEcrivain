@@ -3,6 +3,7 @@
 use\App\Admin\AdminModule;
 use\App\Blog\BlogModule;
 use\App\Auth\AuthModule;
+use\App\Ajax\AjaxModule;
 use Framework\Auth\ForbiddenMiddleware;
 use Framework\Auth\LoggedinMiddleware;
 use\Middlewares\Whoops;
@@ -20,7 +21,8 @@ require dirname(__DIR__).'/vendor/autoload.php';
 $app = (new \Framework\App( dirname(__DIR__).'/config/config.php' ))
     ->addModule(BlogModule::class)
     ->addModule(AdminModule::class)
-    ->addModule(AuthModule::class);
+    ->addModule(AuthModule::class)
+    ->addModule(AjaxModule::class);
 
 $container = $app->getContainer();
 $app->pipe(Whoops::class)

@@ -11,7 +11,7 @@
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.5.0/flatpickr.css">
-    <link rel="stylesheet" href="../../../../css/design.css">
+    <link rel="stylesheet" href="{{ host_serveur() }}/css/design.css">
 
   <body>
 
@@ -34,21 +34,23 @@
       </nav>
     </header>
 
-    <main class="container">
-      {% if flash('success') %}
-        <div class="alert alert-success">
-          {{ flash('success') }}
+    <main>
 
-        </div>
-      {% endif %}
-      {% if flash('error') %}
-        <div class="alert alert-danger">
-          {{ flash('error') }}
+      <main class="container">
+        {% if flash('success') %}
+          <div class="alert alert-success">
+            {{ flash('success') }}
 
-        </div>
-      {% endif %}
-      {% block body %}{% endblock %}
-    </main>
+          </div>
+        {% endif %}
+        {% if flash('error') %}
+          <div class="alert alert-danger">
+            {{ flash('error') }}
+
+          </div>
+        {% endif %}
+        {% block body %}{% endblock %}
+      </main>
 
     <footer>
     </footer>
@@ -58,7 +60,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.5.0/flatpickr.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.5.0/l10n/fr.js"></script>
     <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
-    <script src="../../../../js/script.js"></script>
+    <script async defer
+   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBdIZch2QSX6AnzXdu5KAIw1sBD8GMM8kg&callback=initMap">
+   </script>
+    <script src="{{ host_serveur() }}/js/script.js"></script>
+    <script src="{{ host_serveur() }}/js/Gmap.js"></script>
 
 
   </body>

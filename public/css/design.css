@@ -26,3 +26,9 @@ body {
 .mce-notification-warning {
   display : none;
 }
+
+
+#map {
+      height: 800px;
+      width: 100%;
+     }
