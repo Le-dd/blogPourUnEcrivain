@@ -1,5 +1,6 @@
 {{ csrf_input() }}
-{{ field('name_locality', item.nameLocality, "Titre de la catégorie") }}
-{{ field('latitude', item.latitude, "Latitude") }}
-{{ field('longitude', item.longitude, "Longitude") }}
+<div id="mapAdmin" data-lat="{{ item.latitude}}" data-lng="{{ item.longitude}}" data-title="{{ item.nameLocality}}"></div>
+{{ field('name_locality', item.nameLocality, "Nom du lieux",{class:'title'}) }}
+{{ field('latitude', item.latitude, "Latitude",{class:'Latitude'}) }}
+{{ field('longitude', item.longitude, "longitude",{class:'longitude'}) }}
 {{ field('visible', item.visible, "En ligne ?", {type:'checkbox'})}}

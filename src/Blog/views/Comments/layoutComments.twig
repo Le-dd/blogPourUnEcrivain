@@ -4,8 +4,22 @@
 <div class="{% if idCom is null %}toggedisplay tog{{idComSave}} {% endif %}" >
     {{ create_com( idPost,slugPost,idComSave) }}
 </div>
+{% if comments is same as(0) %}
 
+  {% if idComSave is null %}
+  <div class="commentraw">
+  <div class="alert alert-light">
+      <p class ="comment" >
+        Personne n'a commenté cette article.</br>
+        Si vous êtes connecté vous pouvezcommenté cette article a tous momment.
+      </p>
+      
+    </div>
+  </div>
+  {% endif %}
+{% endif %}
   {% for comment in comments %}
+
   <div class="commentraw">
   <div class="alert alert-light">
     <div style ="overflow:hidden" class="alert alert-secondary">
@@ -51,4 +65,6 @@
   {% endif %}
 
   {% endfor %}
+
+
 </div>

@@ -11,6 +11,13 @@
   {{post.main | raw | nl2br }}
 
 
+</section>
+<section class="container-fluid mapPost">
+  <div id="mapPost" data-lat="{{ post.latitude}}" data-lng="{{ post.longitude}}" data-title="{{ post.namePlace}}" >
+  </div>
+
+</section>
+<section class="container">
   <h2> Commentaire </h2>
   {{ create_com(post.id,post.slug) }}
   {{ affiche_com(post.id,post.slug) }}

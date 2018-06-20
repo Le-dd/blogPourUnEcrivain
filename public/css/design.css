@@ -32,6 +32,14 @@ body {
       height: 800px;
       width: 100%;
      }
+#mapPost {
+     height: 400px;
+     width: 100%;
+    }
+#mapAdmin {
+      height: 400px;
+      width: 100%;
+     }
 
 main .container-fluid {
   padding-right: 0;

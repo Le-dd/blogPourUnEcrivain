@@ -173,7 +173,6 @@ class PostCrudAction extends CrudAction {
    if ($request->getMethod() === 'POST') {
 
      $params = $this->getParams($request,$item);
-     $params = $this->getNewParams($params);
      $validator =$this->getValidators($request);
      if($validator->isValid()){
 
@@ -226,31 +225,28 @@ class PostCrudAction extends CrudAction {
 
     if(!empty($params['image_id'])){ $this->createImage = $params['image_id'];}
     return array_filter($params, function ($key) {
-      return in_array($key, ['title','slug','main','date','time','location_id','visible']);
+      return in_array($key, ['title','slug','main','date','time','location_id','visible','latitude','longitude','name_place']);
     }, ARRAY_FILTER_USE_KEY);
   }
+
 
   protected function getValidators(Request $request){
 
     return parent::getValidators($request)
-      ->required('title','slug','main','date','time','location_id')
+      ->required('title','slug','main','date','time','location_id','visible','latitude','longitude','name_place')
       ->length('main',10)
       ->length('title',2,250)
       ->length('slug',2,50)
+      ->length('latitude',2)
+      ->length('longitude',2)
+      ->length('name_place',2)
       ->exists('location_id','id', $this->categoryTable->getTable(),$this->categoryTable->getPdo())
       ->date('date')
       ->time('time')
       ->slug('slug');
   }
 
-  protected function getNewParams($params){
 
-    return array_merge($params,[
-      'latitude'=> '61.218968',
-      'longitude' => '-149.479427',
-      'name_place'=> 'gyhgygy'
-    ]);
-}
 
 private function takeImage($id){
 

@@ -20,6 +20,10 @@
 {{ field('date', item.date, "Date de l'article", {class:'datepicker champValue'}) }}
 {{ field('time', item.time, "Heure de l'article", {class:'timepicker champValue'}) }}
 {{ field('location_id', item.locationId, "Catégorie de loclisation", {options: locations, class:'champValue'}) }}
+<div id="mapAdmin" data-lat="{{ item.latitude}}" data-lng="{{ item.longitude}}" data-title="{{ item.namePlace}}"></div>
+{{ field('name_place', item.namePlace, "Nom du lieux",{class:'title'}) }}
+{{ field('latitude', item.latitude, "Latitude",{class:'Latitude'}) }}
+{{ field('longitude', item.longitude, "longitude",{class:'longitude'}) }}
 {{ field('visible', item.visible, "En ligne ?", {type:'checkbox', class:'champValue'})}}
 <input class="d-none" type="hidden " name="image_id" value="{{ image.id }}">
   <button class="btn btn-primary" type="submit"> Ajouter</button>

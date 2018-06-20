@@ -1,31 +1,12 @@
-var valide =document.getElementById('map')
+var valide =document.getElementById('mapAdmin');
 if(valide ){
-
-function downloadUrl(url,callback) {
- var request = window.ActiveXObject ?
-     new ActiveXObject('Microsoft.XMLHTTP') :
-     new XMLHttpRequest;
-
- request.onreadystatechange = function() {
-   if (request.readyState == XMLHttpRequest.DONE) {
-     if(this.status === 200){
-       callback(JSON.parse(this.responseText));
-
-     }else{
-       console.log("Statut:" + this.status);
-     }
-   }
- };
-
- request.open('GET', url, true);
- request.send(null);
-}
 
 
 function initMap() {
+
         var Alaska = {lat: 65.324558 , lng: -152.896029,};
-        var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 5,
+        var map3 = new google.maps.Map(document.getElementById('mapAdmin'), {
+          zoom: 9,
           center: Alaska,
           disableDefaultUI: true,
           styles: [
@@ -244,133 +225,109 @@ function initMap() {
 
         });
 
-        var markers = downloadUrl("http://localhost:8000/request/locationAll",function(response) {
-        response = Object.values(response);
+        var params = document.getElementById('mapAdmin');
+        var latitude = parseFloat(params.getAttribute("data-lat")) ;
+        var longitude = parseFloat(params.getAttribute('data-lng'));
+        var title = params.getAttribute("data-title");
 
-        var Markers =[];
-        var firstPoint;
-        var lastPoint;
-        var roadPoints=[];
-        var bounds = new google.maps.LatLngBounds();
-        for (var i = 0; i < response.length; i++) {
-
-          var latlng ={lat: parseFloat(response[i]["latitude"]) , lng: parseFloat(response[i]["longitude"]),};
-          var loc = new google.maps.LatLng(parseFloat(response[i]["latitude"]), parseFloat(response[i]["longitude"]));
-          bounds.extend(loc);
-
-          var marker = new google.maps.Marker({
-            position: latlng,
-            map: map,
-            title:response[i]["nameLocality"],
-            icon: "http://localhost:8000/images/icone-walker1.png"
-            });
-          marker['MyValue'] = response[i]["id"];
-          Markers.push(marker);
-
-          var lasteId = response.length-1;
-          if(response[i] == response[0]){
-            firstPoint = loc;
-          }else if (response[i] == response[lasteId]) {
-
-            lastPoint = loc;
-          }else {
-            roadPoints.push({
-              location: loc,
-              stopover: true
-            })
+        if(latitude && longitude && title){
+          var latlng1 = {lat: latitude , lng: longitude,};
+          if(map3['OldMarker']){
+            map3['OldMarker'].setMap(null);
           }
+          var marker = new google.maps.Marker({
+                   position: latlng1,
+                   map: map3,
+                   title:title,
+                   icon: "http://localhost:8000/images/icone-walker1.png"
+          });
+          map3.panTo(latlng1);
+          map3['OldMarker'] = marker;
+          map3['Oldlatitude'] = latitude;
+          map3['Oldlongitude'] = longitude;
+          map3['Oldtitle'] = title;
 
+        }else{
+          map3['Oldtitle'] = "pas de titre ";
         }
 
-        map.fitBounds(bounds);
-        map.panToBounds(bounds);
 
+        map3.addListener('click', function(event) {
 
-            var directionsService = new google.maps.DirectionsService();
-            var directionsDisplay = new google.maps.DirectionsRenderer({
-              map: map
-            });
+          if(map3['OldMarker']){
+            map3['OldMarker'].setMap(null);
+          }
+          var marker = new google.maps.Marker({
+                   position: event.latLng,
+                   map: map3,
+                   title: map3['Oldtitle'],
+                   icon: "http://localhost:8000/images/icone-walker1.png"
+          });
+          map3.panTo(event.latLng);
+          map3['OldMarker'] = marker;
+          map3['Oldlatitude'] = event.latLng.lat();
+          map3['Oldlongitude'] = event.latLng.lng();
+          var Latitude2 = document.querySelector(".Latitude");
+          var Longitude2 = document.querySelector(".longitude");
+          Latitude2.value = map3['Oldlatitude'].toString();
+          Longitude2.value = map3['Oldlongitude'].toString();
+        });
 
+      var Latitude3 = document.querySelector(".Latitude");
+      Latitude3.addEventListener("blur", function( event ) {
+          if(map3['OldMarker']){
+            map3['OldMarker'].setMap(null);
+          }
+          var newLatitude = parseFloat(this.value);
+          var latlng1 = {lat: newLatitude , lng: map3['Oldlongitude'],};
+          var marker = new google.maps.Marker({
+                   position: latlng1,
+                   map: map3,
+                   title: map3['Oldtitle'],
+                   icon: "http://localhost:8000/images/icone-walker1.png"
+          });
+          map3.panTo(latlng1);
+          map3['OldMarker'] = marker;
+          map3['Oldlatitude'] = newLatitude;
 
-            var request = {
-              origin: firstPoint,
-              destination: lastPoint,
-              waypoints: roadPoints,
-              travelMode: google.maps.DirectionsTravelMode.DRIVING,
-              unitSystem: google.maps.DirectionsUnitSystem.METRIC
-            };
+      });
+      var Longitude3 = document.querySelector(".longitude");
+      Longitude3.addEventListener("blur", function( event ) {
+        if(map3['OldMarker']){
+          map3['OldMarker'].setMap(null);
+        }
+        var newlongitude = parseFloat(this.value);
+        var latlng1 = {lat: map3['Oldlatitude'] , lng: newlongitude,};
+        var marker = new google.maps.Marker({
+                 position: latlng1,
+                 map: map3,
+                 title: map3['Oldtitle'],
+                 icon: "http://localhost:8000/images/icone-walker1.png"
+        });
+        map3.panTo(latlng1);
+        map3['OldMarker'] = marker;
+        map3['Oldlongitude'] = newlongitude;
 
-
-            directionsService.route(request, function(result, status) {
-
-              if (status == google.maps.DirectionsStatus.OK) {
-                directionsDisplay.setDirections(result);
-                directionsDisplay.suppressMarkers = false;
-                directionsDisplay.setOptions({
-                    polylineOptions: {strokeColor: '#26C64F' },
-                    preserveViewport: true
-
-                });
-              }
-
-
-            });
-
-            return  OnClikMarkers(Markers,directionsDisplay);
       });
 
-      function OnClikMarkers(arrayMarkers,directionsDisplay){
-
-        for (var i = 0; i < arrayMarkers.length; i++) {
-          arrayMarkers[i].addListener('click', function() {
-
-            var url = "http://localhost:8000/request/locationAll/"+ this['MyValue'];
-            directionsDisplay.setMap(null);
-            for (var i = 0; i < arrayMarkers.length; i++) {
-               arrayMarkers[i].setMap(null);
-             }
-            var markerPost = downloadUrl(url,function(response) {
-              response = Object.values(response);
-
-              var Markers =[];
-              var bounds = new google.maps.LatLngBounds();
-              for (var i = 0; i < response.length; i++) {
-
-                var latlng ={lat: parseFloat(response[i]["latitude"]) , lng: parseFloat(response[i]["longitude"]),};
-                var loc = new google.maps.LatLng(parseFloat(response[i]["latitude"]), parseFloat(response[i]["longitude"]));
-                bounds.extend(loc);
-
-                var marker = new google.maps.Marker({
-                  position: latlng,
-                  map: map,
-                  title:response[i]["namePlace"],
-                  icon: "http://localhost:8000/images/icone-walker1.png"
-                  });
-                marker['MyValueId'] = response[i]["id"];
-                marker['MyValueSlug'] = response[i]["slug"];
-                Markers.push(marker);
-
-                var lasteId = response.length-1;
-
-
-              }
-
-              map.fitBounds(bounds);
-              map.panToBounds(bounds);
-              return  RedirectMarker(Markers);
-            });
-          });
+      var title3 = document.querySelector(".title");
+      title3.addEventListener("blur", function( event ) {
+        if(map3['OldMarker']){
+          map3['OldMarker'].setMap(null);
         }
-      }
-      function RedirectMarker(arrayMarkers){
-        for (var i = 0; i < arrayMarkers.length; i++) {
-          arrayMarkers[i].addListener('click', function() {
-          
-            window.location.href ="http://localhost:8000/posts/"+this['MyValueSlug']+"-"+this['MyValueId'];
+        var newlongitude = parseFloat(this.value);
+        var latlng1 = {lat: map3['Oldlatitude'] , lng: map3['Oldlongitude'],};
+        var marker = new google.maps.Marker({
+                 position: latlng1,
+                 map: map3,
+                 title: this.value,
+                 icon: "http://localhost:8000/images/icone-walker1.png"
+        });
+        map3['OldMarker'] = marker;
+        map3['Oldtitle'] = this.value;
+      });
 
-          });
-        }
-      }
+
 }
 }else{
   function initMap() {

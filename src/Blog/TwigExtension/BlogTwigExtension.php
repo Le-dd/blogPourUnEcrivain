@@ -98,6 +98,7 @@ class BlogTwigExtension extends \Twig_Extension {
           $idCom = null;
 
         }
+      
 
 
         return $this->renderer->render('@blog/comments/layoutComments', compact('comments','idCom','idComSave','idPost','slugPost','idUser'));
@@ -121,7 +122,7 @@ class BlogTwigExtension extends \Twig_Extension {
 
         $params['commentId'] = $idCom;
         $params['userId'] = $idUser;
-      
+
         $signal = $this->reportTable->findAllUserReport($params)->count();
 
         if($signal != 0){
