@@ -1,3 +1,6 @@
+var valide =document.getElementById('map')
+if(valide ){
+
 function downloadUrl(url,callback) {
  var request = window.ActiveXObject ?
      new ActiveXObject('Microsoft.XMLHTTP') :
@@ -60,6 +63,7 @@ function initMap() {
                     },
                     {
                       "featureType": "administrative.land_parcel",
+                      "elementType": "labels",
                       "stylers": [
                         {
                           "visibility": "off"
@@ -72,14 +76,6 @@ function initMap() {
                       "stylers": [
                         {
                           "color": "#bdbdbd"
-                        }
-                      ]
-                    },
-                    {
-                      "featureType": "administrative.neighborhood",
-                      "stylers": [
-                        {
-                          "visibility": "off"
                         }
                       ]
                     },
@@ -115,7 +111,7 @@ function initMap() {
                       "elementType": "geometry",
                       "stylers": [
                         {
-                          "color": "#79a688"
+                          "color": "#62a29a"
                         }
                       ]
                     },
@@ -130,15 +126,16 @@ function initMap() {
                     },
                     {
                       "featureType": "road",
-                      "elementType": "labels",
+                      "elementType": "geometry",
                       "stylers": [
                         {
-                          "visibility": "off"
+                          "color": "#cbded6"
                         }
                       ]
                     },
                     {
                       "featureType": "road.arterial",
+                      "elementType": "labels",
                       "stylers": [
                         {
                           "visibility": "off"
@@ -159,7 +156,7 @@ function initMap() {
                       "elementType": "geometry",
                       "stylers": [
                         {
-                          "color": "#cde7cf"
+                          "color": "#a7cdb6"
                         }
                       ]
                     },
@@ -183,6 +180,15 @@ function initMap() {
                     },
                     {
                       "featureType": "road.local",
+                      "stylers": [
+                        {
+                          "visibility": "off"
+                        }
+                      ]
+                    },
+                    {
+                      "featureType": "road.local",
+                      "elementType": "labels",
                       "stylers": [
                         {
                           "visibility": "off"
@@ -221,16 +227,7 @@ function initMap() {
                       "elementType": "geometry",
                       "stylers": [
                         {
-                          "color": "#b9ced9"
-                        }
-                      ]
-                    },
-                    {
-                      "featureType": "water",
-                      "elementType": "labels.text",
-                      "stylers": [
-                        {
-                          "visibility": "off"
+                          "color": "#b9d1db"
                         }
                       ]
                     },
@@ -245,13 +242,15 @@ function initMap() {
                     }
                   ]
 
-
-
         });
 
-        downloadUrl("http://localhost:8000/request/locationAll",function(response) {
-          response = Object.values(response);
+        var markers = downloadUrl("http://localhost:8000/request/locationAll",function(response) {
+        response = Object.values(response);
 
+        var Markers =[];
+        var firstPoint;
+        var lastPoint;
+        var roadPoints=[];
         var bounds = new google.maps.LatLngBounds();
         for (var i = 0; i < response.length; i++) {
 
@@ -259,16 +258,123 @@ function initMap() {
           var loc = new google.maps.LatLng(parseFloat(response[i]["latitude"]), parseFloat(response[i]["longitude"]));
           bounds.extend(loc);
 
-          new google.maps.Marker({
+          var marker = new google.maps.Marker({
             position: latlng,
-            map: map
+            map: map,
+            title:response[i]["nameLocality"],
+            icon: "http://localhost:8000/images/icone-walker1.png"
+            });
+          marker['MyValue'] = response[i]["id"];
+          Markers.push(marker);
+
+          var lasteId = response.length-1;
+          if(response[i] == response[0]){
+            firstPoint = loc;
+          }else if (response[i] == response[lasteId]) {
+
+            lastPoint = loc;
+          }else {
+            roadPoints.push({
+              location: loc,
+              stopover: true
+            })
+          }
+
+        }
+
+        map.fitBounds(bounds);
+        map.panToBounds(bounds);
+
+
+            var directionsService = new google.maps.DirectionsService();
+            var directionsDisplay = new google.maps.DirectionsRenderer({
+              map: map
+            });
+
+
+            var request = {
+              origin: firstPoint,
+              destination: lastPoint,
+              waypoints: roadPoints,
+              travelMode: google.maps.DirectionsTravelMode.DRIVING,
+              unitSystem: google.maps.DirectionsUnitSystem.METRIC
+            };
+
+
+            directionsService.route(request, function(result, status) {
+
+              if (status == google.maps.DirectionsStatus.OK) {
+                directionsDisplay.setDirections(result);
+                directionsDisplay.suppressMarkers = false;
+                directionsDisplay.setOptions({
+                    polylineOptions: {strokeColor: '#26C64F' },
+                    preserveViewport: true
+
+                });
+              }
+
 
             });
 
-        }
-          map.fitBounds(bounds);
-          map.panToBounds(bounds);
-
+            return  OnClikMarkers(Markers,directionsDisplay);
       });
 
-  }
+      function OnClikMarkers(arrayMarkers,directionsDisplay){
+
+        for (var i = 0; i < arrayMarkers.length; i++) {
+          arrayMarkers[i].addListener('click', function() {
+
+            var url = "http://localhost:8000/request/locationAll/"+ this['MyValue'];
+            directionsDisplay.setMap(null);
+            for (var i = 0; i < arrayMarkers.length; i++) {
+               arrayMarkers[i].setMap(null);
+             }
+            var markerPost = downloadUrl(url,function(response) {
+              response = Object.values(response);
+
+              var Markers =[];
+              var bounds = new google.maps.LatLngBounds();
+              for (var i = 0; i < response.length; i++) {
+
+                var latlng ={lat: parseFloat(response[i]["latitude"]) , lng: parseFloat(response[i]["longitude"]),};
+                var loc = new google.maps.LatLng(parseFloat(response[i]["latitude"]), parseFloat(response[i]["longitude"]));
+                bounds.extend(loc);
+
+                var marker = new google.maps.Marker({
+                  position: latlng,
+                  map: map,
+                  title:response[i]["namePlace"],
+                  icon: "http://localhost:8000/images/icone-walker1.png"
+                  });
+                marker['MyValueId'] = response[i]["id"];
+                marker['MyValueSlug'] = response[i]["slug"];
+                Markers.push(marker);
+
+                var lasteId = response.length-1;
+
+
+              }
+
+              map.fitBounds(bounds);
+              map.panToBounds(bounds);
+              return  RedirectMarker(Markers);
+            });
+          });
+        }
+      }
+      function RedirectMarker(arrayMarkers){
+        for (var i = 0; i < arrayMarkers.length; i++) {
+          arrayMarkers[i].addListener('click', function() {
+          
+            window.location.href ="http://localhost:8000/posts/"+this['MyValueSlug']+"-"+this['MyValueId'];
+
+          });
+        }
+      }
+}
+}else{
+  function initMap() {
+
+
+      }
+}

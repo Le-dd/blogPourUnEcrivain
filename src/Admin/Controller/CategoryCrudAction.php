@@ -42,7 +42,7 @@ class CategoryCrudAction extends CrudAction {
 
   protected function getParams (Request $request,$item){
     return array_filter($request->getParsedBody(), function ($key) {
-      return in_array($key, ['latitude','longitude','name_locality']);
+      return in_array($key, ['latitude','longitude','name_locality','visible']);
     }, ARRAY_FILTER_USE_KEY);
   }
 

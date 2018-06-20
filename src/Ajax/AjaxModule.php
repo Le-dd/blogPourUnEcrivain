@@ -23,6 +23,7 @@ class AjaxModule extends Module {
 
     $router = $container->get(Router::class);
     $router->get("$AjaxPrefix/locationAll", AjaxAction::class,"Ajax.locationAll");
+    $router->get("$AjaxPrefix/locationAll/{idLoc:[0-9]+}", AjaxAction::class,"Ajax.locationAll.show");
 
 
 

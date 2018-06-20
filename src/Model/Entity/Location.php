@@ -12,6 +12,9 @@ class Location{
 
   public $nameLocality;
 
+  public $visible;
+  
+
 
 
 }

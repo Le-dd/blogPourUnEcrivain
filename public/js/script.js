@@ -17,6 +17,11 @@
 
   })
 
+
+tinymce.init({ selector:'textarea' });
+
+
+
   var btnTog = document.querySelectorAll(".btnTog");
 
 
@@ -27,7 +32,7 @@
             event.preventDefault();
           });
   }
-tinymce.init({ selector:'textarea' });
+
 
 
 
@@ -44,8 +49,9 @@ result = JSON.stringify(result);
 
 
 var ImageHidden = document.querySelector( ".itemSave" );
+if(ImageHidden){
 ImageHidden.value = result;
-
+}
   var ImageValue = document.querySelectorAll( ".champValue" );
 
   for (var i = 0; i < ImageValue.length; i++) {
@@ -62,14 +68,17 @@ ImageHidden.value = result;
 
   var resultForm1 = "";
   var IndexFirstForm1 = document.querySelector(".indexFirstForm1");
-      if(IndexFirstForm1.value ){
+      if(IndexFirstForm1){
+        if(IndexFirstForm1.value){
         resultForm1 = IndexFirstForm1.value;
-
+        }
       }
   var ResultFirstForm1 = document.querySelector( ".resultFirstForm1" );
+  if(ResultFirstForm1){
   ResultFirstForm1.value = resultForm1;
-
+  }
   var IndexFirstForm1 = document.querySelector(".indexFirstForm1");
+  if(IndexFirstForm1){
     IndexFirstForm1.addEventListener("blur", function( event ) {
         var resultForm1 = this.value;
         var ResultFirstForm1 = document.querySelector( ".resultFirstForm1" );
@@ -95,18 +104,24 @@ ImageHidden.value = result;
           console.log(ResultFirstForm1.value);
 
       }, true);
-
+}
 
   var resultForm2 = "";
   var IndexFirstForm2 = document.querySelector(".indexFirstForm2");
-      if(IndexFirstForm2.value ){
-        resultForm2 = IndexFirstForm2.value;
+  if (IndexFirstForm2 ) {
+    if(IndexFirstForm2.value ){
+      resultForm2 = IndexFirstForm2.value;
 
-      }
+    }
+
+  }
+
   var ResultFirstForm2 = document.querySelector( ".resultFirstForm2" );
+  if(ResultFirstForm2){
   ResultFirstForm2.value = resultForm2;
-
+  }
   var IndexFirstForm2 = document.querySelector(".indexFirstForm2");
+  if(IndexFirstForm2){
     IndexFirstForm2.addEventListener("blur", function( event ) {
         var resultForm2 = this.value;
         var ResultFirstForm2 = document.querySelector( ".resultFirstForm2" );
@@ -126,14 +141,14 @@ ImageHidden.value = result;
         var HiddenIndex = document.querySelectorAll( ".itemSave" );
           for (var i = 0; i < HiddenIndex.length; i++) {
             HiddenIndex[i].value = resultIndex;
-          
+
 
           }
 
 
       }, true);
 
-
+}
 
 
 

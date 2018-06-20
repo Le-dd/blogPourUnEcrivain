@@ -32,7 +32,38 @@ public function findPublic(): Query{
 
 }
 
+public function findAllByAjax(array $params){
 
+  $statement = $this->pdo
+    ->prepare("SELECT id,slug,latitude,longitude,location_id,name_place FROM {$this->table} WHERE  location_id = :locationId AND visible = 1 ");
+  $statement->execute($params);
+  $results = $statement->fetchAll(\PDO::FETCH_NUM);
+
+  $list = [];
+  foreach ($results as $result)
+  {
+
+    $list[$result[0]]= [
+      'id' => $result[0],
+      'slug' => $result[1],
+      'latitude' => $result[2],
+      'longitude' => $result[3],
+      'locationId' => $result[4],
+      'namePlace' => $result[5]
+      ];
+  }
+
+  return $list;
+  }
+  public  $latitude;
+
+  public  $longitude;
+
+  public  $visible;
+
+  public  $locationId;
+
+  public  $namePlace;
 
 
 

@@ -3,7 +3,7 @@
 
 
 {% block body %}
-
+<section class="container">
   <form action="{{ path('auth.login')}}" method="post">
     {{ csrf_input() }}
     {{ field('login', null, 'Nom d\'utilisateur') }}
@@ -12,5 +12,6 @@
   </form>
    <a class="nav-link" href="{{ path('auth.crud.create') }}">S'inscrire au blog</a>
    <a class="nav-link" href="{{ path('auth.crud.editepass') }}">Mot de passe oublié</a>
+</section >
 
 {% endblock %}

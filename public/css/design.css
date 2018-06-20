@@ -32,3 +32,8 @@ body {
       height: 800px;
       width: 100%;
      }
+
+main .container-fluid {
+  padding-right: 0;
+  padding-left: 0;
+}

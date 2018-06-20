@@ -12,26 +12,25 @@ protected $entity = Location::class;
 
 protected $table = 'location';
 
-public function findAllAjax(){
+public function findAllAjax()
   {
     $results = $this->pdo
-      ->query("SELECT * FROM {$this->table} ")
+      ->query("SELECT * FROM {$this->table} WHERE visible = 1 ")
       ->fetchAll(\PDO::FETCH_NUM);
   $list = [];
-  foreach ($results as $result){
+    foreach ($results as $result)
+    {
 
-    $list[$result[0]]= [
-      'id' => $result[0],
-      'latitude' => $result[1],
-      'longitude' => $result[2],
-      'nameLocality' => $result[3]
-      ];
-  }
+      $list[$result[0]]= [
+        'id' => $result[0],
+        'latitude' => $result[1],
+        'longitude' => $result[2],
+        'nameLocality' => $result[3],
+        'visible' => $result[4]
+        ];
+    }
 
     return $list;
   }
-
-}
-
 
 }

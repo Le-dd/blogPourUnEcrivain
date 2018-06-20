@@ -3,12 +3,14 @@
 
 
 {% block body %}
+<section class="container">
+  <h1> Mots de passe oublié</h1>
+  <form class="" action="{{path(routePrefix ~ '.editepass') }}" method="post" enctype="multipart/form-data">
+        {{ csrf_input() }}
+        {{ field('email', null, 'Adresse email') }}
+    <button class="btn btn-primary" type="submit"> Envoyer l'email</button>
+  </form>
+</section>
 
-<h1> Mots de passe oublié</h1>
-<form class="" action="{{path(routePrefix ~ '.editepass') }}" method="post" enctype="multipart/form-data">
-      {{ csrf_input() }}
-      {{ field('email', null, 'Adresse email') }}
-  <button class="btn btn-primary" type="submit"> Envoyer l'email</button>
-</form>
 
 {% endblock %}

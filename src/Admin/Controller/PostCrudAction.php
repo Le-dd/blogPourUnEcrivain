@@ -189,7 +189,7 @@ class PostCrudAction extends CrudAction {
 
        return $this->redirect($this->routePrefix .'.index');
      }
-    
+
      QueryHydrator::hydrate ($request->getParsedBody(), $item);
      $errors = $validator->getErrors();
 
