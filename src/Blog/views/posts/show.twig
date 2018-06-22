@@ -4,7 +4,7 @@
 
 {% block body %}
 
-<section class="container-fluid{% if urlImg(post.id) != "default.jpg" %} blogCarteImage SectionEnteteImage{% else %}SectionEntete{% endif %}  SectionShow1" {% if urlImg(post.id) != "default.jpg" %} style="background-image : url({{ imageType(urlImg(post.id)) }})"{% endif %}>
+<section class="container-fluid{% if urlImg(post.id) != "default.jpg" %} blogCarteImage SectionEnteteImage{% else %} SectionEntete{% endif %}  SectionShow1" {% if urlImg(post.id) != "default.jpg" %} style="background-image : url({{ imageType(urlImg(post.id)) }})"{% endif %}>
   <h1>{{post.title}}</h1>
 </section>
 
