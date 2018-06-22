@@ -1,6 +1,217 @@
-body {
+html body {
+  padding-top: 5rem;
+  background-color : #efefef;
+  color: #3f3f3f;
+}
+
+html .pageIndex{
+  padding-top: 0;
+}
+
+html .pageIndex .IndexSection1{
+  padding-top: 5rem;
+  height: 500px;
+  background-size:cover;
+  display: flex;
+  justify-content : center;
+  align-items : center ;
+  box-shadow: 0px 5px 10px #a9a9a9;
+
+}
+html .pageIndex .indexTitre{
+  color: #efefef;
+  text-align: center;
+  text-shadow: 0px 2px 5px #000;
+
+}
+
+html .IndexSection2 {
+  padding: 70px 0;
+}
+
+html .IndexSection2 .cercleIndex{
+  width: 250px;
+  height: 250px;
+  overflow: hidden;
+  border-radius: 300px;
+  box-shadow: 0px 8px 5px #a9a9a9;
+  margin-bottom: 20px
+}
+
+html .IndexSection2 .divIS2left{
+  display: flex;
+  justify-content : center;
+  align-items : center ;
+}
+html .IndexSection2 .cercleIndex img{
+
+  height: 100%;
+
+}
+
+html .IndexSection2 .divIS2right{
+color: #efefef;
+background-color: #00664e;
+background-image:  url("../images/funky-lines2.png");
+
+border-radius: 10px;
+box-shadow: 0px 5px 5px #a9a9a9;
+padding: 20px ;
+}
+
+html .IndexSection2 .divIS2right h2{
+text-align: center;
+text-shadow: 0px 3px 4px #737373;
+}
+html .IndexSection2 .divIS2right p{
+padding: 20px 0;
+
+}
+
+
+html .pageIndex .IndexSection3{
+  padding: 20px 5px;
+  background-color: #fff;
+  display: flex;
+  box-shadow: 0px -3px 10px #a9a9a9;
+
+}
+
+html .pageIndex .IndexSection3 .subIndexSection3{
+  background-color: #efefef;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0px 5px 5px #a9a9a9;
+  padding: 10px ;
+}
+
+html .IndexSection3 .subIndexSection3 h2{
+text-align: center;
+text-shadow: 0px 3px 4px #a9a9a9;
+}
+html .IndexSection3 .subIndexSection3 h3{
+text-align: center;
+text-shadow: 0px 3px 4px #a9a9a9;
+padding-bottom: 20px ;
+}
+html .IndexSection3 .subIndexSection3 p{
+padding: 20px 0;
+
+}
+html .IndexSection3 .subIndexSection3 .IndexLastA{
+color: #efefef;
+
+}
+
+html .IndexSection3 .subIndexSection3 .IndexLastA:hover{
+color: #efefef;
+text-decoration: none;
+}
+
+html .IndexSection3 .subIndexSection3 .IndexLast p{
+  text-align: center;
+}
+
+
+html .IndexSection3 .subIndexSection3 .IndexLast{
+
+  background-color: #00664e;
+  background-image:  url("../images/funky-lines2.png");
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0px 5px 5px #a9a9a9;
+  padding: 20px ;
+}
+
+footer{
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#00664e+1,006a7a+100 */
+  background:  url("../images/funky-lines2.png"), #00664e; /* Old browsers */
+  background: url("../images/funky-lines2.png"), -moz-linear-gradient(-45deg, #00664e 1%, #006a7a 100%); /* FF3.6-15 */
+  background:  url("../images/funky-lines2.png"),-webkit-linear-gradient(-45deg, #00664e 1%,#006a7a 100%); /* Chrome10-25,Safari5.1-6 */
+  background:  url("../images/funky-lines2.png") ,linear-gradient(135deg, #00664e 1%,#006a7a 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00664e', endColorstr='#006a7a',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+  height: 100px;
+  box-shadow: 0px -3px 10px #a9a9a9;
+  padding: 20px ;
+  display: flex;
+  justify-content : center;
+  align-items : center ;
+  position: relative;
+  z-index: 50;
+
+}
+
+footer a{
+color: #efefef;
+display: block;
+}
+footer a p{
+margin: 0;
+}
+
+footer a:hover{
+  color: #efefef;
+  text-decoration: none;
+}
+
+html .pageBase {
+  padding-top: 0;
+}
+
+
+
+
+html body .SectionEntete{
+  padding-top: 5rem;
+  height: 300px;
+  color: #659ea6;
+  box-shadow: 0px 5px 10px #a9a9a9;
+  display: flex;
+  justify-content : center;
+  align-items : center ;
+  position: relative;
+  z-index: 50;
+  background-color: #fff;
+}
+
+html body .SectionEntete h1{
+  display: block;
+
+}
+
+html body .SectionMain{
+  padding: 25px;
+}
+
+html .pageLogin .SectionLogin{
+  padding-top: 5rem;
+  padding: 25px;
   padding-top: 5rem;
 }
+
+
+html .pageLogin .loginRaw{
+
+  padding:20px 0;
+  text-align: center;
+}
+html .pageLogin .loginRaw a{
+
+  color:#c85f26;
+  padding: 0 20px ;
+}
+html .pageLogin .loginRaw a:hover{
+
+  color:#a65428;
+  text-decoration: none;
+}
+
+
+
+
+
+
+
 .starter-template {
   padding: 3rem 1.5rem;
   text-align: center;
@@ -44,4 +255,168 @@ body {
 main .container-fluid {
   padding-right: 0;
   padding-left: 0;
+}
+header .btn-light{
+  color :#4f97a1;
+   background-color : #efefef;
+}
+ header .btn-light:hover {
+   color :#4f97a1;
+   background-color : #efefef;
+ }
+ header .bg-dark {
+   /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#00664e+1,006a7a+100 */
+   background:  url("../images/funky-lines2.png"), #00664e; /* Old browsers */
+   background: url("../images/funky-lines2.png"), -moz-linear-gradient(-45deg, #00664e 1%, #006a7a 100%); /* FF3.6-15 */
+   background:  url("../images/funky-lines2.png"),-webkit-linear-gradient(-45deg, #00664e 1%,#006a7a 100%); /* Chrome10-25,Safari5.1-6 */
+   background:  url("../images/funky-lines2.png") ,linear-gradient(135deg, #00664e 1%,#006a7a 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00664e', endColorstr='#006a7a',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+    box-shadow: 0px 5px 5px #b2b2b2;
+}
+
+
+ header .navbar-dark .navbar-nav .btn-light{
+   color :#4f9484;
+    background-color : #efefef;
+ }
+ header .navbar-dark .navbar-nav .btn-light:hover{
+   color :#4f9484;
+    background-color : #efefef;
+
+ }
+ body .btn-primary {
+    color: #fff;
+    background-color: #659ea6;
+    border-color: #659ea6;
+}
+body .btn-primary:hover {
+   color: #fff;
+   background-color: #5f9ba3;
+   border-color: #5f9ba3;
+}
+
+.btnAdminDeco{
+  float: right;
+}
+header .btnAdminDeco button{
+  margin: 10px auto;
+  display: block;
+}
+body header .ulBlogAuto {
+  width: auto;
+}
+
+header .navbar-nav {
+  width: 100%;
+}
+
+body .page-item.active .page-link {
+
+    background-color: #659ea6;
+    border-color: #659ea6;
+}
+
+body .page-link {
+  color: #659ea6;
+}
+.navbar-nav .nav-link {
+    text-align: center;
+}
+body .page-link:hover {
+    color: #659ea6;
+    text-decoration: none;
+    background-color: rgba(0,0,0,.05);
+    border-color: #dee2e6;
+}
+
+
+header .navBarBoutonBlog{
+  overflow:hidden
+}
+
+header .BarBoutonBlogName{
+  color:#fff;
+  padding: .5rem 1rem;
+  padding-right: 12px;
+  padding-left: .5rem;
+  text-align: center;
+}
+
+
+
+header .BarBoutonBlogAdmin a{
+  padding: .375rem .75rem;
+  text-align: center;
+  width: 135.03px;
+  display: block;
+  margin: 10px auto;
+
+}
+header .BarBoutonAdminBlog a{
+  padding: .375rem .75rem;
+  text-align: center;
+  width: 135.03px;
+  display: block;
+  margin: 10px auto;
+
+}
+
+header .BarBoutonBlogDeco button{
+  margin: 10px auto;
+  display: block;
+}
+
+
+@media (min-width: 768px){
+
+html .IndexSection2 .cercleIndex{
+
+  margin-bottom: 0;
+}
+html .IndexSection2 .divIS2left{
+  max-width: 100%;
+}
+
+  html .pageIndex .IndexSection3{
+
+    padding: 20px;
+  }
+
+  html .pageIndex .IndexSection3 .subIndexSection3{
+    padding: 50px;
+  }
+
+  header .BarBoutonBlogFloatLeft{
+    float:left;
+  }
+
+  .navbar-nav .nav-link {
+      text-align:left;
+  }
+  header .BarBoutonBlogName a{
+
+    text-align: left;
+  }
+  header .BarBoutonBlogDeco button{
+    margin: 0;
+    margin-right: 5px;
+    display: inline-block;
+  }
+  header .btnAdminDeco button{
+      margin: 0;
+      margin-right: 5px;
+      display: inline-block;
+    }
+
+  header .BarBoutonBlogAdmin a{
+    width: auto;
+    margin: 0;
+
+  }
+
+  header .BarBoutonAdminBlog a{
+    width: auto;
+    margin: 0;
+
+  }
 }

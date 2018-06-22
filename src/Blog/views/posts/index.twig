@@ -1,10 +1,15 @@
 {% extends '/Blog/layout.twig' %}
-{% block title "billet pour alaska : blog" %}
-
+{% block title "les lieux visité" %}
+{% block classBody "pageBlog pageBase " %}
 
 {% block body %}
-<section class="container">
-  <h1> Bienvenue sur le blog </h1>
+
+<section class="container-fluid SectionEntete SectionBlog1">
+<h1> les lieux visité par le héro  </h1>
+</section>
+
+<section class="container SectionBlog2 SectionMain">
+
   <div class="row">
     {% for row in posts | batch(3) %}
       <div class="card-deck">

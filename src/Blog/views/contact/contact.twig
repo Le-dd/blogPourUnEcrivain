@@ -1,10 +1,14 @@
 {% extends '/Blog/layout.twig' %}
 {% block title "billet pour alaska : blog" %}
+{% block classBody "pageContact pageBase " %}
 
 
 {% block body %}
-<section class="container">
+<section class="container-fluid SectionEntete SectionContact1">
   <h1> Contactez-moi! </h1>
+</section>
+<section class="container SectionContact2 SectionMain">
+
   <form class="" action="{{path('blog.contact') }}" method="post" enctype="multipart/form-data">
     {{ csrf_input() }}
     {{ field('name', null, "Votre nom") }}
@@ -15,8 +19,6 @@
     <button class="btn btn-primary" type="submit"> Envoyer</button>
   </form>
 </section>
-
-
 
 
 {% endblock %}

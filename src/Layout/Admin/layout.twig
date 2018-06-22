@@ -11,6 +11,7 @@
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.5.0/flatpickr.css">
+    <link rel="stylesheet" href="{{ host_serveur() }}/css/font-awesome.min.css">
     <link rel="stylesheet" href="{{ host_serveur() }}/css/design.css">
 
   <body>
@@ -21,11 +22,14 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
-          <ul class="navbar-nav mr-auto">
-            {{ admin_menu() }}
-          </ul>
-          <div class="navbar-nav mr-auto">
-            <form class="nav-item" method="post" action="{{ path('auth.logout') }}">
+          <div class="navbar-nav navbar-navAdmin  ">
+            <div  class="nav-item BarBoutonAdminBlog">
+              <a class="nav-link btn btn-light" href="{{ path('blog.index') }}"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+            </div>
+            <ul class="navbar-nav ">
+              {{ admin_menu() }}
+            </ul>
+            <form class="nav-item btnAdminDeco" method="post" action="{{ path('auth.logout') }}">
               {{ csrf_input() }}
               <button class=" btn btn-primary">Se déconnecter</button></a>
             </form>

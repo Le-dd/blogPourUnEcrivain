@@ -10,7 +10,8 @@ use App\Blog\Controller\{
   PostIndexAction,
   PostShowAction,
   CommentsAction,
-  ContactAction
+  ContactAction,
+  LegalAction
 };
 use Psr\Container\ContainerInterface;
 use  App\Blog\TwigExtension\BlogTwigExtension;
@@ -29,6 +30,8 @@ class BlogModule extends Module {
     $categoryPrefix = $container->get('category.prefix');
     $postPrefix = $container->get('posts.prefix');
     $contactPrefix = $container->get('contact.prefix');
+    $legalPrefix = $container->get('legal.prefix');
+
 
     $renderer->addPath('blog',__DIR__.'/views');
     $router =  $container->get(Router::class);
@@ -43,6 +46,7 @@ class BlogModule extends Module {
     $router->post("$postPrefix/signal", CommentsAction::class, 'blog.com.signale');
     $router->get($contactPrefix , ContactAction::class, 'blog.contact');
     $router->post($contactPrefix , ContactAction::class);
+    $router->get($legalPrefix, LegalAction::class, 'blog.legal');
 
      if($renderer instanceof TwigRenderer){
        $renderer->getTwig()->addExtension($blogTwigExtension);

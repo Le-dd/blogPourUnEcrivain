@@ -202,7 +202,7 @@ class IndexCrudAction {
        $image1 = $this->imageTable->find($item['imgFond']);
        $image2 = $this->imageTable->find($item['imgProfil']);
        $this->flash->success("L'élément a bien été éditer");
-
+       $this->session->delete('postInfo');
        return $this->renderer->render(
          $this->viewPath .'/crudIndex',
          compact('item','errors','image1','image2')

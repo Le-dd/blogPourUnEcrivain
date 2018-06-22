@@ -1,17 +1,25 @@
 {% extends '/Blog/layout.twig' %}
 {% block title "billet pour alaska : login" %}
-
+{% block classBody "pageLogin pageBase " %}
 
 {% block body %}
-<section class="container">
+<section class="container SectionLogin">
   <form action="{{ path('auth.login')}}" method="post">
     {{ csrf_input() }}
     {{ field('login', null, 'Nom d\'utilisateur') }}
     {{ field('password', null, 'Mot de passe', {type:'password'}) }}
     <button class="btn btn-primary"> Se connecter </button>
   </form>
-   <a class="nav-link" href="{{ path('auth.crud.create') }}">S'inscrire au blog</a>
-   <a class="nav-link" href="{{ path('auth.crud.editepass') }}">Mot de passe oublié</a>
+  <div class=" loginRaw ">
+
+      <a class="loginLink1" href="{{ path('auth.crud.create') }}">S'inscrire au blog</a>
+
+
+      <a class="loginLink2" href="{{ path('auth.crud.editepass') }}">Mot de passe oublié</a>
+
+
+  </div>
+
 </section >
 
 {% endblock %}

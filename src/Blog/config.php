@@ -8,6 +8,7 @@ return [
   'posts.prefix'=>'/posts',
   'category.prefix'=>'/location',
   'contact.prefix' => '/contact',
+  'legal.prefix' => '/legal',
   'blog.widgets' => \DI\add([
     \DI\get( App\Blog\Widget\BlogWidget::class )
   ]),

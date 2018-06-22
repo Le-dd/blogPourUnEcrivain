@@ -1,10 +1,14 @@
 {% extends '/Blog/layout.twig' %}
 {% block title "Mots de passe oublié" %}
+{% block classBody "pageValidEpass pageBase " %}
 
 
 {% block body %}
-<section class="container">
-<h1> Nouveau mots de passe</h1>
+<section class="container-fluid SectionEntete ">
+  <h1> La carte du voyage </h1>
+
+</section>
+<section class="container SectionMain">
 <form class="" action="{{path( routePrefix ~ '.validpass') }}" method="post" enctype="multipart/form-data">
   {{ csrf_input() }}
   {{ field('password', null, 'Mot de passe', {type:'password'}) }}

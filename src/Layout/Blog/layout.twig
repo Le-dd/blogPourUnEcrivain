@@ -6,14 +6,15 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>{% block title "billet pour alaska" %}</title>
+    <title>{% block title "Billet simple pour l'Alaska" %}</title>
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.5.0/flatpickr.css">
+    <link rel="stylesheet" href="{{ host_serveur() }}/css/font-awesome.min.css">
     <link rel="stylesheet" href="{{ host_serveur() }}/css/design.css">
 
-  <body>
+  <body class ="{% block classBody "pageBody" %}">
 
     <header>
       <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
@@ -21,19 +22,29 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
-          <ul class="navbar-nav mr-auto">
+          <ul class="navbar-nav ulBlogAuto mr-auto ">
             {{ blog_menu() }}
           </ul>
-         <div style="overflow:hidden" class="nav-item ">
+
+         <div  class="nav-item navBarBoutonBlog ">
            {% if current_user() %}
-             <div style="float:left; color:#fff; padding-right: 20px;" class="navbar-test">Connecté en tant que {{ current_user().username }}  </div>
-             <form style="float:left" class="nav-item" method="post" action="{{ path('auth.logout') }}">
+             <div  class="navbar-testnav BarBoutonBlogName BarBoutonBlogFloatLeft">{{ current_user().username }} </div>
+             <form  class="nav-item BarBoutonBlogFloatLeft BarBoutonBlogDeco " method="post" action="{{ path('auth.logout') }}">
                {{ csrf_input() }}
-               <button class=" btn btn-primary">Se déconnecter</button></a>
+               <button class=" btn btn-primary">Se déconnecter</button>
              </form>
+             {% if current_permission() == '777' %}
+             <div  class="nav-item BarBoutonBlogFloatLeft BarBoutonBlogAdmin ">
+               <a class="nav-link btn btn-light" href="{{ path('admin') }}"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></a>
+             </div>
+             {% else %}
+             <div  class="nav-item  BarBoutonBlogFloatLeft BarBoutonBlogAdmin">
+               <a class="nav-link btn btn-light" href="{{ path('admin.login') }}"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></a>
+             </div>
+             {% endif %}
            {% else %}
              <div class="nav-item ">
-               <a class="nav-link" href="{{ path('auth.login') }}">Se connecter</a>
+               <a class="nav-link btn btn-light" href="{{ path('auth.login') }}">Se connecter</a>
              </div>
            {% endif %}
          </div>
@@ -42,7 +53,8 @@
    </header>
 
     <main>
-      <section class="container">
+      {% if flash('success') or flash('error') %}
+      <section class="container containerFlash">
         {% if flash('success') %}
           <div class="alert alert-success">
             {{ flash('success') }}
@@ -56,11 +68,12 @@
           </div>
         {% endif %}
       </section>
-
+    {% endif %}
       {% block body %}{% endblock %}
     </main>
 
     <footer>
+      <a href="{{ path('blog.legal') }}"><p>Billet simple pour l'Alaska ©2018 : Mentions Legals</p></a>
     </footer>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -74,7 +87,7 @@
     <script src="{{ host_serveur() }}/js/script.js"></script>
     <script src="{{ host_serveur() }}/js/GmapPost.js"></script>
     <script src="{{ host_serveur() }}/js/GmapLoc.js"></script>
-    
+
 
   </body>
 </html>

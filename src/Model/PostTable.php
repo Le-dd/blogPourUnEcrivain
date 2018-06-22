@@ -55,15 +55,34 @@ public function findAllByAjax(array $params){
 
   return $list;
   }
-  public  $latitude;
+  public function findLast()
+    {
+      $results = $this->pdo
+        ->query("SELECT * FROM {$this->table} ORDER BY date DESC, time DESC LIMIT 1 ")
+        ->fetchAll(\PDO::FETCH_NUM);
+    $list = [];
+      foreach ($results as $result)
+      {
 
-  public  $longitude;
+        $list[]= [
+          'id' => $result[0],
+          'slug' => $result[1],
+          'title' => $result[2],
+          'main' => $result[3],
+          'date' => $result[4],
+          'time' => $result[5],
+          'latitude' => $result[6],
+          'longitude' => $result[7],
+          'visible' => $result[8],
+          'locationId' => $result[9],
+          'namePlace' => $result[10]
 
-  public  $visible;
+          ];
+      }
 
-  public  $locationId;
+      return $list;
+    }
 
-  public  $namePlace;
 
 
 

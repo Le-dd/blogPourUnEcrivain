@@ -1,12 +1,47 @@
 {% extends '/Blog/layout.twig' %}
-{% block title "billet pour alaska : blog" %}
+{% block title "Billet simple pour l'Alaska : blog" %}
+{% block classBody "pageIndex" %}
 
 
 {% block body %}
-<section class="container">
-  <h1> Un Billet simple pour l'Alaska </h1>
+<section style="background-image : url({{ imageType(image1.url) }})" class="container-fluid IndexSection1">
+  <div class="indexTitre">
+    <h1> {{ item.title }} </h1>
+    <p> {{ item.subtitle }} </p>
+  </div>
 
-  <img src="{{ imageType(image1.url,'Miniature') }}" alt="{{ image1.alt }}" >
+</section>
+<section class="container IndexSection2">
+  <div class="row justify-content-md-center">
+
+  <div class="col-md-4 divIS2left ">
+    <div class="cercleIndex  ">
+      <img src="{{ imageType(image2.url) }}" alt="{{ image2.alt | striptags }}" >
+    </div>
+  </div>
+
+  <div class="divIS2right col-md-6 ">
+    <h2> Présention de l'auteur </h2>
+    {{ item.presentation | raw}}
+
+  </div>
+
+</div>
+</div>
+</section>
+<section class="container-fluid IndexSection3">
+  <div class="container subIndexSection3">
+    <h2> Synopsis du roman</h2>
+    {{ item.main | raw}}
+    <h3> Dernier Article</h3>
+    <a href="{{ path('blog.posts.show', { slug: last.slug, id: last.id }) }}" class="IndexLastA">
+      <div class="IndexLast">
+          <h3>{{ last.title }}</h3>
+          <p>{{ last.main | excerpt | nl2br }}</p>
+      </div>
+    </a>
+  </div>
+
 </section>
 
 

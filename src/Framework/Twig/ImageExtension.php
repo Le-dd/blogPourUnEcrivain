@@ -46,7 +46,7 @@ class ImageExtension extends \Twig_Extension {
       if(!is_null($type)){
         $extention = substr($url,-4);
         $url= str_replace($extention,'',$url);
-            return "/images/{$url}_{$type}.jpg";
+            return "/images/{$url}_{$type}{$extention}";
       }
 
           return "/images/{$url}";
