@@ -1,13 +1,17 @@
 {% extends '/Admin/layout.twig' %}
-{% block title "Editer l'article" %}
-
+{% block title "Ajouter une image" %}
+{% block classBody "pageBase " %}
 
 {% block body %}
 
-<h1> Ajouter un article</h1>
+<section class="container-fluid SectionEntete ">
+<h1> Ajouter une image</h1>
+</section>
+
+<section class="container SectionMain ">
 <form class="" action="{{path( routePrefix ~ '.create') }}" method="post" enctype="multipart/form-data">
   {% include viewPath ~ '/form.twig'%}
   <button class="btn btn-primary" type="submit"> Ajouter</button>
 </form>
-
+</section>
 {% endblock %}

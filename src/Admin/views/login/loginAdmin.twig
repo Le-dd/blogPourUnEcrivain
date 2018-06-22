@@ -1,41 +1,49 @@
 {% extends '/Admin/layout.twig' %}
 {% block title "Administration login" %}
+{% block classBody "pageBase " %}
 
 
 {% block body %}
-
+<section class="container-fluid SectionEntete ">
 <h1> Admistration login</h1>
+</section>
 
-<h2> Changer d'email</h2>
-<form class="" action="{{path( routePrefix ~ '.editMail') }}" method="post" enctype="multipart/form-data">
-  {{ csrf_input() }}
-  {{ field('email', null, 'Adresse email') }}
-<button class="btn btn-primary" type="submit"> Changer son email </button>
-</form>
+<section class="container Adminlogin SectionMain">
+  <h2> Changer d'email</h2>
+  <form class="" action="{{path( routePrefix ~ '.editMail') }}" method="post" enctype="multipart/form-data">
+    {{ csrf_input() }}
+    {{ field('email', null, 'Adresse email') }}
+  <button class="btn btn-primary" type="submit"> Changer son email </button>
+  </form>
+</section>
 
+<section class="container Adminlogin SectionMain">
+  <h2> Changer de mot de passe</h2>
+  <form class="" action="{{path( routePrefix ~ '.editPass') }}" method="post" enctype="multipart/form-data">
+    {{ csrf_input() }}
 
-<h2> Changer de mot de passe</h2>
-<form class="" action="{{path( routePrefix ~ '.editPass') }}" method="post" enctype="multipart/form-data">
-  {{ csrf_input() }}
+    {{ field('password', null, 'Nouveau mot de passe', {type:'password'}) }}
+    {{ field('verifpassword', null, 'Retaper le Mot de passe', {type:'password'}) }}
 
-  {{ field('password', null, 'Nouveau mot de passe', {type:'password'}) }}
-  {{ field('verifpassword', null, 'Retaper le Mot de passe', {type:'password'}) }}
+    {{ field('login', null, 'Nom d\'utilisateur') }}
+    {{ field('ancienPassword', null, 'Ancien mot de passe', {type:'password'}) }}
+  <button class="btn btn-primary" type="submit"> Changer son mot de passe </button>
+  </form>
+</section>
 
-  {{ field('login', null, 'Nom d\'utilisateur') }}
-  {{ field('ancienPassword', null, 'Ancien mot de passe', {type:'password'}) }}
-<button class="btn btn-primary" type="submit"> Changer son mot de passe </button>
-</form>
+<section class="container Adminlogin SectionMain">
+  <h2> Changer de nom d'utilisateur </h2>
+  <form class="" action="{{path( routePrefix ~ '.editLog') }}" method="post" enctype="multipart/form-data">
+    {{ csrf_input() }}
+    {{ field('login2', null, 'Nouveau nom d\'utilisateur') }}
+    {{ field('veriflogin', null, 'Retaper le nom d\'utilisateur') }}
 
-<h2> Changer de nom d'utilisateur </h2>
-<form class="" action="{{path( routePrefix ~ '.editLog') }}" method="post" enctype="multipart/form-data">
-  {{ csrf_input() }}
-  {{ field('login2', null, 'Nouveau nom d\'utilisateur') }}
-  {{ field('veriflogin', null, 'Retaper le nom d\'utilisateur') }}
+    {{ field('ancienLogin', null, 'Ancien nom d\'utilisateur') }}
+    {{ field('passwordLog', null, 'Mot de passe', {type:'password'}) }}
+  <button class="btn btn-primary" type="submit"> Changer son nom d'utilisateur </button>
+  </form>
+</section>
 
-  {{ field('ancienLogin', null, 'Ancien nom d\'utilisateur') }}
-  {{ field('passwordLog', null, 'Mot de passe', {type:'password'}) }}
-<button class="btn btn-primary" type="submit"> Changer son nom d'utilisateur </button>
-</form>
 
 
 {% endblock %}

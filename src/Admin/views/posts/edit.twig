@@ -1,36 +1,40 @@
 {% extends '/Admin/layout.twig' %}
 {% block title "Editer l'article" %}
-
+{% block classBody "pageBase pageAdminArticle " %}
 
 {% block body %}
-
+<section class="container-fluid SectionEntete ">
 <h1> Editer l'article {{ item.title }}</h1>
-<form class="" action="{{path( routePrefix ~ '.edit', {id: item.id}) }}" method="post" enctype="multipart/form-data">
-  {{ csrf_input() }}
-  {{ field('title', item.title, "Titre de l'article") }}
-  {{ field('slug', item.slug, "Lien de l'article") }}
-  {{ field('main', item.main, "Contenu de l'article", {type:'textarea'})}}
-  {{ field('date', item.date, "Date de l'article", {class:'datepicker'}) }}
-  {{ field('time', item.time, "Heure de l'article", {class:'timepicker'}) }}
-  {{ field('location_id', item.locationId, "Catégorie de loclisation", {options: locations}) }}
-  <div id="mapAdmin" data-lat="{{ item.latitude}}" data-lng="{{ item.longitude}}" data-title="{{ item.namePlace}}"></div>
-  {{ field('name_place', item.namePlace, "Nom du lieux",{class:'title'}) }}
-  {{ field('latitude', item.latitude, "Latitude",{class:'Latitude'}) }}
-  {{ field('longitude', item.longitude, "longitude",{class:'longitude'}) }}
-  {{ field('visible', item.visible, "En ligne ?", {type:'checkbox'}) }}
+</section>
+
+<section class="container SectionMain ">
+
+  <form class="" action="{{path( routePrefix ~ '.edit', {id: item.id}) }}" method="post" enctype="multipart/form-data">
+    {{ csrf_input() }}
+    {{ field('title', item.title, "Titre de l'article") }}
+    {{ field('slug', item.slug, "Lien de l'article") }}
+    {{ field('main', item.main, "Contenu de l'article", {type:'textarea'})}}
+    {{ field('date', item.date, "Date de l'article", {class:'datepicker'}) }}
+    {{ field('time', item.time, "Heure de l'article", {class:'timepicker'}) }}
+    {{ field('location_id', item.locationId, "Catégorie de loclisation", {options: locations}) }}
+    <div id="mapAdmin" data-lat="{{ item.latitude}}" data-lng="{{ item.longitude}}" data-title="{{ item.namePlace}}"></div>
+    {{ field('name_place', item.namePlace, "Nom du lieux",{class:'title'}) }}
+    {{ field('latitude', item.latitude, "Latitude",{class:'Latitude'}) }}
+    {{ field('longitude', item.longitude, "longitude",{class:'longitude'}) }}
+    {{ field('visible', item.visible, "En ligne ?", {type:'checkbox'}) }}
 
 
-  <button class="btn btn-primary" type="submit"> Editer</button>
-</form>
-
-<h1> Editer l'image {{ image.title }}</h1>
-<img src="{{ imageType(image.url,'Miniature') }}" alt="{{ image.alt }}" >
-<form class="" action="{{path( 'blog.img.admin.image') }}" method="post" enctype="multipart/form-data">
-  {{ csrf_input() }}
-  <input class="d-none" type="hidden " name="itemSave" value="{{ itemSave }}">
-  <input class="d-none" type="hidden " name="idPost" value="{{ item.id }}">
-  <button class="btn btn-dark" type="submit"> Editer</button>
-</form>
-
-
+    <button class="btn btn-primary" type="submit"> Editer</button>
+  </form>
+  <div class="AdminImgeSelect">
+    <h2> Editer l'image {{ image.title }}</h2>
+    <img src="{{ imageType(image.url,'Miniature') }}" alt="{{ image.alt }}" >
+    <form class="" action="{{path( 'blog.img.admin.image') }}" method="post" enctype="multipart/form-data">
+      {{ csrf_input() }}
+      <input class="d-none" type="hidden " name="itemSave" value="{{ itemSave }}">
+      <input class="d-none" type="hidden " name="idPost" value="{{ item.id }}">
+      <button class="btn btn-dark" type="submit"> Editer</button>
+    </form>
+  </div>
+</section>
 {% endblock %}

@@ -35,8 +35,8 @@ class ImageExtension extends \Twig_Extension {
     {
       return[
       new \Twig_SimpleFunction('imageType',[$this,'image'], ['is_safe' =>['html']]),
-      new \Twig_SimpleFunction('url',[$this,'url'], ['is_safe' =>['html']]),
-      new \Twig_SimpleFunction('alt',[$this,'alt'], ['is_safe' =>['html']])
+      new \Twig_SimpleFunction('urlImg',[$this,'urlImg'], ['is_safe' =>['html']]),
+      new \Twig_SimpleFunction('altImg',[$this,'altImg'], ['is_safe' =>['html']])
       ];
     }
 
@@ -51,7 +51,7 @@ class ImageExtension extends \Twig_Extension {
 
           return "/images/{$url}";
       }
-      private function url($id){
+      public  function urlImg($id){
         $params['postId']= $id;
         $existe = $this->imagePostTable->findAllBy($params)->count();
         if($existe !== 0){
@@ -66,7 +66,7 @@ class ImageExtension extends \Twig_Extension {
       }
 
 
-      private function alt($id){
+      public function altImg($id){
         $params['postId']= $id;
         $existe = $this->imagePostTable->findAllBy($params)->count();
         if($existe !== 0){

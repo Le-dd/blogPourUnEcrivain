@@ -3,7 +3,7 @@
 
 
 {% block body %}
-
+<section class="container SectionMain ">
 <p class="text-rigth">
   <a href="{{path( routePrefix ~ '.create') }}" class="btn btn-primary">
     Ajouter un article
@@ -39,5 +39,5 @@
 </table>
 
 {{ paginate(items, routePrefix ~ '.index') }}
-
+</section>
 {% endblock %}

@@ -34,7 +34,7 @@ public function findAll()
     ->select('c.*,r.comment_id as idComReport ,r2.count')
     ->join('report as r','c.id = r.comment_id','right')
     ->join2('(SELECT COUNT(id) as count , comment_id FROM report GROUP BY comment_id) as r2','r2.comment_id = r.comment_id','right')
-    ->order('r2.count ASC');
+    ->order('r2.count DESC');
 
 
 

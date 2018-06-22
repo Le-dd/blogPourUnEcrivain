@@ -1,27 +1,33 @@
 {% extends '/Blog/layout.twig' %}
 {% block title post.title %}
+{% block classBody "pageShow pageBase " %}
 
 {% block body %}
 
-<section class="container">
+<section class="container-fluid{% if urlImg(post.id) != "default.jpg" %} blogCarteImage SectionEnteteImage{% else %}SectionEntete{% endif %}  SectionShow1" {% if urlImg(post.id) != "default.jpg" %} style="background-image : url({{ imageType(urlImg(post.id)) }})"{% endif %}>
   <h1>{{post.title}}</h1>
+</section>
 
+<section class="container-fluid SectionMain SectionShow2">
+
+  <div class="container">
   <p class="text-muted">{{ post.dateTime | ago }}</p>
 
   {{post.main | raw | nl2br }}
 
-
+</div>
 </section>
-<section class="container-fluid mapPost">
+<section class="container-fluid mapPost SectionShow3">
   <div id="mapPost" data-lat="{{ post.latitude}}" data-lng="{{ post.longitude}}" data-title="{{ post.namePlace}}" >
   </div>
 
 </section>
-<section class="container">
-  <h2> Commentaire </h2>
-  {{ create_com(post.id,post.slug) }}
-  {{ affiche_com(post.id,post.slug) }}
-
+<section class=" container-fluid SectionMain SectionShow4">
+  <div class="container">
+    <h2> Commentaire </h2>
+    {{ create_com(post.id,post.slug) }}
+    {{ affiche_com(post.id,post.slug) }}
+  </div>
 </section>
 
 

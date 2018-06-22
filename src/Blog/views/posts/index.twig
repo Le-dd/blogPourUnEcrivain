@@ -2,6 +2,7 @@
 {% block title "les lieux visité" %}
 {% block classBody "pageBlog pageBase " %}
 
+
 {% block body %}
 
 <section class="container-fluid SectionEntete SectionBlog1">
@@ -15,7 +16,7 @@
       <div class="card-deck">
         {% for post in row %}
         <div class="card">
-          <div class="card-header">
+          <div class="card-header blogCarteHeader {% if urlImg(post.id) != "default.jpg" %} blogCarteImage {% endif %}" {% if urlImg(post.id) != "default.jpg" %} style="background-image : url({{ imageType(urlImg(post.id),'Miniature') }})"{% endif %}>
             <h2><a href="{{ path('blog.posts.show', { slug: post.slug, id: post.id }) }}">
               {{ post.title }}
             </a></h2>

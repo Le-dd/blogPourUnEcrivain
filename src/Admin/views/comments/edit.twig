@@ -1,10 +1,15 @@
 {% extends '/Admin/layout.twig' %}
-{% block title "Editer l'article" %}
+{% block title "Voire les signalements" %}
+{% block classBody "pageBase " %}
 
 
 {% block body %}
 
+<section class="container-fluid SectionEntete ">
 <h1> Voire les signalements {{ item.title }}</h1>
+</section>
+<section class="container-fluid SectionMain ">
+
 {{ csrf_input() }}
   {% include viewPath ~ '/form.twig'%}
   <form style ="display:inline" action="{{path( routePrefix ~ '.delete', {id: item.id}) }}" method="POST" onsubmit="return confirm('êtes vous sûr ?')">
@@ -12,5 +17,6 @@
     <button class="btn btn-danger"> Supprimer</button>
 
   </form>
+</section>
 
 {% endblock %}

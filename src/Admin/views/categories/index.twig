@@ -4,6 +4,7 @@
 
 {% block body %}
 
+<section class="container SectionMain ">
 <p class="text-rigth">
   <a href="{{path( routePrefix ~ '.create') }}" class="btn btn-primary">
     Ajouter une catégorie
@@ -36,5 +37,5 @@
 </table>
 
 {{ paginate(items, routePrefix ~ '.index') }}
-
+</section>
 {% endblock %}

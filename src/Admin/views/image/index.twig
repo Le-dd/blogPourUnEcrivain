@@ -1,9 +1,9 @@
 {% extends '/Admin/layout.twig' %}
-{% block title "billet pour alaska : Administration" %}
+{% block title " Administration des images" %}
 
 
 {% block body %}
-
+<section class="container SectionMain ">
 <p class="text-rigth">
   <a href="{{path( routePrefix ~ '.create') }}" class="btn btn-primary">
     Ajouter une image
@@ -55,5 +55,5 @@
 </table>
 
 {{ paginate(items, routePrefix ~ '.index') }}
-
+</section >
 {% endblock %}

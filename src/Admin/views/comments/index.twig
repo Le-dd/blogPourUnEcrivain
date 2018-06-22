@@ -1,11 +1,11 @@
 {% extends '/Admin/layout.twig' %}
-{% block title "billet pour alaska : Administration" %}
+{% block title " Administration des commentaires" %}
 
 
 {% block body %}
 
 
-
+<section class="container SectionMain ">
 <table class="table table-striped">
   <thead>
     <tr>
@@ -42,5 +42,5 @@
 </table>
 
 {{ paginate(items, routePrefix ~ '.index') }}
-
+</section>
 {% endblock %}

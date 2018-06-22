@@ -1,13 +1,16 @@
 {% extends '/Admin/layout.twig' %}
-{% block title "Editer l'article" %}
-
+{% block title "Editer l'image" %}
+{% block classBody "pageBase " %}
 
 {% block body %}
+<section class="container-fluid SectionEntete ">
+<h1> Editer l'image {{ item.title }}</h1>
+</section>
 
-<h1> Editer l'article {{ item.title }}</h1>
+<section class="container SectionMain ">
 <form class="" action="{{path( routePrefix ~ '.edit', {id: item.id}) }}" method="post" enctype="multipart/form-data">
   {% include viewPath ~ '/form.twig'%}
   <button class="btn btn-primary" type="submit"> Editer</button>
 </form>
-
+</section>
 {% endblock %}

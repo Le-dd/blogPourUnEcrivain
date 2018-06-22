@@ -1,13 +1,15 @@
 {% extends '/Admin/layout.twig' %}
 {% block title "Editer l'catégorie" %}
-
+{% block classBody "pageBase " %}
 
 {% block body %}
-
+<section class="container-fluid SectionEntete ">
 <h1> Editer la catégorie {{ item.name_locality }}</h1>
+</section>
+<section class="container SectionMain ">
 <form class="" action="{{path( routePrefix ~ '.edit', {id: item.id}) }}" method="post">
   {% include viewPath ~ '/form.twig'%}
   <button class="btn btn-primary" type="submit"> Editer</button>
 </form>
-
+</section>
 {% endblock %}

@@ -122,15 +122,16 @@ html .IndexSection3 .subIndexSection3 .IndexLast{
   box-shadow: 0px 5px 5px #a9a9a9;
   padding: 20px ;
 }
-
 footer{
+height: 100px;
+}
+.footer{
   /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#00664e+1,006a7a+100 */
   background:  url("../images/funky-lines2.png"), #00664e; /* Old browsers */
   background: url("../images/funky-lines2.png"), -moz-linear-gradient(-45deg, #00664e 1%, #006a7a 100%); /* FF3.6-15 */
   background:  url("../images/funky-lines2.png"),-webkit-linear-gradient(-45deg, #00664e 1%,#006a7a 100%); /* Chrome10-25,Safari5.1-6 */
   background:  url("../images/funky-lines2.png") ,linear-gradient(135deg, #00664e 1%,#006a7a 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00664e', endColorstr='#006a7a',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
-  height: 100px;
   box-shadow: 0px -3px 10px #a9a9a9;
   padding: 20px ;
   display: flex;
@@ -158,8 +159,24 @@ html .pageBase {
   padding-top: 0;
 }
 
+.containerFlash{
+  padding-top: 5rem;
+}
 
+html body .SectionEnteteImage{
+  padding-top: 5rem;
+  height: 300px;
+  color: #efefef;
+  text-shadow: 0px 2px 5px #737373;
+  box-shadow: 0px 5px 10px #a9a9a9;
+  display: flex;
+  background-size: cover;
+  justify-content : center;
+  align-items : center ;
+  position: relative;
+  z-index: 50;
 
+}
 
 html body .SectionEntete{
   padding-top: 5rem;
@@ -172,6 +189,11 @@ html body .SectionEntete{
   position: relative;
   z-index: 50;
   background-color: #fff;
+}
+
+html body .SectionEnteteImage h1{
+  display: block;
+
 }
 
 html body .SectionEntete h1{
@@ -206,8 +228,63 @@ html .pageLogin .loginRaw a:hover{
   text-decoration: none;
 }
 
+html .pageBlog .SectionBlog2 .blogCarteHeader{
+  background-color: #00664e;
+  background-image:  url("../images/funky-lines2.png");
+  height: 100px;
+  padding: 15px ;
+  display: flex;
+  justify-content : center;
+  align-items : center ;
+}
+
+html .pageBlog .SectionBlog2 .blogCarteImage{
+  background-size:cover;
+}
+
+html .pageBlog .SectionBlog2 .card-deck{
+  margin-bottom: 20px;
+}
+
+html .pageBlog .SectionBlog2 .blogCarteHeader a{
+  color: #efefef;
+  text-shadow: 0px 2px 5px #737373;
+  display: block;
+
+}
+
+html .pageBlog .SectionBlog2 .blogCarteHeader a:hover{
+  color: #efefef;
+  text-decoration: none;
+
+}
+
+html .pageBlog .SectionBlog2 .blogCarteHeader h2{
+  font-size : 22px;
+  display: block;
+  display: flex;
+  justify-content : center;
+  align-items : center ;
 
 
+}
+
+.pagination{
+  justify-content : center;
+  align-items : center ;
+}
+
+html .pageShow  .SectionShow2{
+  box-shadow: 0px 5px 10px #a9a9a9;
+  position: relative;
+  z-index: 50;
+}
+
+html .pageShow  .SectionShow4{
+  box-shadow: 0px -3px 10px #a9a9a9;
+  position: relative;
+  z-index: 50;
+}
 
 
 
@@ -255,6 +332,17 @@ html .pageLogin .loginRaw a:hover{
 main .container-fluid {
   padding-right: 0;
   padding-left: 0;
+}
+
+
+html body .btn-dark {
+  color :#efefef;
+   background-color : #3f3f3f;
+}
+
+html body .btn-danger {
+  color :#efefef;
+   background-color : #c85f26;
 }
 header .btn-light{
   color :#4f97a1;
@@ -365,6 +453,36 @@ header .BarBoutonBlogDeco button{
   margin: 10px auto;
   display: block;
 }
+
+.Adminlogin h2{
+  padding-bottom: 15px;
+}
+body .AdminImgeSelect {
+    margin:0 auto;
+    width: 320px;
+    overflow: hidden;
+}
+
+body .AdminImgeSelect h2,body .AdminImgeSelect img,body .AdminImgeSelect form{
+    padding-bottom: 15px;
+    width: auto;
+}
+body .AdminImgeSelect img{
+
+    width: 100 %;
+}
+
+body .AdminImgeSelect h2{
+  font-size: 25px;
+}
+body .AdminImgeSelect form{
+  float: right;
+}
+
+.pageAdminArticle iframe{
+  height:800px !important;
+}
+
 
 
 @media (min-width: 768px){
