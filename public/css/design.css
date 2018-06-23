@@ -204,6 +204,12 @@ html body .SectionEntete h1{
 html body .SectionMain{
   padding: 25px;
 }
+html body .SectionMain2{
+  padding: 230px;
+}
+html body .SectionMain3{
+  padding: 75px;
+}
 
 html .pageLogin .SectionLogin{
   padding-top: 5rem;
