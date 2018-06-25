@@ -1,5 +1,5 @@
 {% extends '/Admin/layout.twig' %}
-{% block title " Administration des commentaires" %}
+{% block title " Commentaires" %}
 
 
 {% block body %}
@@ -28,7 +28,7 @@
         <td>{{ item.text | excerpt(50) | nl2br}}</td>
         <td>{{ item.count }}</td>
         <td>
-           <a href="{{path(routePrefix ~ '.edit', {id: item.id}) }}" class="btn btn-primary">Editer</a>
+           <a href="{{path(routePrefix ~ '.edit', {id: item.id}) }}" class="btn btn-primary">Voir</a>
            <form style ="display:inline" action="{{path( routePrefix ~ '.delete', {id: item.id}) }}" method="POST" onsubmit="return confirm('êtes vous sûr ?')">
              <input type="hidden" name="_method" value="DELETE">
              <button class="btn btn-danger"> Supprimer</button>

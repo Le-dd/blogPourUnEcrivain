@@ -201,7 +201,7 @@ html body .SectionEntete h1{
 
 }
 
-html body .SectionMain{
+html body .SectionMain, .comment{
   padding: 25px;
 }
 html body .SectionMain2{
@@ -475,7 +475,7 @@ body .AdminImgeSelect h2,body .AdminImgeSelect img,body .AdminImgeSelect form{
 }
 body .AdminImgeSelect img{
 
-    width: 100 %;
+    width: 100%;
 }
 
 body .AdminImgeSelect h2{
@@ -490,6 +490,26 @@ body .AdminImgeSelect form{
 }
 
 
+.DashRow  .card{
+  text-align: center;
+  margin-bottom: 25px;
+
+}
+
+.DashRow  .card-block{
+
+  padding: 20px;
+
+}
+.DashRow  .card-block .Chiffre1{
+  color: #c85f26;
+}
+.DashRow  .card-block .Chiffre2{
+  color: #4f9484;
+}
+.DashRow  .card-block .Chiffre3{
+  color: #659ea6;
+}
 
 @media (min-width: 768px){
 

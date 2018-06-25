@@ -8,6 +8,12 @@
 </section>
 
 <section class="container SectionMain ">
-{{ widgets | raw }}
+  <div class="row DashRow">
+    {{ widgets | raw }}
+    {{ widgetsUser | raw }}
+    {{ widgetsULC | raw }}
+  </div>
+
 </section >
+
 {% endblock %}

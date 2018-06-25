@@ -14,6 +14,11 @@ class User implements userInt{
 
   public $permissionId;
 
+  public $createDate;
+
+  public $lastAuth;
+
+
   public function getUsername(): string{
     return $this->login;
   }

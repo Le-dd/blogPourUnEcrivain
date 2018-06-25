@@ -27,7 +27,19 @@ class DashboardAction {
       return $html . $widget->render();
 
     },'');
-    return $this->renderer->render('@admin/dashboard', compact('widgets'));
+
+    $widgetsUser = array_reduce($this->widgets, function (string $html, AdminWidgetInterface $widget){
+
+      return $html . $widget->renderWidgetUser();
+
+    },'');
+
+    $widgetsULC = array_reduce($this->widgets, function (string $html, AdminWidgetInterface $widget){
+
+      return $html . $widget->renderWidgetULC ();
+
+    },'');
+    return $this->renderer->render('@admin/dashboard', compact('widgets','widgetsUser','widgetsULC'));
   }
 
 

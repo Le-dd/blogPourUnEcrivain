@@ -51,7 +51,8 @@ class LoginAttemptAction {
 
       if($permission === '777') {
         $params = $this->transformParams((array)$user);
-        $params['last_auth' ] = date("Y-m-d");
+        $this->session->set('OldLast.auth',$params['last_auth']);
+        $params['last_auth'] = date("Y-m-d");
         $this->auth->getTable()->update($params['id'], $params);
 
         $path = $this->session->get('auth.redirect') ?: '/admin';
