@@ -16,9 +16,9 @@
     {{ field('main', item.main, "Contenu de l'article", {type:'textarea'})}}
     {{ field('date', item.date, "Date de l'article", {class:'datepicker'}) }}
     {{ field('time', item.time, "Heure de l'article", {class:'timepicker'}) }}
-    {{ field('location_id', item.locationId, "Catégorie de loclisation", {options: locations}) }}
+    {{ field('location_id', item.locationId, "Catégorie de localisation", {options: locations}) }}
     <div id="mapAdmin" data-lat="{{ item.latitude}}" data-lng="{{ item.longitude}}" data-title="{{ item.namePlace}}"></div>
-    {{ field('name_place', item.namePlace, "Nom du lieux",{class:'title'}) }}
+    {{ field('name_place', item.namePlace, "Nom du lieu",{class:'title'}) }}
     {{ field('latitude', item.latitude, "Latitude",{class:'Latitude'}) }}
     {{ field('longitude', item.longitude, "longitude",{class:'longitude'}) }}
     {{ field('visible', item.visible, "En ligne ?", {type:'checkbox'}) }}

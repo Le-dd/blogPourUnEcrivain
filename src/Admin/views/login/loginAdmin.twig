@@ -5,7 +5,7 @@
 
 {% block body %}
 <section class="container-fluid SectionEntete ">
-<h1> Admistration login</h1>
+<h1> Admistration de l'Utilisateur</h1>
 </section>
 
 <section class="container Adminlogin SectionMain">
@@ -23,7 +23,7 @@
     {{ csrf_input() }}
 
     {{ field('password', null, 'Nouveau mot de passe', {type:'password'}) }}
-    {{ field('verifpassword', null, 'Retaper le Mot de passe', {type:'password'}) }}
+    {{ field('verifpassword', null, 'Retaper le mot de passe', {type:'password'}) }}
 
     {{ field('login', null, 'Nom d\'utilisateur') }}
     {{ field('ancienPassword', null, 'Ancien mot de passe', {type:'password'}) }}
