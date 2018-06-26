@@ -15,6 +15,7 @@ use \Framework\Session\SessionInterface;
 use \Framework\Middleware\CsrfMiddleware;
 
 return[
+  'env' => \DI\env('ENV','production'),
   'database.host'=>'localhost',
   'database.username'=>'root',
   'database.password'=>'root',

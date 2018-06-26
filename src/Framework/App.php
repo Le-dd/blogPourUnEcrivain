@@ -102,6 +102,8 @@ public function run(ServerRequestInterface $request):ResponseInterface{
     if ($this->container === null) {
 
       $builder = new ContainerBuilder();
+
+      $builder->writeProxiesToFile(true,'tmp/proxies');
       $builder->addDefinitions($this->definition);
       foreach ($this->modules as $module){
         if ($module::DEFINITIONS){

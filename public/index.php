@@ -15,10 +15,11 @@ use Framework\Middleware\{
   NotFoundMiddleware,
   CsrfMiddleware
 };
+chdir(dirname(__DIR__));
 
-require dirname(__DIR__).'/vendor/autoload.php';
+require 'vendor/autoload.php';
 
-$app = (new \Framework\App( dirname(__DIR__).'/config/config.php' ))
+$app = (new \Framework\App('config/config.php' ))
     ->addModule(BlogModule::class)
     ->addModule(AdminModule::class)
     ->addModule(AuthModule::class)
