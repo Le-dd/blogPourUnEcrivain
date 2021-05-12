@@ -18,7 +18,7 @@
         "zendframework/zend-expressive-fastroute": "^3.0",
         "twig/twig": "^2.4",
         "php-di/php-di": "^6.0",
-        "pagerfanta/pagerfanta": "^2.0",
+        "pagerfanta/pagerfanta": "^3.1",
         "middlewares/whoops": "^1.1",
         "intervention/image": "^2.4"
     }
